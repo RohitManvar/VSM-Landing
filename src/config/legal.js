@@ -1,0 +1,306 @@
+/**
+ * Legal & policy pages (Terms, Privacy, Refund, Delivery, Contact).
+ * Razorpay requires these to be publicly reachable before it activates the account.
+ *
+ * TODO before going live: replace every value in LEGAL_ENTITY that is still in
+ * [square brackets] with the real registered details, and have the policy text
+ * reviewed by Faber Infinite's legal/accounts team.
+ */
+import { PRICING_CONFIG } from './pricing';
+
+export const LEGAL_ENTITY = {
+  productName: 'VSM 4.0',
+  legalName: '[Registered company name, e.g. Faber Infinite Pvt. Ltd.]',
+  brandName: 'Faber Infinite',
+  address: '[Registered office address, City, State, PIN, India]',
+  email: '[support email]',
+  phone: '[support phone number]',
+  gstin: '[GSTIN]',
+  jurisdictionCity: '[City]',
+  supportHours: 'Monday to Friday, 10:00 AM to 6:00 PM IST (excluding public holidays)',
+  grievanceOfficer: '[Grievance Officer name]',
+  lastUpdated: '25 November 2026',
+};
+
+const E = LEGAL_ENTITY;
+const trialDays = PRICING_CONFIG.trialPolicy.durationDays;
+const retentionDays = PRICING_CONFIG.trialPolicy.retentionDays;
+
+// Each section: { heading, paragraphs?: string[], bullets?: string[] }
+export const POLICIES = [
+  {
+    slug: 'terms',
+    title: 'Terms and Conditions',
+    summary: `The terms that apply when you use ${E.productName} or buy a subscription.`,
+    sections: [
+      {
+        heading: '1. About these terms',
+        paragraphs: [
+          `These Terms and Conditions ("Terms") govern your access to and use of ${E.productName}, a web-based Value Stream Mapping software service ("Service") operated by ${E.legalName} ("we", "us", "our"). By creating an account, starting a trial or purchasing a subscription, you agree to these Terms on behalf of yourself and the organisation you represent.`,
+        ],
+      },
+      {
+        heading: '2. Accounts',
+        bullets: [
+          'You must provide accurate registration details and keep them up to date.',
+          'You are responsible for keeping your login credentials confidential and for all activity under your account.',
+          'Organisation administrators are responsible for the users they invite and the access they grant.',
+        ],
+      },
+      {
+        heading: '3. Free trial',
+        paragraphs: [
+          `New accounts may start a ${trialDays}-day free trial. No payment details are required and you will not be charged automatically when the trial ends. The trial expires after ${trialDays} days, after which you must purchase a paid plan to continue. Trial project data is retained for ${retentionDays} days after expiry and may then be deleted.`,
+        ],
+      },
+      {
+        heading: '4. Plans, pricing and payment',
+        bullets: [
+          'Plan prices, features and limits are as published on our pricing page at the time of purchase.',
+          'Prices are shown exclusive of taxes. For Indian billing entities, GST at 18% is added at checkout. Customers outside India may be charged in USD and are responsible for any local taxes.',
+          'Subscriptions are prepaid for the selected billing period (monthly or annual). Annual plans are billed upfront.',
+          'Payments are processed securely by our payment partner, Razorpay. We do not store your card, UPI or bank details.',
+          'Your plan is activated after the payment is confirmed. A tax invoice is issued for every payment.',
+          'We may change prices for future billing periods with prior notice. Price changes do not affect a period you have already paid for.',
+        ],
+      },
+      {
+        heading: '5. Renewal and cancellation',
+        paragraphs: [
+          'Unless you have opted into automatic renewal, your subscription ends at the close of the paid period and you will be reminded to renew. You may cancel at any time; cancellation stops future renewals and your access continues until the end of the period already paid for. Refunds are governed by our Refund and Cancellation Policy.',
+        ],
+      },
+      {
+        heading: '6. Acceptable use',
+        bullets: [
+          'Do not use the Service for any unlawful purpose or in breach of any applicable law.',
+          'Do not attempt to gain unauthorised access to the Service, other accounts or our systems.',
+          'Do not reverse engineer, resell, sublicense or copy the Service except as permitted by these Terms.',
+          'Do not upload content that is malicious, infringing or that you have no right to use.',
+        ],
+      },
+      {
+        heading: '7. Your data',
+        paragraphs: [
+          'You retain ownership of the maps, projects and other content you create in the Service. You grant us a limited licence to host, process and display that content solely to provide the Service to you. How we handle personal data is described in our Privacy Policy.',
+        ],
+      },
+      {
+        heading: '8. AI-generated recommendations',
+        paragraphs: [
+          'Improvement recommendations generated by the Service are suggestions to support your own judgement. You are responsible for reviewing them before acting on them in your operations.',
+        ],
+      },
+      {
+        heading: '9. Intellectual property',
+        paragraphs: [
+          `The Service, its software, design and branding are owned by ${E.legalName} or its licensors. No rights are granted to you other than the right to use the Service under these Terms.`,
+        ],
+      },
+      {
+        heading: '10. Availability and support',
+        paragraphs: [
+          'We aim to keep the Service available at all times but do not guarantee uninterrupted access. Planned maintenance will be notified where possible. Support levels depend on your plan.',
+        ],
+      },
+      {
+        heading: '11. Limitation of liability',
+        paragraphs: [
+          'To the maximum extent permitted by law, we are not liable for indirect, incidental or consequential losses, including loss of profits or data. Our total liability for any claim relating to the Service is limited to the amount you paid us for the Service in the 12 months before the claim arose.',
+        ],
+      },
+      {
+        heading: '12. Suspension and termination',
+        paragraphs: [
+          'We may suspend or terminate access if you breach these Terms or fail to pay amounts due. You may stop using the Service and close your account at any time.',
+        ],
+      },
+      {
+        heading: '13. Governing law',
+        paragraphs: [
+          `These Terms are governed by the laws of India. Courts at ${E.jurisdictionCity}, India shall have exclusive jurisdiction over any dispute arising from them.`,
+        ],
+      },
+      {
+        heading: '14. Changes and contact',
+        paragraphs: [
+          `We may update these Terms from time to time; the "Last updated" date above shows the latest version. Questions about these Terms can be sent to ${E.email}.`,
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'privacy',
+    title: 'Privacy Policy',
+    summary: 'What personal data we collect, why, and the choices you have.',
+    sections: [
+      {
+        heading: '1. Who we are',
+        paragraphs: [
+          `${E.productName} is operated by ${E.legalName}, ${E.address}. This policy explains how we collect, use and protect personal data when you visit our website or use the Service.`,
+        ],
+      },
+      {
+        heading: '2. Data we collect',
+        bullets: [
+          'Account details: name, work email, company name, job role and phone number (if provided).',
+          'Billing details: billing name, address and GSTIN. Card, UPI and bank details are collected directly by Razorpay and are not stored by us.',
+          'Content you create: value stream maps, project data and related files.',
+          'Usage data: log data, device and browser information, and pages or features used.',
+          'Communications: messages you send to sales or support.',
+        ],
+      },
+      {
+        heading: '3. How we use it',
+        bullets: [
+          'To create and manage your account and provide the Service.',
+          'To process payments, issue invoices and meet tax and accounting obligations.',
+          'To provide support and send service notices such as trial expiry and renewal reminders.',
+          'To secure, maintain and improve the Service.',
+          'To send product updates where you have agreed to receive them; you can opt out at any time.',
+        ],
+      },
+      {
+        heading: '4. Sharing',
+        paragraphs: [
+          'We do not sell your personal data. We share it only with service providers who help us run the Service (such as cloud hosting, email delivery and our payment processor Razorpay) under confidentiality obligations, or where required by law.',
+        ],
+      },
+      {
+        heading: '5. Retention',
+        paragraphs: [
+          `We keep personal data for as long as your account is active and as needed to meet legal, tax and accounting requirements. Trial project data is retained for ${retentionDays} days after the trial expires. You can request deletion of your account at any time.`,
+        ],
+      },
+      {
+        heading: '6. Security',
+        paragraphs: [
+          'We use reasonable technical and organisational measures to protect personal data, including encrypted connections, access controls and isolated organisation workspaces.',
+        ],
+      },
+      {
+        heading: '7. Cookies',
+        paragraphs: [
+          'We use essential cookies and local storage to keep you signed in and remember preferences such as theme and currency.',
+        ],
+      },
+      {
+        heading: '8. Your rights',
+        paragraphs: [
+          `Subject to applicable law, including India's Digital Personal Data Protection Act, 2023, you may request access to, correction of or deletion of your personal data, and withdraw consent. Write to ${E.email}.`,
+        ],
+      },
+      {
+        heading: '9. Grievance Officer',
+        paragraphs: [
+          `${E.grievanceOfficer}, ${E.legalName}, ${E.address}. Email: ${E.email}.`,
+        ],
+      },
+      {
+        heading: '10. Changes',
+        paragraphs: [
+          'We may update this policy from time to time. The "Last updated" date above shows the latest version.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'refund-policy',
+    title: 'Refund and Cancellation Policy',
+    summary: 'How cancellations and refunds work for paid subscriptions.',
+    sections: [
+      {
+        heading: '1. Free trial',
+        paragraphs: [
+          `The ${trialDays}-day trial is free and requires no payment, so no refund applies. It ends automatically without any charge.`,
+        ],
+      },
+      {
+        heading: '2. Cancelling a subscription',
+        paragraphs: [
+          `You can cancel a paid subscription at any time from your account or by writing to ${E.email}. Cancellation stops any future renewal. Your plan stays active until the end of the billing period you have already paid for.`,
+        ],
+      },
+      {
+        heading: '3. Refunds',
+        bullets: [
+          'Subscription fees are generally non-refundable once the billing period has started, including for partially used periods.',
+          'If you were charged twice for the same subscription, or charged after a confirmed cancellation, the extra amount will be refunded in full.',
+          'If a payment was debited but the plan was not activated, we will either activate the plan or refund the payment in full, at your choice.',
+          `Refund requests must be sent to ${E.email} within 7 days of the payment, with the payment ID or invoice number.`,
+        ],
+      },
+      {
+        heading: '4. Refund timeline',
+        paragraphs: [
+          'Approved refunds are initiated within 5 to 7 working days and credited to the original payment method. Your bank or card issuer may take additional time to reflect the credit.',
+        ],
+      },
+      {
+        heading: '5. Enterprise agreements',
+        paragraphs: [
+          'Enterprise plans are governed by the cancellation and refund terms in the signed agreement.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'delivery-policy',
+    title: 'Shipping and Delivery Policy',
+    summary: `${E.productName} is online software. Nothing is physically shipped.`,
+    sections: [
+      {
+        heading: '1. Digital delivery',
+        paragraphs: [
+          `${E.productName} is a web-based software service. No physical goods are shipped. The Service is delivered online through your account.`,
+        ],
+      },
+      {
+        heading: '2. When you get access',
+        bullets: [
+          'Free trial: available immediately after you register and verify your email address.',
+          'Paid plans: activated instantly once the payment is confirmed, and in any case within 24 hours.',
+          'A confirmation email and a tax invoice are sent to your registered email address.',
+        ],
+      },
+      {
+        heading: '3. Delivery issues',
+        paragraphs: [
+          `If your plan has not been activated within 24 hours of a successful payment, contact us at ${E.email} with your payment ID and we will resolve it promptly.`,
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'contact',
+    title: 'Contact Us',
+    summary: 'How to reach us for sales, support and billing.',
+    sections: [
+      {
+        heading: 'Business details',
+        bullets: [
+          `Legal name: ${E.legalName}`,
+          `Registered address: ${E.address}`,
+          `GSTIN: ${E.gstin}`,
+        ],
+      },
+      {
+        heading: 'Get in touch',
+        bullets: [
+          `Email: ${E.email}`,
+          `Phone: ${E.phone}`,
+          `Support hours: ${E.supportHours}`,
+        ],
+      },
+      {
+        heading: 'Billing and refunds',
+        paragraphs: [
+          `For payment, invoice or refund questions, email ${E.email} with your registered email address and payment ID. We respond within 2 working days.`,
+        ],
+      },
+    ],
+  },
+];
+
+export const findPolicy = (slug) => POLICIES.find((p) => p.slug === slug) || null;
+export const policyHref = (slug) => `#/${slug}`;

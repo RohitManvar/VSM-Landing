@@ -10,12 +10,12 @@ export const SecuritySection = ({ onOpenTrial }) => {
     {
       icon: <Lock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
       title: 'Secure Account Access',
-      description: 'Industry-standard authentication and session safeguards protecting your Lean project data.'
+      description: 'Hashed passwords, email verification, session management, and sign-in with Google or Microsoft accounts.'
     },
     {
       icon: <Key className="w-4 h-4 text-blue-600 dark:text-blue-400" />,
       title: 'Role-Based Permissions (RBAC)',
-      description: 'Granular workspace permissions ensure team members only see authorized plant cells.'
+      description: 'Admin, Editor and Viewer roles ensure team members only see the organizations and value streams they are added to.'
     },
     {
       icon: <ShieldCheck className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
@@ -25,17 +25,17 @@ export const SecuritySection = ({ onOpenTrial }) => {
     {
       icon: <Database className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />,
       title: 'Encrypted Data Transmission',
-      description: 'All telemetry feeds and project saves are transmitted via modern encrypted TLS protocols.'
+      description: 'Every page load and project save travels over encrypted HTTPS (TLS) connections.'
     },
     {
       icon: <Users className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
-      title: 'Independent Workspaces',
-      description: 'Isolate multiple client projects into distinct, independent workspaces with strict boundaries.'
+      title: 'Separate Organizations',
+      description: 'Keep each plant or client in its own organization, with its own members, value streams and subscription.'
     },
     {
       icon: <Server className="w-4 h-4 text-rose-600 dark:text-rose-400" />,
-      title: 'Reliable Cloud Uptime',
-      description: 'High-availability cloud environment designed for continuous uptime across distributed plant operations.'
+      title: 'Audit Logs',
+      description: 'Sign-ins, changes and role updates are recorded in an audit log that admins can review at any time.'
     }
   ];
 
@@ -52,7 +52,7 @@ export const SecuritySection = ({ onOpenTrial }) => {
               Designed to keep you safe
             </h2>
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal max-w-2xl mx-auto">
-              We're committed to protecting our customer and user data; NexVSM is built with your security and privacy in mind.
+              We're committed to protecting our customer and user data; VSM 4.0 is built with your security and privacy in mind.
             </p>
           </div>
         </ScrollReveal>
@@ -76,7 +76,7 @@ export const SecuritySection = ({ onOpenTrial }) => {
 
               <div className="pt-6 sm:pt-8">
                 <button
-                  onClick={() => onOpenTrial({ mode: 'trial' })}
+                  onClick={() => onOpenTrial({ mode: 'demo' })}
                   className="px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-all cursor-pointer shadow-xs active:scale-98"
                 >
                   Learn more
@@ -93,7 +93,7 @@ export const SecuritySection = ({ onOpenTrial }) => {
                   Industrial governance &amp; RBAC
                 </h3>
                 <p className="text-sm sm:text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-                  Enterprise-grade security controls in NexVSM ensure plant managers can set strict role-based access permissions, Single Sign-On (SSO) via Okta and Azure AD, and full audit trails for plant engineers.
+                  VSM 4.0 lets plant managers control who can see and edit each value stream with role-based access, sign-in through Google or Microsoft accounts, and audit logs of every change.
                 </p>
               </div>
 

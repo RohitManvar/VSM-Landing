@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowUpRight,
-  CheckCircle2,
   Sparkles,
   Maximize2
 } from 'lucide-react';
@@ -10,141 +9,162 @@ import { useTheme } from '../context/ThemeContext';
 
 export const MapAnalyzeImproveShowcase = ({ onOpenTrial }) => {
   const { theme } = useTheme();
-  const [activeTab, setActiveTab] = useState('csm'); // 'csm' | 'smart-improve' | 'fsm'
+  // 'csm' | 'improve-intelligence' | 'fsm'
+  const [activeTab, setActiveTab] = useState('csm');
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-cycle through the 3 tabs every 5 seconds if user is not hovering
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveTab((prev) => {
+        if (prev === 'csm') return 'improve-intelligence';
+        if (prev === 'improve-intelligence') return 'fsm';
+        return 'csm';
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const tabs = [
+    {
+      id: 'csm',
+      title: 'Current State Map',
+      subtitle: 'For baseline gemba mapping and process data.',
+      description: 'Map your as-is value stream from gemba data: cycle time, changeover, OEE, rework, rejection and inventory for every step. Type it in or import it from Excel, and VSM 4.0 draws the current-state map with lead time and value-add time.',
+      linkText: 'Explore Current State Map Page',
+      image: '/assets/vsm-csm-preview.png',
+      badge: 'Current State Map Page',
+      fileBreadcrumb: 'csm-map-page.vsm',
+      badgeColor: 'bg-black/85 dark:bg-white/90 text-white dark:text-black',
+      statusText: 'Active: Current State Map Page'
+    },
+    {
+      id: 'improve-intelligence',
+      title: 'Smart Improve',
+      subtitle: 'For automated bottleneck diagnostics and AI recommendations.',
+      description: 'The Future State Planner checks every step against takt time and data coverage, then ranks findings by impact (bottlenecks, long changeovers, excess inventory) with a recommended action for each. Optional AI refinement adds deeper suggestions.',
+      linkText: 'See Smart Improve',
+      image: '/assets/vsm-smart-improve-preview.png',
+      badge: 'Smart Improve: Future State Planner',
+      fileBreadcrumb: 'improve-intelligence.vsm',
+      badgeColor: 'bg-amber-500 text-black',
+      statusText: 'Active: Smart Improve — Future State Planner'
+    },
+    {
+      id: 'fsm',
+      title: 'Future State Map',
+      subtitle: 'For future-state continuous flow and pull systems.',
+      description: 'Generate the future-state map from your plan: supermarkets, FIFO lanes and Kaizen bursts. Then compare it with the current state in VSM Analytics (lead time, value-add time, PCE and cost) and export it as a PDF report.',
+      linkText: 'View target Future State Map',
+      image: '/assets/vsm-fsm-preview.png',
+      badge: 'Future State Map Page',
+      fileBreadcrumb: 'fsm-map-page.vsm',
+      badgeColor: 'bg-emerald-600 text-white',
+      statusText: 'Active: Future State Map Page'
+    }
+  ];
+
+  const currentTab = tabs.find((t) => t.id === activeTab) || tabs[0];
 
   return (
-    <section className="py-20 md:py-32 bg-white dark:bg-[#0D0D0D] text-black dark:text-white transition-colors duration-200 border-b border-neutral-100 dark:border-neutral-800">
+    <section 
+      id="product-showcase" 
+      className="py-20 md:py-32 bg-white dark:bg-[#0D0D0D] text-black dark:text-white transition-colors duration-200 border-b border-neutral-100 dark:border-neutral-800/80"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Split Grid: Left 3 Tabs (CSM, Smart Improve, FSM) + Right Mac App Window */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Split Grid: Left Vertical Interactive Tabs (ChatGPT Reference) + Right Mac App Window */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* ========================================================================= */}
-          {/* LEFT COLUMN: 3 INTERACTIVE TABS (CSM, Smart Improve, FSM)                 */}
+          {/* LEFT COLUMN: 3 INTERACTIVE TABS (Current State Map, Improve Intelligence, Future State Map)          */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* --- TAB 1: CSM (Current State Map) --- */}
-            <div 
-              onClick={() => setActiveTab('csm')}
-              onMouseEnter={() => setActiveTab('csm')}
-              className={`cursor-pointer transition-all duration-200 pb-6 border-b border-neutral-200 dark:border-neutral-800 text-left ${
-                activeTab === 'csm' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
-              }`}
-            >
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white mb-2">
-                CSM
-              </h2>
-              
-              {activeTab === 'csm' && (
-                <div className="space-y-3 animate-in fade-in duration-200">
-                  <h3 className="text-base sm:text-lg font-semibold text-neutral-800 dark:text-neutral-200">
-                    Current State Map — Capture your baseline reality.
-                  </h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    Map your as-is shop floor value stream. Digitize station cycle times, changeovers, uptime, and WIP accumulation across every work cell into a live visual canvas without whiteboard chaos.
-                  </p>
-                  <div className="pt-1">
-                    <button 
-                      onClick={() => onOpenTrial({ mode: 'trial' })}
-                      className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
+          <div 
+            className="lg:col-span-5 text-left"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <div className="border-t border-neutral-200 dark:border-neutral-800">
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <div
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setIsPaused(true);
+                    }}
+                    onMouseEnter={() => {
+                      setActiveTab(tab.id);
+                      setIsPaused(true);
+                    }}
+                    className="border-b border-neutral-200 dark:border-neutral-800 py-6 sm:py-8 cursor-pointer transition-all duration-200 group"
+                  >
+                    {/* Tab Header Title */}
+                    <h3 
+                      className={`text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200 ${
+                        isActive 
+                          ? 'text-black dark:text-white' 
+                          : 'text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-700 dark:group-hover:text-neutral-300'
+                      }`}
                     >
-                      <span>Explore CSM map page</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
+                      {tab.title}
+                    </h3>
+
+                    {/* Expanded Content when Active (Matching ChatGPT Reference) */}
+                    {isActive && (
+                      <div className="mt-4 space-y-4 animate-in fade-in duration-200">
+                        <p className="text-sm sm:text-base font-semibold text-neutral-800 dark:text-neutral-200 leading-snug">
+                          {tab.subtitle}
+                        </p>
+                        
+                        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                          {tab.description}
+                        </p>
+
+                        <div className="pt-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpenTrial({ mode: 'trial' });
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-black dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors cursor-pointer group/link"
+                          >
+                            <span>{tab.linkText}</span>
+                            <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover/link:text-black dark:group-hover/link:text-white group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )}
+                );
+              })}
             </div>
-
-            {/* --- TAB 2: SMART IMPROVE (FSPlanner) --- */}
-            <div 
-              onClick={() => setActiveTab('smart-improve')}
-              onMouseEnter={() => setActiveTab('smart-improve')}
-              className={`cursor-pointer transition-all duration-200 pb-6 border-b border-neutral-200 dark:border-neutral-800 text-left ${
-                activeTab === 'smart-improve' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
-              }`}
-            >
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white mb-2">
-                Smart Improve
-              </h2>
-
-              {activeTab === 'smart-improve' && (
-                <div className="space-y-3 animate-in fade-in duration-200">
-                  <h3 className="text-base sm:text-lg font-semibold text-neutral-800 dark:text-neutral-200">
-                    FSPlanner — AI-powered Future State Planning.
-                  </h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    Instantly pinpoint bottlenecks, takt violations, and line starvation. Run AI Kaizen rebalancing simulations, calculate pull supermarkets, and evaluate Process Cycle Efficiency (PCE) before moving physical steel.
-                  </p>
-                  <div className="pt-1">
-                    <button 
-                      onClick={() => onOpenTrial({ mode: 'trial' })}
-                      className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>Launch FSPlanner engine</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* --- TAB 3: FSM (Future State Map) --- */}
-            <div 
-              onClick={() => setActiveTab('fsm')}
-              onMouseEnter={() => setActiveTab('fsm')}
-              className={`cursor-pointer transition-all duration-200 pb-6 text-left ${
-                activeTab === 'fsm' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
-              }`}
-            >
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white mb-2">
-                FSM
-              </h2>
-
-              {activeTab === 'fsm' && (
-                <div className="space-y-3 animate-in fade-in duration-200">
-                  <h3 className="text-base sm:text-lg font-semibold text-neutral-800 dark:text-neutral-200">
-                    Future State Map — Deploy continuous flow.
-                  </h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    Deploy your optimized target state with zero bottlenecks. Establish pull supermarkets, compress total manufacturing lead time by over 60%, and release trapped working capital into productive capacity.
-                  </p>
-                  <div className="pt-1">
-                    <button 
-                      onClick={() => onOpenTrial({ mode: 'trial' })}
-                      className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>View FSM target map</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
           </div>
 
           {/* ========================================================================= */}
-          {/* RIGHT COLUMN: MAC STUDIO WINDOW (Real Screenshot of CSM / FSPlanner / FSM) */}
+          {/* RIGHT COLUMN: MAC STUDIO WINDOW (Real Screenshot of Current State Map / Improve / Future State Map)   */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-7">
-            <div className="rounded-2xl sm:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-200 text-left">
+          <div 
+            className="lg:col-span-7"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <div className="rounded-2xl sm:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-[#141414] text-white shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] overflow-hidden transition-all duration-200 text-left">
               
               {/* Window Title Bar */}
-              <div className="h-10 px-4 bg-neutral-50 dark:bg-[#1A1A1A] border-b border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between">
+              <div className="h-11 px-4 bg-[#1E1E1E] border-b border-neutral-800 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-[#FF5F56]" />
                   <span className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
                   <span className="w-3 h-3 rounded-full bg-[#27C93F]" />
                 </div>
 
-                <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 dark:text-neutral-400">
-                  <span className="text-black dark:text-white font-semibold font-sans">NexVSM Studio</span>
+                <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+                  <span className="text-white font-semibold font-sans">VSM 4.0 Studio</span>
                   <span>/</span>
-                  {activeTab === 'csm' && <span>csm-map-page.vsm</span>}
-                  {activeTab === 'smart-improve' && <span>fsplanner-engine.vsm</span>}
-                  {activeTab === 'fsm' && <span>fsm-map-page.vsm</span>}
+                  <span className="text-neutral-300">{currentTab.fileBreadcrumb}</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-neutral-400">
@@ -153,68 +173,30 @@ export const MapAnalyzeImproveShowcase = ({ onOpenTrial }) => {
               </div>
 
               {/* Window Body: Real Full-Res Screenshots */}
-              <div className="relative overflow-hidden bg-neutral-100 dark:bg-[#181818] min-h-[380px] sm:min-h-[460px] flex items-center justify-center">
+              <div className="relative overflow-hidden bg-[#181818] min-h-[380px] sm:min-h-[460px] flex items-center justify-center">
                 
-                {/* --- 1. CSM MAP PAGE --- */}
-                {activeTab === 'csm' && (
-                  <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
-                    <img 
-                      src="/assets/vsm-csm-preview.png" 
-                      alt="CSM Current State Map Page" 
-                      className="w-full h-auto object-cover object-top max-h-[520px]"
-                    />
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/85 dark:bg-white/90 text-white dark:text-black backdrop-blur-md shadow-md">
-                        CSM: Current State Map Page
-                      </span>
-                    </div>
+                {/* Image Display */}
+                <div key={currentTab.id} className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
+                  <img 
+                    src={currentTab.image} 
+                    alt={currentTab.badge} 
+                    className="w-full h-auto object-cover object-top max-h-[520px]"
+                  />
+                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                    <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold backdrop-blur-md shadow-md ${currentTab.badgeColor}`}>
+                      {currentTab.badge}
+                    </span>
                   </div>
-                )}
-
-                {/* --- 2. SMART IMPROVE (FSPLANNER) --- */}
-                {activeTab === 'smart-improve' && (
-                  <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
-                    <img 
-                      src="/assets/vsm-smart-improve-preview.png" 
-                      alt="Smart Improve FSPlanner Engine" 
-                      className="w-full h-auto object-cover object-top max-h-[520px]"
-                    />
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500 text-black backdrop-blur-md shadow-md">
-                        Smart Improve: FSPlanner Diagnostics
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* --- 3. FSM MAP PAGE --- */}
-                {activeTab === 'fsm' && (
-                  <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
-                    <img 
-                      src="/assets/vsm-fsm-preview.png" 
-                      alt="FSM Future State Map Page" 
-                      className="w-full h-auto object-cover object-top max-h-[520px]"
-                    />
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-md">
-                        FSM: Future State Map Page
-                      </span>
-                    </div>
-                  </div>
-                )}
+                </div>
 
               </div>
 
               {/* Window Footer Status Bar */}
-              <div className="h-10 px-4 bg-neutral-50 dark:bg-[#1A1A1A] border-t border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-500 dark:text-neutral-400">
-                <span>
-                  {activeTab === 'csm' && "Active: Current State Map Page (CSM)"}
-                  {activeTab === 'smart-improve' && "Active: Smart Improve — FSPlanner Engine"}
-                  {activeTab === 'fsm' && "Active: Future State Map Page (FSM)"}
-                </span>
+              <div className="h-10 px-4 bg-[#1A1A1A] border-t border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-400">
+                <span>{currentTab.statusText}</span>
                 <button 
                   onClick={() => onOpenTrial({ mode: 'trial' })}
-                  className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-emerald-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Open Full Canvas</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />

@@ -19,7 +19,7 @@ export const PlansPricingBanner = ({ onOpenTrial }) => {
                 Plans and pricing
               </h3>
               <p className="text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-                NexVSM is available in various plans for personal use and for business and enterprise.
+                VSM 4.0 has plans for individual engineers, Lean teams and multi-plant enterprises — start with a free trial.
               </p>
             </div>
 

@@ -1,32 +1,97 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { MapAnalyzeImproveShowcase } from './components/MapAnalyzeImproveShowcase';
 import { EverythingInBetweenSection } from './components/EverythingInBetweenSection';
 import { PlansPricingBanner } from './components/PlansPricingBanner';
 import { SecuritySection } from './components/SecuritySection';
 import { GetInspiredSection } from './components/GetInspiredSection';
 import { PricingSection } from './components/PricingSection';
-import { TryNexVsmBanner } from './components/TryNexVsmBanner';
+import { TryVsmBanner } from './components/TryVsmBanner';
 import { Footer } from './components/Footer';
+import { ScrollStory } from './components/story/ScrollStory';
+import { AboutMobile } from './components/story/AboutMobile';
+import { STORIES } from './components/story/storyContent';
 import { LeadModal } from './components/LeadModal';
+import { LegalPage } from './components/LegalPage';
+import { goToSignup, goToPlanCheckout } from './config/app';
+import { findPolicy } from './config/legal';
+
+// Policy pages live at hash routes like #/terms so they work on any static host
+// without server rewrites. Plain anchors (#pricing) still mean "home page, scroll here".
+function useHash() {
+  const [hash, setHash] = useState(() => (typeof window !== 'undefined' ? window.location.hash : ''));
+  useEffect(() => {
+    const onChange = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', onChange);
+    return () => window.removeEventListener('hashchange', onChange);
+  }, []);
+  return hash;
+}
+
+// The 3D scroll story is desktop-only for now; smaller screens keep the classic hero.
+const DESKTOP_QUERY = '(min-width: 1024px)';
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_QUERY);
+    const onChange = (e) => setIsDesktop(e.matches);
+    setIsDesktop(mq.matches); // catch a resize that happened before this effect ran
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return isDesktop;
+}
 
 export function App() {
+  const isDesktop = useIsDesktop();
+  const hash = useHash();
+  const policy = hash.startsWith('#/') ? findPolicy(hash.slice(2)) : null;
+  // The About page (brand story) also lives at a hash route, like the policy pages.
+  const isAbout = hash === '#/about';
+
+  // Opening a policy or the About page starts at the top; returning home to an anchor
+  // scrolls to it once the home sections have rendered again.
+  useEffect(() => {
+    if (policy || isAbout) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+    const id = hash.replace(/^#\/?/, '');
+    if (!id) return;
+    // 'instant': the page-wide smooth scrolling gets interrupted while the home
+    // sections are still mounting, leaving the page stuck near the top.
+    const raf = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'instant' }));
+    return () => cancelAnimationFrame(raf);
+  }, [hash, policy, isAbout]);
+  // True while the scroll story's intro statement is on screen (desktop only).
+  const [introActive, setIntroActive] = useState(true);
   const [modalState, setModalState] = useState({
     isOpen: false,
-    initialData: { mode: 'trial', plan: 'Professional' }
+    initialData: { mode: 'trial', plan: 'Trial' }
   });
 
+  // Trial buttons go to the app's self-serve sign-up; paid plan buttons go there
+  // too but carry the plan, so the app opens the Razorpay checkout after sign-in.
+  // Only demo and sales requests open the contact modal.
   const handleOpenTrial = (data = {}) => {
-    setModalState({
-      isOpen: true,
-      initialData: { mode: data.mode || 'trial', plan: data.plan || 'Professional' }
-    });
+    if (data.mode === 'demo') {
+      handleOpenDemo(data);
+      return;
+    }
+    if (data.mode === 'buy') {
+      goToPlanCheckout(data.planId, data.cycle);
+      return;
+    }
+    goToSignup();
   };
 
   const handleOpenDemo = (data = {}) => {
     setModalState({
       isOpen: true,
-      initialData: { mode: 'demo', plan: data.plan || 'Enterprise' }
+      initialData: { mode: 'demo', plan: data.plan || null }
     });
   };
 
@@ -38,10 +103,13 @@ export function App() {
     const el = document.getElementById('pricing');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.hash = 'pricing'; // on a policy page: go home, then scroll
     }
   };
 
   const scrollToHome = () => {
+    if (policy || isAbout) window.location.hash = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -54,18 +122,36 @@ export function App() {
         onOpenDemo={handleOpenDemo}
         onNavigatePricing={scrollToPricing}
         onNavigateHome={scrollToHome}
+        minimal={!policy && !isAbout && isDesktop && introActive}
       />
 
       <main className="flex-1">
-        {/* 2. Hero: "Now you can / CSM, Smart Improve, FSM / all in one place." */}
-        <Hero 
-          onOpenTrial={handleOpenTrial} 
-        />
+        {policy ? (
+          <LegalPage policy={policy} />
+        ) : isAbout ? (
+          /* About: the brand story — what the logo means, and who builds VSM 4.0 */
+          isDesktop ? (
+            <ScrollStory key="about" story={STORIES.about} onOpenTrial={handleOpenTrial} />
+          ) : (
+            <AboutMobile onOpenTrial={handleOpenTrial} />
+          )
+        ) : (
+        <>
+        {isDesktop ? (
+          /* 2. 3D scroll story: glass intro → hero → CSM / Improve / FSM → feature cards */
+          <ScrollStory key="landing" story={STORIES.landing} onOpenTrial={handleOpenTrial} onIntroChange={setIntroActive} />
+        ) : (
+          <>
+            {/* 2. Hero: "Now you can / Map, Analyze, Improve / all in one place." */}
+            <Hero onOpenTrial={handleOpenTrial} />
 
-        {/* 3. Carousel: "Use NexVSM for CSM, FSM, and everything in between." */}
-        <EverythingInBetweenSection 
-          onOpenTrial={handleOpenTrial} 
-        />
+            {/* 2.5. Showcase: Current State Map / Improve Intelligence / Future State Map */}
+            <MapAnalyzeImproveShowcase onOpenTrial={handleOpenTrial} />
+
+            {/* 3. Carousel: "Use VSM 4.0 for Current State Map, Future State Map, and everything in between." */}
+            <EverythingInBetweenSection onOpenTrial={handleOpenTrial} />
+          </>
+        )}
 
         {/* 4. Rounded Banner Card: "Plans and pricing" (with "Learn more >" linking to #pricing) */}
         <PlansPricingBanner 
@@ -89,10 +175,12 @@ export function App() {
           />
         </div>
 
-        {/* 8. Pre-Footer Banner Card: Footnote + "Try NexVSM today" (with "Download app >") */}
-        <TryNexVsmBanner 
-          onOpenTrial={handleOpenTrial} 
+        {/* 8. Pre-Footer Banner Card: Footnote + "Try VSM 4.0 today"  */}
+        <TryVsmBanner
+          onOpenTrial={handleOpenTrial}
         />
+        </>
+        )}
       </main>
 
       {/* 9. Minimalist Global Footer (Adaptive Black/White Logo, Categorized Columns, Language) */}

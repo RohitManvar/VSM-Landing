@@ -1,0 +1,29 @@
+:root {
+  --lfd-teal: #00A3A6;
+  --lfd-teal-light: #00D2D3;
+  --lfd-navy: #002244;
+  --lfd-slate-dark: #0B0F19;
+  --lfd-gradient: linear-gradient(135deg, #002244 0%, #013755 25%, #027785 55%, #00B4B6 85%, #00D2D3 100%);
+}
+
+.lfd-brand-gradient {
+  background: var(--lfd-gradient);
+}
+
+.lfd-logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  user-select: none;
+}
+
+.lfd-logo-mark {
+  height: 2.25rem;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}
+
+.lfd-logo-mark:hover {
+  transform: scale(1.05);
+}

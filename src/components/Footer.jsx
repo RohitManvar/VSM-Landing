@@ -1,7 +1,9 @@
+import { COMPANY_URL, APP_LOGIN_URL } from '../config/app';
 import React from 'react';
 import { Globe, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { VsmLogo } from './VsmLogo';
+import { POLICIES, policyHref } from '../config/legal';
 
 export const Footer = ({ onOpenTrial, onOpenDemo }) => {
   const { theme } = useTheme();
@@ -32,9 +34,9 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 Product
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#csm" className="hover:text-black dark:hover:text-white transition-colors">CSM (Current State)</a></li>
-                <li><a href="#smart-improve" className="hover:text-black dark:hover:text-white transition-colors">Smart Improve (FSPlanner)</a></li>
-                <li><a href="#fsm" className="hover:text-black dark:hover:text-white transition-colors">FSM (Future State)</a></li>
+                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Current State Map</a></li>
+                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Smart Improve (FSPlanner)</a></li>
+                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Future State Map</a></li>
                 <li><a href="#features" className="hover:text-black dark:hover:text-white transition-colors">Features</a></li>
                 <li><a href="#pricing" className="hover:text-black dark:hover:text-white transition-colors">Pricing</a></li>
               </ul>
@@ -46,23 +48,24 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 Resources
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#workflow" className="hover:text-black dark:hover:text-white transition-colors">VSM Workflow</a></li>
+                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">VSM Workflow</a></li>
                 <li><a href="#faq" className="hover:text-black dark:hover:text-white transition-colors">Lean Practitioner FAQ</a></li>
                 <li><a href="#security" className="hover:text-black dark:hover:text-white transition-colors">Security &amp; Trust</a></li>
-                <li><a href="#storytelling" className="hover:text-black dark:hover:text-white transition-colors">Case Studies</a></li>
+                <li><a href="#examples" className="hover:text-black dark:hover:text-white transition-colors">Example Use Cases</a></li>
               </ul>
             </div>
 
             {/* Column 3: Company */}
             <div className="space-y-3">
               <span className="text-xs font-mono font-medium text-neutral-400 dark:text-neutral-500 uppercase tracking-wider block">
-                About NexVSM
+                About VSM 4.0
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#" className="hover:text-black dark:hover:text-white transition-colors">About Faber Infinite</a></li>
+                <li><a href="#/about" className="hover:text-black dark:hover:text-white transition-colors">About VSM 4.0</a></li>
+                <li><a href={COMPANY_URL} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">About Faber Infinite</a></li>
                 <li><button onClick={() => onOpenTrial({ mode: 'demo' })} className="hover:text-black dark:hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
                 <li><button onClick={() => onOpenTrial({ mode: 'trial' })} className="hover:text-black dark:hover:text-white transition-colors cursor-pointer">Start Free Trial</button></li>
-                <li><a href="#pricing" className="hover:text-black dark:hover:text-white transition-colors">Enterprise Plans</a></li>
+                <li><a href={APP_LOGIN_URL} className="hover:text-black dark:hover:text-white transition-colors">Login</a></li>
               </ul>
             </div>
 
@@ -72,10 +75,10 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 Terms &amp; Policies
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#privacy" className="hover:text-black dark:hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#terms" className="hover:text-black dark:hover:text-white transition-colors">Terms and Conditions</a></li>
+                {POLICIES.map((p) => (
+                  <li key={p.slug}><a href={policyHref(p.slug)} className="hover:text-black dark:hover:text-white transition-colors">{p.title}</a></li>
+                ))}
                 <li><a href="#security" className="hover:text-black dark:hover:text-white transition-colors">Security Governance</a></li>
-                <li><a href="#cookies" className="hover:text-black dark:hover:text-white transition-colors">Cookie Preferences</a></li>
               </ul>
             </div>
 
@@ -88,7 +91,7 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
           
           {/* Left: Copyright */}
           <div className="flex items-center gap-3">
-            <span>NexVSM by Faber Infinite © 2026</span>
+            <span>VSM 4.0 by Faber Infinite © 2026</span>
             <span className="text-neutral-300 dark:text-neutral-700">•</span>
             <span>All rights reserved.</span>
           </div>

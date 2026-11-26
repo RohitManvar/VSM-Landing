@@ -12,7 +12,7 @@ export const FinalCtaSection = ({ onOpenTrial }) => {
         
         {/* Availability footnote note directly above banner */}
         <p className="text-center text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400 font-mono mb-8 sm:mb-10 max-w-3xl mx-auto">
-          *Available to all plans on macOS and Windows desktop, and to Free, Professional, Consultant, Business, and Enterprise on web and cloud.
+          *Available to all plans on macOS and Windows desktop, and to Trial, Professional, Professional Plus, and Enterprise on web and cloud.
         </p>
 
         <ScrollReveal direction="up" duration={600}>
@@ -25,7 +25,7 @@ export const FinalCtaSection = ({ onOpenTrial }) => {
                 Ready to improve the way you map value streams?
               </h2>
               <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-                Start with your current state and move towards a smarter future state with NexVSM.
+                Start with your current state and move towards a smarter future state with VSM 4.0.
               </p>
             </div>
 

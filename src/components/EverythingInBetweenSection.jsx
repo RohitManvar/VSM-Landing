@@ -48,8 +48,8 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
   const features = [
     {
       id: 'interactive-vsm',
-      title: 'Interactive VSM Mapping',
-      description: 'Drag-and-drop standard Lean symbols — process boxes, customer/supplier blocks, inventory triangles, and electronic info flow lightning arrows.',
+      title: 'Auto-Drawn VSM Canvas',
+      description: 'Enter your process data once and VSM 4.0 draws the map — process boxes, supplier and customer, inventory triangles and information flow — with a standard Lean symbol library to add more.',
       tag: 'Digital Canvas',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
@@ -68,7 +68,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
           <div className="p-2.5 rounded-xl bg-white dark:bg-[#222] border border-neutral-200 dark:border-neutral-700 shadow-sm flex items-center gap-2">
             <Compass className="w-4 h-4 text-emerald-500 shrink-0" />
             <div className="text-[11px] font-sans font-semibold text-black dark:text-white">
-              Snap-to-Grid Auto Alignment
+              Drawn automatically from process data
             </div>
           </div>
         </div>
@@ -76,8 +76,8 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     },
     {
       id: 'ai-analysis',
-      title: 'AI-Powered Analysis',
-      description: 'Pinpoint stations exceeding Takt time, eliminate line starvation, and instantly diagnose where waiting waste inflates total production cycle time.',
+      title: 'Bottleneck & Takt Analysis',
+      description: 'Smart Improve compares every step against takt time, flags bottlenecks, and ranks findings by impact so you know where waiting and waste build up.',
       tag: 'Takt & Cycle Time',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
@@ -122,7 +122,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     {
       id: 'smart-planning',
       title: 'Smart Improvement Planning',
-      description: 'Model future-state continuous flow scenarios. Size dynamic pull supermarkets and calculate buffer inventory with built-in Lean formulas.',
+      description: 'Turn findings into a future state in the Future State Planner: add supermarkets, FIFO lanes and pull loops, then generate the future-state map.',
       tag: 'Kanban & WIP Control',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
@@ -155,7 +155,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     {
       id: 'kaizen-tracking',
       title: 'Kaizen and Improvement Tracking',
-      description: 'Assign Kaizen bursts to specific cells, set target completion milestones, and trace the progress of continuous improvement projects.',
+      description: 'Mark Kaizen bursts on the future-state map and track every improvement initiative, with its expected impact, across all your value streams.',
       tag: 'Kaizen Bursts',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
@@ -178,30 +178,30 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
       )
     },
     {
-      id: 'process-flow',
-      title: 'Process Flow Management',
-      description: 'Add, modify, and reorganize work cells, sub-assemblies, and multi-line feeder routes without redrawing from scratch.',
-      tag: 'Multi-Cell Flow',
+      id: 'map-levels',
+      title: 'Three Levels of Mapping',
+      description: 'Map a single process line, a whole facility, or the extended value stream across suppliers, plants and customers, each with the detail it needs.',
+      tag: 'Process · Facility · Extended',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
           <div className="p-3 rounded-xl bg-neutral-100 dark:bg-[#1A1A1A] border border-neutral-200 dark:border-neutral-800 space-y-1 text-[11px]">
             <div className="flex justify-between text-neutral-500">
-              <span>Main Line:</span>
-              <span className="text-black dark:text-white font-bold">5 Cells</span>
+              <span>Process level:</span>
+              <span className="text-black dark:text-white font-bold">One line</span>
             </div>
             <div className="flex justify-between text-neutral-500">
-              <span>Feeder Feeds:</span>
-              <span className="text-black dark:text-white font-bold">2 Synchronized</span>
+              <span>Facility level:</span>
+              <span className="text-black dark:text-white font-bold">Whole plant</span>
             </div>
             <div className="flex justify-between text-neutral-500">
-              <span>Routing Rules:</span>
-              <span className="text-emerald-600 font-bold">Auto-Calculated</span>
+              <span>Extended level:</span>
+              <span className="text-emerald-600 font-bold">Across sites</span>
             </div>
           </div>
           <div className="p-2.5 rounded-xl bg-white dark:bg-[#222] border border-neutral-200 dark:border-neutral-700 shadow-sm flex items-center gap-2">
             <Layers className="w-4 h-4 text-indigo-500 shrink-0" />
             <div className="text-[11px] font-sans font-semibold text-black dark:text-white">
-              Branching &amp; Feeder Merges
+              Parallel flows &amp; sub-assemblies
             </div>
           </div>
         </div>
@@ -232,7 +232,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
           <div className="p-2.5 rounded-xl bg-white dark:bg-[#222] border border-blue-200 dark:border-blue-900 shadow-sm flex items-center gap-2">
             <TrendingDown className="w-4 h-4 text-blue-500 shrink-0" />
             <div className="text-[11px] font-sans font-semibold text-black dark:text-white">
-              +$380,000 Capital Released
+              Inventory cost: current vs future
             </div>
           </div>
         </div>
@@ -241,18 +241,18 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     {
       id: 'current-vs-future',
       title: 'Current vs Future State Comparison',
-      description: 'Side-by-side delta metrics comparing WIP levels, total lead time, scrap rate, and machine availability before and after your Lean transformation.',
+      description: 'Side-by-side analytics for lead time, value-add time, process cycle efficiency, cost and process steps, before and after your improvements.',
       tag: 'Delta Auditing',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
           <div className="grid grid-cols-2 gap-2 text-[10px]">
             <div className="p-2 rounded bg-neutral-100 dark:bg-[#1A1A1A] border border-neutral-200 dark:border-neutral-800">
-              <span className="text-neutral-400 block font-bold">CSM (Before)</span>
+              <span className="text-neutral-400 block font-bold">Current State Map (Before)</span>
               <span className="text-black dark:text-white">WIP: 5,200 pcs</span>
               <span className="text-neutral-500 block">LT: 13.2 Days</span>
             </div>
             <div className="p-2 rounded bg-emerald-50 dark:bg-[#0E2018] border border-emerald-300 dark:border-emerald-800">
-              <span className="text-emerald-600 block font-bold">FSM (Target)</span>
+              <span className="text-emerald-600 block font-bold">Future State Map (Target)</span>
               <span className="text-emerald-700 dark:text-emerald-300">WIP: 1,420 pcs</span>
               <span className="text-emerald-600 block font-bold">LT: 4.8 Days</span>
             </div>
@@ -269,23 +269,23 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     {
       id: 'reports',
       title: 'Professional VSM Reports',
-      description: 'Export vectorized high-resolution PDFs, Excel data logs, and executive presentation slides for steering committees and plant stakeholders.',
+      description: 'Export maps and analytics as PDF reports, and process data as Excel, ready for Kaizen reviews and steering committees.',
       tag: 'Executive Exports',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
           <div className="p-3 rounded-xl bg-neutral-100 dark:bg-[#1A1A1A] border border-neutral-200 dark:border-neutral-800 space-y-1.5 text-[11px]">
             <div className="flex items-center gap-2 text-black dark:text-white font-semibold">
               <FileText className="w-4 h-4 text-blue-500" />
-              <span>Plant-Audit-Report.pdf</span>
+              <span>VSM-Analytics-Report.pdf</span>
             </div>
             <span className="text-[10px] text-neutral-400 block">
-              Vectorized SVG / PDF • 300 DPI Executive Print
+              Current State Map, Future State Map & analytics • PDF
             </span>
           </div>
           <div className="p-2.5 rounded-xl bg-white dark:bg-[#222] border border-neutral-200 dark:border-neutral-700 shadow-sm flex items-center gap-2">
             <ArrowUpRight className="w-4 h-4 text-neutral-500 shrink-0" />
             <div className="text-[11px] font-sans font-semibold text-black dark:text-white">
-              1-Click Presentation Export
+              One-click Excel export
             </div>
           </div>
         </div>
@@ -293,25 +293,25 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
     },
     {
       id: 'consulting',
-      title: 'Collaborative Consulting Workflow',
-      description: 'Manage distinct client workspaces, client-wise permissions, shareable read-only links, and reusable transformation templates for Lean consultants.',
-      tag: 'Multi-Client Workspaces',
+      title: 'Teams & Multiple Organizations',
+      description: 'Run several organizations from one account, invite your team with Admin, Editor and Viewer roles, and see live updates while colleagues edit the same map.',
+      tag: 'Collaboration',
       visual: (
         <div className="w-full h-full flex flex-col justify-between font-mono text-xs">
           <div className="p-3 rounded-xl bg-neutral-100 dark:bg-[#1A1A1A] border border-neutral-200 dark:border-neutral-800 space-y-1.5 text-[11px]">
             <div className="flex items-center justify-between">
-              <span className="text-black dark:text-white font-semibold">Client: Precision Med</span>
+              <span className="text-black dark:text-white font-semibold">Org: Plant A — Pune</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
             </div>
             <div className="flex items-center justify-between text-neutral-500">
-              <span className="text-black dark:text-white font-semibold">Client: AeroTech AS9100</span>
+              <span className="text-black dark:text-white font-semibold">Org: Plant B — Chennai</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
             </div>
           </div>
           <div className="p-2.5 rounded-xl bg-white dark:bg-[#222] border border-neutral-200 dark:border-neutral-700 shadow-sm flex items-center gap-2">
             <Users className="w-4 h-4 text-purple-500 shrink-0" />
             <div className="text-[11px] font-sans font-semibold text-black dark:text-white">
-              Separate Client Workspaces &amp; RBAC
+              Separate organizations &amp; roles
             </div>
           </div>
         </div>
@@ -324,12 +324,12 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ========================================================================= */}
-        {/* HEADER: "Use NexVSM for CSM, FSM, and everything in between."             */}
+        {/* HEADER: "Use VSM 4.0 for Current State Map, Future State Map, and everything in between."             */}
         {/* ========================================================================= */}
         <ScrollReveal direction="up" duration={700}>
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
             <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
-              Use NexVSM for CSM, FSM, and <br className="hidden sm:inline" />
+              Use VSM 4.0 for Current State Map, Future State Map, and <br className="hidden sm:inline" />
               everything in between.
             </h2>
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-xl mx-auto">

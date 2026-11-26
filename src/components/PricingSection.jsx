@@ -6,49 +6,56 @@ import { useTheme } from '../context/ThemeContext';
 
 export const PricingSection = ({ onOpenTrial }) => {
   const { theme } = useTheme();
-  const [currency, setCurrency] = useState('USD'); // 'USD' | 'INR'
+  const [currency, setCurrency] = useState(PRICING_CONFIG.defaultCurrency || 'INR'); // 'INR' | 'USD'
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'annual'
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const faqs = [
     {
-      q: 'What is included in the Free plan?',
-      a: 'The Free plan lets individual practitioners map 5 VSM projects with process data inputs, generate full Current State Maps (CSM), run basic FSPlanner analysis, access 5 AI recommendations/month, generate basic Future State Maps (FSM), and export standard PDFs.'
+      q: 'What is included in the Trial plan?',
+      a: 'The Trial plan is designed for exploring VSM 4.0. It includes 1 user seat, 2 active VSM projects, Current State Map generation, Future State Map generation, 5 AI recommendations/month, and the Future State Planner.'
     },
     {
-      q: 'How do AI recommendations work in Smart Improve?',
-      a: 'NexVSM evaluates station cycle times against Takt time, identifies line starvation, and models continuous flow scenarios (such as line rebalancing, SMED changeover targets, and pull supermarket sizing) using deterministic Lean manufacturing logic.'
+      q: 'How does the 7-day free trial work, and what happens when it ends?',
+      a: 'The Trial plan offers a 7-day free trial to explore VSM 4.0 with zero credit card required. After 7 days, the trial expires automatically with no automatic payment. You will receive expiry notifications to select a paid subscription (Professional, Professional Plus, or Enterprise), and your project data is safely retained for 30 days under our retention policy.'
     },
     {
-      q: 'Can I invite clients or team members to collaborate?',
-      a: 'Yes. The Consultant plan supports multiple distinct client workspaces with client-wise project management. The Business plan includes up to 5 user seats with shared organizational workspaces and centralized project management.'
+      q: 'Who is the Professional plan designed for?',
+      a: 'The Professional plan is our recommended starting plan for individual Lean professionals and consultants. It includes 1 user, 10 active VSM projects, multiple project workspaces, complete Current State Map and Future State Map generation, Smart Improve with AI recommendations, 150 AI credits/month, complete FSPlanner, PDF and Excel exports, project history, client sharing, and standard support.'
+    },
+    {
+      q: 'What additional capabilities does the Professional Plus plan offer?',
+      a: 'The Professional Plus plan is tailored for manufacturing companies and Lean teams. It includes up to 5 users, 25 active VSM projects, multiple project workspaces, complete Current State Map and Future State Map, advanced Smart Improve, 500 AI credits/month, team collaboration, shared improvement plans, centralized project management, role-based access, advanced reports and presentations, and priority support.'
     },
     {
       q: 'Can I upgrade, downgrade, or cancel anytime?',
-      a: 'Yes, all paid subscriptions can be adjusted or cancelled at any time from your account settings with zero cancellation penalties. Annual plans include a 20% discount.'
+      a: 'Yes, all paid subscriptions can be adjusted or cancelled at any time from your account settings with zero cancellation penalties. Annual billing includes a 10% discount.'
     },
     {
       q: 'Is my factory routing and cycle time data kept private?',
-      a: 'Absolutely. We enforce strict data confidentiality. Your cycle times, routing secrets, and factory floor metrics are never used to train public machine learning models.'
+      a: 'Absolutely. We enforce strict enterprise-grade data confidentiality. Your cycle times, routing secrets, and factory floor metrics are never used to train public machine learning models.'
     }
   ];
 
   const comparisonRows = [
-    { name: 'Active VSM Projects', free: '5 projects', pro: '10 projects', consultant: '30 projects', business: '50 projects', enterprise: 'Custom / Unlimited' },
-    { name: 'Current State Mapping (CSM)', free: 'Basic', pro: 'Complete', consultant: 'Complete', business: 'Complete', enterprise: 'Complete' },
-    { name: 'Smart Improve / FSPlanner', free: 'Basic', pro: 'Complete', consultant: 'Complete', business: 'Complete', enterprise: 'Complete' },
-    { name: 'AI Kaizen Credits / mo', free: '5 runs', pro: '100 credits', consultant: '300 credits', business: '500 credits', enterprise: 'Custom' },
-    { name: 'Future State Mapping (FSM)', free: 'Basic', pro: 'Improved', consultant: 'Advanced', business: 'Advanced', enterprise: 'Tailored' },
-    { name: 'User Seats Included', free: '1 user', pro: '1 user', consultant: '1 consultant seat', business: '5 team users', enterprise: 'Custom allocation' },
-    { name: 'Client Workspaces', free: '—', pro: '—', consultant: 'Multiple Workspaces', business: 'Shared Org Workspace', enterprise: 'Multi-Plant Org' },
-    { name: 'Export Formats', free: 'Standard PDF', pro: 'PDF & Excel', consultant: 'PDF, Excel & PPT', business: 'Full Export Suite', enterprise: 'API & SLA' },
-    { name: 'Support Level', free: 'Community', pro: 'Standard', consultant: 'Priority Support', business: 'Priority Support', enterprise: 'Dedicated SLA' }
+    { name: 'Target Audience', free: 'Exploring VSM 4.0', pro: 'Individual Lean Pros & Consultants', business: 'Manufacturing Companies & Lean Teams', enterprise: 'Large Orgs & Consulting Firms' },
+    { name: 'User Seats Included', free: '1 user', pro: '1 user', business: 'Up to 5 users', enterprise: 'Custom user allocation' },
+    { name: 'Active VSM Projects', free: '2 active projects', pro: '10 active projects', business: '25 active projects', enterprise: 'Custom project limits' },
+    { name: 'Current State Map', free: 'Current State Map generation', pro: 'Complete Current State Map generation', business: 'Complete Current State Map and Future State Map', enterprise: 'Complete Current State Map and Future State Map' },
+    { name: 'Future State Map', free: 'Future State Map generation', pro: 'Complete Future State Map generation', business: 'Complete Current State Map and Future State Map', enterprise: 'Tailored Future State Map generation' },
+    { name: 'Smart Improve / AI Kaizen', free: '5 AI recommendations/mo', pro: 'Smart Improve (150 credits/mo)', business: 'Advanced Smart Improve (500 credits/mo)', enterprise: 'Custom AI credit allocation' },
+    { name: 'FSPlanner Engine', free: 'Future State Planner', pro: 'Complete FSPlanner', business: 'Complete FSPlanner suite', enterprise: 'Custom enterprise modeling' },
+    { name: 'Workspaces & Collaboration', free: 'Single workspace', pro: 'Multiple project workspaces', business: 'Multiple project workspaces & team collab', enterprise: 'Multiple plant & org administration' },
+    { name: 'Project Management & Sharing', free: '—', pro: 'Project history & client sharing', business: 'Centralized mgmt & shared plans', enterprise: 'Organization-level administration' },
+    { name: 'Access Management', free: '—', pro: '—', business: 'Role-based access', enterprise: 'Advanced access management' },
+    { name: 'Export Capabilities', free: '—', pro: 'PDF and Excel exports', business: 'Advanced reports & presentations', enterprise: 'Custom integrations & SLA' },
+    { name: 'Support Level', free: 'Standard', pro: 'Standard support', business: 'Priority support', enterprise: 'Dedicated support and SLA' }
   ];
 
   return (
     <section id="pricing" className="py-24 md:py-36 bg-white dark:bg-[#0D0D0D] text-black dark:text-white transition-colors duration-200 border-b border-neutral-200/70 dark:border-neutral-800/80 select-none">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* ========================================================================= */}
         {/* EDITORIAL HEADER: "Simple plans. Smarter value stream transformation."    */}
         {/* ========================================================================= */}
@@ -60,26 +67,14 @@ export const PricingSection = ({ onOpenTrial }) => {
             </h2>
 
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-xl mx-auto">
-              Choose the right NexVSM plan for your team and scale your improvement journey.
+              Choose the right VSM 4.0 plan for your team and scale your continuous improvement journey.
             </p>
 
-            {/* Toggle Controls: Currency Selector (USD / INR) & Billing Cycle (Monthly / Annual) */}
+            {/* Toggle Controls: Currency Selector (INR / USD) & Billing Cycle (Monthly / Annual) */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              
-              {/* Currency Selector (USD $ / INR ₹) */}
+
+              {/* Currency Selector (INR ₹ / USD $) */}
               <div className="inline-flex items-center bg-neutral-100 dark:bg-[#1A1A1A] p-1 rounded-full border border-neutral-200/80 dark:border-neutral-800 shadow-2xs">
-                <button
-                  onClick={() => setCurrency('USD')}
-                  className={`px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 ${
-                    currency === 'USD'
-                      ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
-                      : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'
-                  }`}
-                  aria-label="Switch pricing currency to USD"
-                >
-                  <span className="font-mono text-xs font-bold">$</span>
-                  <span>USD</span>
-                </button>
                 <button
                   onClick={() => setCurrency('INR')}
                   className={`px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 ${
@@ -91,6 +86,18 @@ export const PricingSection = ({ onOpenTrial }) => {
                 >
                   <span className="font-mono text-xs font-bold">₹</span>
                   <span>INR</span>
+                </button>
+                <button
+                  onClick={() => setCurrency('USD')}
+                  className={`px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 ${
+                    currency === 'USD'
+                      ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                  }`}
+                  aria-label="Switch pricing currency to USD"
+                >
+                  <span className="font-mono text-xs font-bold">$</span>
+                  <span>USD</span>
                 </button>
               </div>
 
@@ -130,9 +137,9 @@ export const PricingSection = ({ onOpenTrial }) => {
         </ScrollReveal>
 
         {/* ========================================================================= */}
-        {/* 5 PRICING CARDS (Free, Professional, Consultant, Business, Enterprise)    */}
+        {/* 4 PRICING CARDS (Trial, Professional, Professional Plus, Enterprise)                */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-stretch max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch max-w-[1400px] mx-auto">
           {PRICING_CONFIG.plans.map((plan, idx) => {
             const isAnnual = billingCycle === 'annual';
             const planPricing = plan.pricing ? plan.pricing[currency] : null;
@@ -143,7 +150,7 @@ export const PricingSection = ({ onOpenTrial }) => {
             const symbol = getCurrencySymbol(currency);
 
             return (
-              <ScrollReveal key={plan.id} direction="up" delay={idx * 60}>
+              <ScrollReveal key={plan.id} direction="up" delay={idx * 75}>
                 <div
                   className={`h-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 text-left relative ${
                     plan.popular
@@ -153,24 +160,29 @@ export const PricingSection = ({ onOpenTrial }) => {
                 >
                   {/* Recommended Highlight Badge */}
                   {plan.badge && (
-                    <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-xs z-20 ${
-                      plan.popular 
-                        ? 'bg-black text-white dark:bg-white dark:text-black' 
-                        : 'bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200'
+                    <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm z-20 whitespace-nowrap ${
+                      plan.popular
+                        ? 'bg-black text-white dark:bg-white dark:text-black border border-neutral-800 dark:border-neutral-200'
+                        : plan.badgeVariant === 'trial'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800'
+                          : 'bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200'
                     }`}>
                       {plan.badge}
                     </div>
                   )}
 
-                  <div>
-                    {/* Plan Name & Tagline */}
+                  <div className="flex-1 flex flex-col">
+                    {/* Tier Number & Plan Name */}
                     <div className="mb-1">
-                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-black dark:text-white">
+                      <span className="font-mono text-xs font-semibold text-neutral-400 dark:text-neutral-500 block mb-1">
+                        {plan.tierNumber || `0${idx + 1}`}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl lg:text-lg xl:text-2xl font-bold tracking-tight text-black dark:text-white whitespace-nowrap">
                         {plan.name}
                       </h3>
                     </div>
 
-                    <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed min-h-[34px] font-normal">
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed min-h-[40px] sm:min-h-[44px] font-normal">
                       {plan.description}
                     </p>
 
@@ -194,27 +206,19 @@ export const PricingSection = ({ onOpenTrial }) => {
                       )}
 
                       <div className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1 font-mono">
-                        {plan.isCustom 
-                          ? 'Tailored enterprise deployment' 
+                        {plan.isCustom
+                          ? 'Tailored enterprise deployment'
                           : price === 0
-                            ? 'Free forever • No card required'
-                            : isAnnual 
+                            ? '7-day free trial • No card required'
+                            : isAnnual
                               ? `Billed annually (${symbol}${formatPrice(annualTotal, currency)}/yr)`
                               : 'Billed monthly, cancel anytime'
                         }
                       </div>
-
-                      {/* Explicit Trial Days Badge (Highlighting 3-Day Trial for Consultant) */}
-                      {plan.trialDays > 0 && (
-                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-800/70 text-[10px] font-mono font-semibold text-emerald-700 dark:text-emerald-300">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                          <span>{plan.trialDays}-day free trial included</span>
-                        </div>
-                      )}
                     </div>
 
                     {/* Feature Checklist */}
-                    <div className="pt-4 space-y-2.5">
+                    <div className="pt-4 space-y-2.5 flex-1">
                       <span className="text-[10px] font-mono font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider block">
                         Included Features:
                       </span>
@@ -230,7 +234,10 @@ export const PricingSection = ({ onOpenTrial }) => {
                   {/* Plan Action CTA Button */}
                   <div className="mt-6 pt-4 border-t border-neutral-200/80 dark:border-neutral-800">
                     <button
-                      onClick={() => onOpenTrial({ mode: plan.isCustom ? 'demo' : 'trial', plan: plan.name, currency })}
+                      onClick={() => onOpenTrial({
+                        mode: plan.isCustom ? 'demo' : (plan.monthlyPrice > 0 ? 'buy' : 'trial'),
+                        plan: plan.name, planId: plan.id, cycle: billingCycle, currency,
+                      })}
                       className={`w-full py-2.5 sm:py-3 rounded-full text-xs font-semibold transition-all duration-150 flex items-center justify-center gap-1 cursor-pointer shadow-xs active:scale-98 ${
                         plan.popular
                           ? 'bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-bold'
@@ -248,7 +255,7 @@ export const PricingSection = ({ onOpenTrial }) => {
         </div>
 
         {/* ========================================================================= */}
-        {/* COMPREHENSIVE FEATURE COMPARISON TABLE                                    */}
+        {/* COMPREHENSIVE FEATURE COMPARISON TABLE (4 TIERS)                         */}
         {/* ========================================================================= */}
         <div className="mt-20 sm:mt-24 max-w-5xl mx-auto">
           <div className="text-center mb-8">
@@ -265,11 +272,10 @@ export const PricingSection = ({ onOpenTrial }) => {
               <thead>
                 <tr className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-100/70 dark:bg-[#1A1A1A]/70 text-black dark:text-white font-bold">
                   <th className="py-3.5 px-4 font-mono uppercase tracking-wider text-[11px]">Capability</th>
-                  <th className="py-3.5 px-3">Free</th>
-                  <th className="py-3.5 px-3">Professional</th>
-                  <th className="py-3.5 px-3 font-semibold text-emerald-600 dark:text-emerald-400">Consultant</th>
-                  <th className="py-3.5 px-3">Business</th>
-                  <th className="py-3.5 px-3">Enterprise</th>
+                  <th className="py-3.5 px-3">01. Trial</th>
+                  <th className="py-3.5 px-3 font-semibold text-emerald-600 dark:text-emerald-400">02. Professional (Recommended)</th>
+                  <th className="py-3.5 px-3">03. Professional Plus</th>
+                  <th className="py-3.5 px-3">04. Enterprise</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-200/70 dark:divide-neutral-800/70 text-neutral-700 dark:text-neutral-300 font-sans">
@@ -277,8 +283,7 @@ export const PricingSection = ({ onOpenTrial }) => {
                   <tr key={rIdx} className="hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50 transition-colors">
                     <td className="py-3 px-4 font-medium text-black dark:text-white">{row.name}</td>
                     <td className="py-3 px-3">{row.free}</td>
-                    <td className="py-3 px-3">{row.pro}</td>
-                    <td className="py-3 px-3 font-semibold text-emerald-700 dark:text-emerald-300">{row.consultant}</td>
+                    <td className="py-3 px-3 font-semibold text-emerald-700 dark:text-emerald-300">{row.pro}</td>
                     <td className="py-3 px-3">{row.business}</td>
                     <td className="py-3 px-3 font-medium text-black dark:text-white">{row.enterprise}</td>
                   </tr>
@@ -300,7 +305,7 @@ export const PricingSection = ({ onOpenTrial }) => {
 
           <div className="space-y-3 text-left">
             {faqs.map((faq, fIdx) => (
-              <div 
+              <div
                 key={fIdx}
                 className="rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white dark:bg-[#141414] overflow-hidden"
               >
@@ -327,7 +332,7 @@ export const PricingSection = ({ onOpenTrial }) => {
 
         {/* Footnote Disclaimers */}
         <div className="mt-14 max-w-2xl mx-auto text-center space-y-1.5 text-xs text-neutral-500 dark:text-neutral-400 font-mono">
-          <p>{PRICING_CONFIG.currencies[currency].taxNotice}</p>
+          <p>{PRICING_CONFIG.currencies[currency]?.taxNotice || PRICING_CONFIG.taxNotice}</p>
           <p>{PRICING_CONFIG.disclaimer}</p>
         </div>
 

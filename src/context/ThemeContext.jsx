@@ -9,7 +9,7 @@ const ThemeContext = createContext({
 export const ThemeProvider = ({ children }) => {
   const [theme, setThemeState] = useState(() => {
     if (typeof window === 'undefined') return 'light';
-    const stored = localStorage.getItem('nexvsm_theme');
+    const stored = localStorage.getItem('vsm4_theme') || localStorage.getItem('nexvsm_theme');
     if (stored === 'dark' || stored === 'light') return stored;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
@@ -43,7 +43,7 @@ export const ThemeProvider = ({ children }) => {
 
   const setTheme = (newTheme) => {
     setThemeState(newTheme);
-    localStorage.setItem('nexvsm_theme', newTheme);
+    localStorage.setItem('vsm4_theme', newTheme);
     applyTheme(newTheme);
   };
 
@@ -58,7 +58,7 @@ export const ThemeProvider = ({ children }) => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
       // If user has not explicitly locked a theme in localStorage, or update automatically
-      const stored = localStorage.getItem('nexvsm_theme');
+      const stored = localStorage.getItem('vsm4_theme') || localStorage.getItem('nexvsm_theme');
       if (!stored) {
         const systemTheme = e.matches ? 'dark' : 'light';
         setThemeState(systemTheme);

@@ -80,124 +80,124 @@ export const Hero = ({ onOpenTrial }) => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. HERO HEADLINE: "Now you can / CSM, Smart Improve, FSM / all in one place." */}
+      {/* 2. HERO HEADLINE: "Now you can / Map, Analyze, Improve / all in one place." */}
       {/* ========================================================================= */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10 text-center">
         
         <ScrollReveal direction="up" duration={700}>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             
             {/* Top Line: "Now you can" */}
-            <h1 className="text-5xl sm:text-7xl lg:text-[5.5rem] font-extrabold tracking-[-0.035em] text-black dark:text-white leading-[1.05] select-none">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4.25rem] font-extrabold tracking-[-0.035em] text-black dark:text-white leading-[1.08] select-none">
               Now you can
             </h1>
 
-            {/* Middle Line: "CSM, Smart Improve, FSM" (Interactive Hoverable Tabs) */}
+            {/* Middle Line: "Map, Analyze, Improve" (Interactive Hoverable Tabs) */}
             <div className="mt-1 sm:mt-2">
-              <div className="text-5xl sm:text-7xl lg:text-[5.5rem] font-extrabold tracking-[-0.035em] leading-[1.1] inline-flex items-center justify-center flex-wrap gap-x-2 sm:gap-x-3 select-none">
+              <div className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.12] inline-flex items-baseline justify-center flex-wrap select-none">
                 
-                {/* --- 1. WORD: CSM --- */}
-                <span
-                  onMouseEnter={() => { setActiveTab('csm'); setIsPaused(true); }}
-                  onMouseLeave={() => setIsPaused(false)}
-                  onClick={() => setActiveTab('csm')}
-                  className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
-                >
-                  {activeTab === 'csm' ? (
-                    <span className="inline-block transition-transform duration-150 scale-102">
-                      <span className="text-emerald-500">C</span>
-                      <span className="text-teal-400">S</span>
-                      <span className="text-cyan-500">M</span>
-                    </span>
-                  ) : (
-                    <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
-                      CSM
-                    </span>
-                  )}
+                {/* --- 1. WORD: MAP --- */}
+                <span className="inline-flex items-baseline">
+                  <span
+                    onMouseEnter={() => { setActiveTab('csm'); setIsPaused(true); }}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onClick={() => setActiveTab('csm')}
+                    className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
+                  >
+                    {activeTab === 'csm' ? (
+                      <span className="inline-block transition-transform duration-150 scale-102">
+                        <span className="text-emerald-500">M</span>
+                        <span className="text-teal-400">a</span>
+                        <span className="text-cyan-500">p</span>
+                      </span>
+                    ) : (
+                      <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
+                        Map
+                      </span>
+                    )}
 
-                  {/* Gradient Underline directly under 'CSM' */}
-                  {activeTab === 'csm' && (
-                    <span className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
-                  )}
+                    {/* Gradient Underline directly under 'Map' */}
+                    {activeTab === 'csm' && (
+                      <span className="absolute -bottom-1 sm:-bottom-1.5 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
+                    )}
+                  </span>
+                  <span className="text-neutral-300 dark:text-neutral-700 mr-2 sm:mr-3">,</span>
                 </span>
 
-                {/* Comma separator */}
-                <span className="text-neutral-300 dark:text-neutral-700">,</span>
+                {/* --- 2. WORD: ANALYZE --- */}
+                <span className="inline-flex items-baseline">
+                  <span
+                    onMouseEnter={() => { setActiveTab('smart-improve'); setIsPaused(true); }}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onClick={() => setActiveTab('smart-improve')}
+                    className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
+                  >
+                    {activeTab === 'smart-improve' ? (
+                      <span className="inline-block transition-transform duration-150 scale-102">
+                        <span className="text-amber-500">A</span>
+                        <span className="text-orange-400">n</span>
+                        <span className="text-teal-500">a</span>
+                        <span className="text-emerald-500">l</span>
+                        <span className="text-sky-500">y</span>
+                        <span className="text-indigo-400">z</span>
+                        <span className="text-purple-400">e</span>
+                      </span>
+                    ) : (
+                      <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
+                        Analyze
+                      </span>
+                    )}
 
-                {/* --- 2. WORD: SMART IMPROVE --- */}
-                <span
-                  onMouseEnter={() => { setActiveTab('smart-improve'); setIsPaused(true); }}
-                  onMouseLeave={() => setIsPaused(false)}
-                  onClick={() => setActiveTab('smart-improve')}
-                  className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
-                >
-                  {activeTab === 'smart-improve' ? (
-                    <span className="inline-block transition-transform duration-150 scale-102">
-                      <span className="text-amber-500">S</span>
-                      <span className="text-orange-400">m</span>
-                      <span className="text-teal-500">a</span>
-                      <span className="text-emerald-500">r</span>
-                      <span className="text-sky-500">t</span>
-                      <span className="mx-1 text-black dark:text-white"> </span>
-                      <span className="text-indigo-400">I</span>
-                      <span className="text-purple-400">m</span>
-                      <span className="text-rose-400">p</span>
-                      <span className="text-pink-400">r</span>
-                      <span className="text-amber-400">o</span>
-                      <span className="text-emerald-400">v</span>
-                      <span className="text-cyan-400">e</span>
-                    </span>
-                  ) : (
-                    <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
-                      Smart Improve
-                    </span>
-                  )}
-
-                  {/* Gradient Underline directly under 'Smart Improve' */}
-                  {activeTab === 'smart-improve' && (
-                    <span className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-amber-400 via-emerald-400 via-cyan-400 to-rose-400 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
-                  )}
+                    {/* Gradient Underline directly under 'Analyze' */}
+                    {activeTab === 'smart-improve' && (
+                      <span className="absolute -bottom-1 sm:-bottom-1.5 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-amber-400 via-emerald-400 via-cyan-400 to-rose-400 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
+                    )}
+                  </span>
+                  <span className="text-neutral-300 dark:text-neutral-700 mr-2 sm:mr-3">,</span>
                 </span>
 
-                {/* Comma separator */}
-                <span className="text-neutral-300 dark:text-neutral-700">,</span>
+                {/* --- 3. WORD: IMPROVE --- */}
+                <span className="inline-flex items-baseline">
+                  <span
+                    onMouseEnter={() => { setActiveTab('fsm'); setIsPaused(true); }}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onClick={() => setActiveTab('fsm')}
+                    className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
+                  >
+                    {activeTab === 'fsm' ? (
+                      <span className="inline-block transition-transform duration-150 scale-102">
+                        <span className="text-indigo-500">I</span>
+                        <span className="text-purple-400">m</span>
+                        <span className="text-rose-400">p</span>
+                        <span className="text-pink-400">r</span>
+                        <span className="text-amber-400">o</span>
+                        <span className="text-emerald-400">v</span>
+                        <span className="text-cyan-400">e</span>
+                      </span>
+                    ) : (
+                      <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
+                        Improve
+                      </span>
+                    )}
 
-                {/* --- 3. WORD: FSM --- */}
-                <span
-                  onMouseEnter={() => { setActiveTab('fsm'); setIsPaused(true); }}
-                  onMouseLeave={() => setIsPaused(false)}
-                  onClick={() => setActiveTab('fsm')}
-                  className="relative inline-block cursor-pointer px-1 py-0.5 transition-all duration-200"
-                >
-                  {activeTab === 'fsm' ? (
-                    <span className="inline-block transition-transform duration-150 scale-102">
-                      <span className="text-indigo-500">F</span>
-                      <span className="text-purple-400">S</span>
-                      <span className="text-rose-400">M</span>
-                    </span>
-                  ) : (
-                    <span className="text-neutral-300 dark:text-neutral-700 hover:text-black dark:hover:text-white transition-colors duration-200">
-                      FSM
-                    </span>
-                  )}
-
-                  {/* Gradient Underline directly under 'FSM' */}
-                  {activeTab === 'fsm' && (
-                    <span className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 via-rose-400 to-emerald-400 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
-                  )}
+                    {/* Gradient Underline directly under 'Improve' */}
+                    {activeTab === 'fsm' && (
+                      <span className="absolute -bottom-1 sm:-bottom-1.5 left-0 w-full h-1 sm:h-1.5 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 via-rose-400 to-emerald-400 animate-in fade-in zoom-in-95 duration-200 block shadow-xs" />
+                    )}
+                  </span>
                 </span>
 
               </div>
             </div>
 
             {/* Bottom Line: "all in one place." */}
-            <h1 className="text-5xl sm:text-7xl lg:text-[5.5rem] font-extrabold tracking-[-0.035em] text-black dark:text-white leading-[1.05] select-none mt-1 sm:mt-2">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4.25rem] font-extrabold tracking-[-0.035em] text-black dark:text-white leading-[1.08] select-none mt-1 sm:mt-2">
               all in one place.
             </h1>
 
             {/* Supporting Subtitle */}
             <p className="mt-5 sm:mt-6 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-2xl mx-auto">
-              From Current State to Future State. Smarter Value Stream Mapping with NexVSM.
+              From Current State to Future State. Smarter Value Stream Mapping with VSM 4.0.
             </p>
 
           </div>
@@ -209,18 +209,18 @@ export const Hero = ({ onOpenTrial }) => {
             
             {/* Primary Pill Button */}
             <button
-              onClick={() => onOpenTrial({ mode: 'trial', plan: 'Professional' })}
+              onClick={() => onOpenTrial({ mode: 'trial' })}
               className="px-7 py-3 rounded-full font-semibold text-sm transition-all shadow-md active:scale-98 cursor-pointer flex items-center gap-1 bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
             >
-              <span>Try it now*</span>
+              <span>Start free trial</span>
             </button>
 
             {/* Secondary Text Link with Diagonal Arrow */}
             <button
-              onClick={() => onOpenTrial({ mode: 'trial', plan: 'Professional' })}
+              onClick={() => onOpenTrial({ mode: 'demo' })}
               className="text-sm font-medium transition-colors flex items-center gap-1 group py-1 text-black hover:text-neutral-700 dark:text-white dark:hover:text-neutral-300 cursor-pointer"
             >
-              <span>Try now</span>
+              <span>Book a demo</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
 
@@ -241,16 +241,16 @@ export const Hero = ({ onOpenTrial }) => {
                 </div>
                 <div>
                   <div className="font-bold text-xs text-black dark:text-white">
-                    VSM Leadership Deck
+                    VSM Analytics Report
                   </div>
                   <div className="text-[10px] text-neutral-400 font-mono">
-                    Slides • PPTX (14 pages)
+                    PDF export • Current State Map vs Future State Map
                   </div>
                 </div>
               </div>
               <div className="h-14 rounded-lg bg-neutral-100 dark:bg-neutral-800/60 p-2 flex items-center justify-center">
                 <span className="text-[10px] font-mono text-neutral-500">
-                  Slide 04: Takt vs Cycle Time
+                  Page 04: Takt vs Cycle Time
                 </span>
               </div>
             </div>
@@ -293,11 +293,11 @@ export const Hero = ({ onOpenTrial }) => {
 
                 {/* Window Center Breadcrumb */}
                 <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 dark:text-neutral-400">
-                  <span className="text-black dark:text-white font-semibold font-sans">NexVSM Studio</span>
+                  <span className="text-black dark:text-white font-semibold font-sans">VSM 4.0 Studio</span>
                   <span>/</span>
-                  {activeTab === 'csm' && <span>csm-map-page.vsm</span>}
-                  {activeTab === 'smart-improve' && <span>fsplanner-engine.vsm</span>}
-                  {activeTab === 'fsm' && <span>fsm-map-page.vsm</span>}
+                  {activeTab === 'csm' && <span>map-canvas.vsm</span>}
+                  {activeTab === 'smart-improve' && <span>analyze-diagnostics.vsm</span>}
+                  {activeTab === 'fsm' && <span>improve-future-state.vsm</span>}
                 </div>
 
                 {/* Right Window Controls */}
@@ -310,49 +310,49 @@ export const Hero = ({ onOpenTrial }) => {
               {/* Window Body: Real App Page Screenshot Previews */}
               <div className="relative overflow-hidden bg-neutral-100 dark:bg-[#181818] min-h-[380px] sm:min-h-[440px] flex items-center justify-center">
                 
-                {/* --- 1. CSM MAP PAGE PREVIEW --- */}
+                {/* --- 1. MAP PREVIEW --- */}
                 {activeTab === 'csm' && (
                   <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
                     <img 
                       src="/assets/vsm-csm-preview.png" 
-                      alt="CSM Current State Map Page" 
+                      alt="Map: Current State Map" 
                       className="w-full h-auto object-cover object-top max-h-[500px]"
                     />
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/80 dark:bg-white/90 text-white dark:text-black backdrop-blur-md shadow-md">
-                        CSM: Current State Map Page
+                        Map: Current State Map
                       </span>
                     </div>
                   </div>
                 )}
 
-                {/* --- 2. SMART IMPROVE (FSPLANNER) PREVIEW --- */}
+                {/* --- 2. ANALYZE (SMART IMPROVE) PREVIEW --- */}
                 {activeTab === 'smart-improve' && (
                   <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
                     <img 
                       src="/assets/vsm-smart-improve-preview.png" 
-                      alt="Smart Improve FSPlanner Engine" 
+                      alt="Analyze: Smart Improve FSPlanner Engine" 
                       className="w-full h-auto object-cover object-top max-h-[500px]"
                     />
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500 text-black backdrop-blur-md shadow-md">
-                        Smart Improve: FSPlanner Diagnostics
+                        Analyze: Smart Improve &amp; FSPlanner
                       </span>
                     </div>
                   </div>
                 )}
 
-                {/* --- 3. FSM MAP PAGE PREVIEW --- */}
+                {/* --- 3. IMPROVE PREVIEW --- */}
                 {activeTab === 'fsm' && (
                   <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
                     <img 
                       src="/assets/vsm-fsm-preview.png" 
-                      alt="FSM Future State Map Page" 
+                      alt="Improve: Future State Map" 
                       className="w-full h-auto object-cover object-top max-h-[500px]"
                     />
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-md">
-                        FSM: Future State Map Page
+                        Improve: Future State Map
                       </span>
                     </div>
                   </div>
@@ -363,12 +363,12 @@ export const Hero = ({ onOpenTrial }) => {
               {/* Canvas Bottom Status Bar */}
               <div className="h-10 px-4 bg-neutral-50 dark:bg-[#1A1A1A] border-t border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-500 dark:text-neutral-400">
                 <span>
-                  {activeTab === 'csm' && "Viewing: Current State Baseline Map (CSM)"}
-                  {activeTab === 'smart-improve' && "Viewing: Smart Improve — FSPlanner Engine"}
-                  {activeTab === 'fsm' && "Viewing: Future State Continuous Flow Map (FSM)"}
+                  {activeTab === 'csm' && "Viewing: Map — Current State Baseline"}
+                  {activeTab === 'smart-improve' && "Viewing: Analyze — Smart Improve Diagnostics"}
+                  {activeTab === 'fsm' && "Viewing: Improve — Future State Continuous Flow"}
                 </span>
                 <button 
-                  onClick={() => onOpenTrial({ mode: 'trial', plan: 'Professional' })}
+                  onClick={() => onOpenTrial({ mode: 'trial' })}
                   className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Open Full Canvas</span>

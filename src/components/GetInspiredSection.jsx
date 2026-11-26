@@ -43,26 +43,21 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
       ],
       platformWorkflow: {
         csm: {
-          step: '1. Current State Mapping (CSM)',
+          step: '1. Current State Mapping',
           headline: 'Gemba reality & hidden waste identified',
           description: 'Digitally mapped 14 sub-assembly stations and battery module queuing. Uncovered 18.5 days of dead inventory buffered between ultrasonic cell weld and pack integration caused by monthly batch-push scheduling.'
         },
         smartImprove: {
           step: '2. Smart Improve (FSPlanner AI)',
           headline: 'Automated line balancing & Kaizen burst simulation',
-          description: 'NexVSM AI identified station deburring bottlenecks and calculated optimal dynamic replenishment triggers. Recommended transitioning from batch push to a 4-bin electronic pull supermarket.'
+          description: 'Smart Improve flagged the deburring station as the bottleneck against takt and recommended replacing batch push with a pull supermarket between weld and pack integration.'
         },
         fsm: {
-          step: '3. Future State Deployment (FSM)',
+          step: '3. Future State Deployment',
           headline: 'Continuous flow with standardized work',
           description: 'Designed future-state continuous flow with standardized work-in-process (SWIP) buffers, cutting pack cycle variance to under 4% and liberating 3,800 sq ft of high-value clean floor space.'
         }
       },
-      quote: {
-        text: 'NexVSM replaced six weeks of static spreadsheet modeling with real-time AI line balancing. We eliminated 14 days of inventory in our very first Kaizen sprint.',
-        author: 'Marcus Vance',
-        role: 'VP of Manufacturing & Operations, Tier-1 EV Powertrain'
-      }
     },
     {
       id: 'medtech-cleanroom',
@@ -76,30 +71,25 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
         { label: 'Process Cycle Efficiency', before: '14%', after: '31%', change: '+121%' },
         { label: 'Cleanroom Quarantine WIP', before: '12 days', after: '3.5 days', change: '-71%' },
         { label: 'Sterilization Starvation', before: '18 hrs/wk', after: '0 hrs/wk', change: '-100%' },
-        { label: 'Audit Readiness', before: 'Manual logs', after: 'Instant 21 CFR export', change: 'Automated' }
+        { label: 'Audit Readiness', before: 'Manual logs', after: 'PDF + Excel report', change: 'Digital' }
       ],
       platformWorkflow: {
         csm: {
-          step: '1. Current State Mapping (CSM)',
+          step: '1. Current State Mapping',
           headline: 'Complete process & sterile barrier timeline',
           description: 'Mapped end-to-end catheter extrusion, laser micromachining, tipping, and sterile packaging. Revealed that sterilization chamber validation batching was starving downstream packaging lines by 18 hours per week.'
         },
         smartImprove: {
           step: '2. Smart Improve (FSPlanner AI)',
           headline: 'Dynamic queue leveling & constraint relief',
-          description: 'FSPlanner simulated staggered autoclave cycles and recommended a dual-lane FIFO lane with dynamic batch size leveling, eliminating packaging starvation without adding cleanroom square footage.'
+          description: 'The Future State Planner flagged the sterilization step as the constraint, and the team planned a dual FIFO lane with smaller, levelled batches, eliminating packaging starvation without adding cleanroom square footage.'
         },
         fsm: {
-          step: '3. Future State Deployment (FSM)',
-          headline: 'Compliant continuous flow value stream',
-          description: 'Built compliant FSM with automated timeline laddering. Doubled overall Process Cycle Efficiency from 14% to 31% while providing full digital traceability for FDA and ISO 13485 audits.'
+          step: '3. Future State Deployment',
+          headline: 'Continuous flow future state',
+          description: 'Built the future-state map with its timeline ladder and compared it to the current state in VSM Analytics, showing Process Cycle Efficiency rising from 14% to 31%.'
         }
       },
-      quote: {
-        text: 'In medical device manufacturing, you cannot compromise on validation. NexVSM let our team model and prove sterility assurance flow improvements before touching cleanroom equipment.',
-        author: 'Dr. Elena Rostova',
-        role: 'Director of Operational Excellence, Precision Medical Devices'
-      }
     },
     {
       id: 'aerospace-defense',
@@ -117,31 +107,26 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
       ],
       platformWorkflow: {
         csm: {
-          step: '1. Current State Mapping (CSM)',
+          step: '1. Current State Mapping',
           headline: 'Full 18-cell avionics workflow diagnosis',
           description: 'Documented 18 manual assembly stations for flight-control avionics. Identified severe cycle time imbalances ranging from 45s up to 310s, triggering systemic line stoppages and expensive overtime work.'
         },
         smartImprove: {
           step: '2. Smart Improve (FSPlanner AI)',
-          headline: 'Multi-station AI work rebalancing',
-          description: 'FSPlanner executed AI task rebalancing across 14 discrete assembly sub-steps, moving non-critical harness pre-forming into feeder sub-assembly to balance every main station below the 120s Takt line.'
+          headline: 'Multi-station work rebalancing',
+          description: 'The Future State Planner flagged stations over takt, and the team rebalanced 14 assembly sub-steps, moving non-critical harness pre-forming into feeder sub-assembly to balance every main station below the 120s Takt line.'
         },
         fsm: {
-          step: '3. Future State Deployment (FSM)',
-          headline: 'AS9100-ready future state architecture',
-          description: 'Exported an AS9100-ready Future State Map and visual operator standard work sheets, raising first-pass yield to 99.1% with zero production stoppage days.'
+          step: '3. Future State Deployment',
+          headline: 'Balanced future state',
+          description: 'Exported the Future State Map and analytics as a PDF report for the steering committee, with every main station now below the 120s takt line.'
         }
       },
-      quote: {
-        text: 'Balancing 18 aerospace assembly cells to a strict 120-second Takt time seemed impossible. NexVSM gave us the exact data and rebalancing roadmap to achieve 99.4% on-time delivery.',
-        author: 'David Chen',
-        role: 'Principal Industrial Engineer, Commercial Aviation Systems'
-      }
     }
   ];
 
   return (
-    <section className="py-20 md:py-32 bg-white dark:bg-[#0D0D0D] text-black dark:text-white transition-colors duration-200">
+    <section id="examples" className="py-20 md:py-32 bg-white dark:bg-[#0D0D0D] text-black dark:text-white transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ========================================================================= */}
@@ -150,10 +135,10 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
         <ScrollReveal direction="up" duration={700}>
           <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
             <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
-              Get inspired
+              Example use cases
             </h2>
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-              See what manufacturing leaders are using NexVSM to achieve.
+              Illustrative scenarios showing how a team could apply VSM 4.0 in different industries. Figures are examples, not customer results.
             </p>
           </div>
         </ScrollReveal>
@@ -192,7 +177,7 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
                   {/* Overlay Gradient on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
                     <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                      <span>View full transformation story</span>
+                      <span>View example walkthrough</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
@@ -265,7 +250,7 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
             <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
               <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-500 dark:text-neutral-400 mb-4 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-500" />
-                <span>Verified Impact Metrics (Before vs After)</span>
+                <span>Example Metrics (Illustrative, Before vs After)</span>
               </h4>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
@@ -288,14 +273,14 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
               </div>
             </div>
 
-            {/* Platform Workflow: CSM -> Smart Improve -> FSM */}
+            {/* Platform Workflow: Current State Map -> Smart Improve -> Future State Map */}
             <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800 space-y-4">
               <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-neutral-500 dark:text-neutral-400 mb-2 flex items-center gap-2">
                 <Layers className="w-4 h-4 text-blue-500" />
-                <span>The NexVSM Transformation Journey</span>
+                <span>How VSM 4.0 Would Be Used</span>
               </h4>
 
-              {/* Step 1: CSM */}
+              {/* Step 1: Current State Map */}
               <div className="p-4 rounded-2xl bg-neutral-50 dark:bg-[#181818] border border-neutral-200/70 dark:border-neutral-800">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-black dark:text-white mb-1">
                   <span className="w-2 h-2 rounded-full bg-black dark:bg-white inline-block"></span>
@@ -323,7 +308,7 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
                 </p>
               </div>
 
-              {/* Step 3: FSM */}
+              {/* Step 3: Future State Map */}
               <div className="p-4 rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/30">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 mb-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
@@ -338,16 +323,6 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
               </div>
             </div>
 
-            {/* Testimonial Quote */}
-            <div className="mt-6 p-5 rounded-2xl bg-neutral-100 dark:bg-[#1E1E1E] border border-neutral-200 dark:border-neutral-800">
-              <p className="italic text-sm text-neutral-800 dark:text-neutral-200 leading-relaxed">
-                "{selectedStory.quote.text}"
-              </p>
-              <div className="mt-3 text-xs font-mono font-semibold text-neutral-600 dark:text-neutral-400">
-                {selectedStory.quote.author} • <span className="font-normal text-neutral-500">{selectedStory.quote.role}</span>
-              </div>
-            </div>
-
             {/* Modal Bottom CTAs */}
             <div className="mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
               <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
@@ -357,7 +332,7 @@ export const GetInspiredSection = ({ onOpenTrial }) => {
                 <button
                   onClick={() => {
                     setSelectedStory(null);
-                    onOpenTrial({ mode: 'trial', plan: 'Professional' });
+                    onOpenTrial({ mode: 'trial' });
                   }}
                   className="w-full sm:w-auto px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors cursor-pointer shadow-xs"
                 >

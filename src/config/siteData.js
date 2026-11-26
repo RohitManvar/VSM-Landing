@@ -107,7 +107,7 @@ export const SITE_DATA = {
         subtitle: 'Reports & Transformation Roadmap',
         description: 'Compare current and future states, communicate findings with plant stakeholders, and create professional boardroom-ready VSM reports.',
         bullets: [
-          'Side-by-side CSM vs FSM delta metrics',
+          'Side-by-side Current State Map vs Future State Map delta metrics',
           'One-click high-resolution PDF & PNG exports',
           'Structured tabular Excel data export',
           'Clear executive presentation summaries'
@@ -292,7 +292,7 @@ export const SITE_DATA = {
       },
       {
         question: 'Can I create current-state and future-state maps?',
-        answer: 'Yes. VSM Cloud provides dedicated support for both Current State Mapping (CSM) to capture baseline production reality, and Future State Mapping (FSM) to design the optimized target flow. Professional and Team plans include side-by-side comparison tools to quantify expected lead-time cuts and inventory reductions.'
+        answer: 'Yes. VSM Cloud provides dedicated support for both Current State Mapping to capture baseline production reality, and Future State Mapping to design the optimized target flow. Professional and Professional Plus plans include side-by-side comparison tools to quantify expected lead-time cuts and inventory reductions.'
       },
       {
         question: 'Which manufacturing KPIs are supported?',
@@ -308,15 +308,15 @@ export const SITE_DATA = {
       },
       {
         question: 'Can multiple team members collaborate?',
-        answer: 'Yes. The Team and Enterprise plans feature shared workspaces, centralized project libraries, and role-based permissions, allowing multiple engineers and consultants to collaborate on the same value stream projects and maintain organizational standards.'
+        answer: 'Yes. The Professional Plus and Enterprise plans feature shared workspaces, centralized project libraries, role-based permissions, and team collaboration, allowing engineers, consultants, and plant managers to collaborate seamlessly.'
       },
       {
         question: 'Can I cancel my subscription?',
         answer: 'Yes. You can cancel your subscription at any time directly from your account settings. You will retain full access through the end of your prepaid billing period, and your project data will remain securely archived for export.'
       },
       {
-        question: 'Is a free trial available?',
-        answer: 'Yes. We offer an exclusive 3-day free trial on our Consultant plan with full features and no credit card required upfront. The Free plan is free forever for up to 5 projects. Professional and Business plans feature instant activation with flexible month-to-month billing.'
+        question: 'Is a free plan or trial available?',
+        answer: 'Yes! We offer a 7-day free trial on our Trial plan with no credit card required upfront. After 7 days, the trial expires automatically with zero automatic payment. You will receive expiry notifications to select a paid subscription (Professional, Professional Plus, or Enterprise), and your project data is safely retained for 30 days under our retention policy.'
       }
     ]
   },
@@ -355,8 +355,8 @@ export const SITE_DATA = {
         links: [
           { name: 'About Faber Infinite', href: 'https://faberinfinite.com', external: true },
           { name: 'Global Operational Excellence', href: 'https://faberinfinite.com', external: true },
-          { name: 'Privacy Policy', href: '#privacy' },
-          { name: 'Terms and Conditions', href: '#terms' },
+          { name: 'Privacy Policy', href: '#/privacy' },
+          { name: 'Terms and Conditions', href: '#/terms' },
           { name: 'Security & Compliance', href: '#faq' }
         ]
       },

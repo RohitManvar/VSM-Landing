@@ -37,10 +37,10 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
             </h2>
             
             <p className="mt-4 sm:mt-5 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-2xl mx-auto">
-              From mapping your current processes to designing an improved future state, NexVSM brings your entire VSM workflow together.
+              From mapping your current processes to designing an improved future state, VSM 4.0 brings your entire VSM workflow together.
             </p>
 
-            {/* Continuous Workflow Visual Breadcrumb: CSM ➔ Smart Improve ➔ FSM */}
+            {/* Continuous Workflow Visual Breadcrumb: Current State Map ➔ Smart Improve ➔ Future State Map */}
             <div className="mt-8 inline-flex items-center gap-2 sm:gap-4 p-1.5 rounded-full bg-neutral-100 dark:bg-[#161616] border border-neutral-200 dark:border-neutral-800 text-xs sm:text-sm font-semibold">
               <button
                 onClick={() => setActiveWorkflow('csm')}
@@ -50,7 +50,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                     : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'
                 }`}
               >
-                1. CSM
+                1. Current State Map
               </button>
 
               <ArrowRight className="w-3.5 h-3.5 text-neutral-400" />
@@ -76,7 +76,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                     : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'
                 }`}
               >
-                3. FSM
+                3. Future State Map
               </button>
             </div>
           </div>
@@ -90,7 +90,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
           {/* Left Column: 3 Connected Stage Cards */}
           <div className="lg:col-span-5 space-y-4">
             
-            {/* STAGE 1: CSM */}
+            {/* STAGE 1: Current State Map */}
             <div
               id="csm"
               onClick={() => setActiveWorkflow('csm')}
@@ -107,7 +107,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                 <span className="text-xs font-mono text-neutral-400">01 / 03</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-black dark:text-white mb-2">
-                CSM – Current State Mapping
+                Current State Mapping
               </h3>
               <ul className="space-y-1.5 text-xs sm:text-[13px] text-neutral-600 dark:text-neutral-400">
                 <li className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
               </ul>
             </div>
 
-            {/* STAGE 3: FSM */}
+            {/* STAGE 3: Future State Map */}
             <div
               id="fsm"
               onClick={() => setActiveWorkflow('fsm')}
@@ -185,7 +185,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                 <span className="text-xs font-mono text-neutral-400">03 / 03</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-black dark:text-white mb-2">
-                FSM – Future State Mapping
+                Future State Mapping
               </h3>
               <ul className="space-y-1.5 text-xs sm:text-[13px] text-neutral-600 dark:text-neutral-400">
                 <li className="flex items-center gap-2">
@@ -222,7 +222,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                 </div>
 
                 <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 dark:text-neutral-400">
-                  <span className="text-black dark:text-white font-semibold font-sans">NexVSM Studio</span>
+                  <span className="text-black dark:text-white font-semibold font-sans">VSM 4.0 Studio</span>
                   <span>/</span>
                   {activeWorkflow === 'csm' && <span>01-csm-current-state-canvas.vsm</span>}
                   {activeWorkflow === 'smart-improve' && <span>02-fsplanner-ai-engine.vsm</span>}
@@ -241,12 +241,12 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                   <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
                     <img 
                       src="/assets/vsm-csm-preview.png" 
-                      alt="CSM Current State Map" 
+                      alt="Current State Map" 
                       className="w-full h-auto object-cover object-top max-h-[520px]"
                     />
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/85 dark:bg-white/90 text-white dark:text-black backdrop-blur-md shadow-md">
-                        CSM: Current State Map Page
+                        Current State Map Page
                       </span>
                     </div>
                   </div>
@@ -271,12 +271,12 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
                   <div className="w-full h-full animate-in fade-in zoom-in-98 duration-200 relative group">
                     <img 
                       src="/assets/vsm-fsm-preview.png" 
-                      alt="FSM Future State Map" 
+                      alt="Future State Map" 
                       className="w-full h-auto object-cover object-top max-h-[520px]"
                     />
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-600 text-white backdrop-blur-md shadow-md">
-                        FSM: Future State Map Page
+                        Future State Map Page
                       </span>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export const ProductWorkflowSection = ({ onOpenTrial }) => {
               <div className="h-10 px-4 bg-neutral-50 dark:bg-[#1A1A1A] border-t border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-500 dark:text-neutral-400">
                 <span>
                   {activeWorkflow === 'csm' && "Connected: 1. Current State Baseline ➔ FSPlanner"}
-                  {activeWorkflow === 'smart-improve' && "Connected: 2. FSPlanner AI Engine ➔ FSM Canvas"}
+                  {activeWorkflow === 'smart-improve' && "Connected: 2. FSPlanner AI Engine ➔ Future State Map Canvas"}
                   {activeWorkflow === 'fsm' && "Connected: 3. Future State Deployment ➔ Complete"}
                 </span>
                 <button 

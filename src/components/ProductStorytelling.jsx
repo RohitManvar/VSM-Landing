@@ -457,7 +457,7 @@ export const ProductStorytelling = ({ onOpenTrial }) => {
                           fsmMode === 'before' ? 'bg-white text-slate-900 font-bold shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        Current State (CSM)
+                        Current State Map
                       </button>
                       <button
                         onClick={() => setFsmMode('after')}
@@ -465,7 +465,7 @@ export const ProductStorytelling = ({ onOpenTrial }) => {
                           fsmMode === 'after' ? 'bg-blue-600 text-white font-bold shadow-2xs' : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        Future State (FSM)
+                        Future State Map
                       </button>
                     </div>
                   </div>
@@ -557,7 +557,7 @@ export const ProductStorytelling = ({ onOpenTrial }) => {
                       <Check className="w-3 h-3 stroke-[2.5]" />
                     </div>
                     <span className="text-sm text-slate-700 font-medium">
-                      Side-by-side Current State (CSM) vs Future State (FSM) comparison deltas
+                      Side-by-side Current State Map vs Future State Map comparison deltas
                     </span>
                   </div>
 

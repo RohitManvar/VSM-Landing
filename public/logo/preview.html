@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LFD Cloud — Brand Identity & Logo Explorer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+  <style>
+    :root {
+      --lfd-teal: #00A3A6;
+      --lfd-teal-light: #00D2D3;
+      --lfd-navy: #002244;
+      --lfd-slate-dark: #0B0F19;
+      --bg-color: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text-color: #0F172A;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0B0F19;
+      --card-bg: #151D2F;
+      --text-color: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-color: #243048;
+    }
+
+    [data-bg="grid"] .preview-box {
+      background-image: radial-gradient(rgba(0, 163, 166, 0.25) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    [data-bg="checker"] .preview-box {
+      background-image: linear-gradient(45deg, #e2e8f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #e2e8f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.2s, color 0.2s;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-header img {
+      height: 38px;
+      width: auto;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-color);
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn:hover {
+      border-color: var(--lfd-teal);
+      color: var(--lfd-teal);
+    }
+
+    .btn-primary {
+      background: var(--lfd-teal);
+      color: white;
+      border-color: var(--lfd-teal);
+    }
+
+    .btn-primary:hover {
+      background: #008f92;
+      color: white;
+    }
+
+    main {
+      max-width: 1360px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, #002244 0%, #013755 30%, #027785 65%, #00B4B6 100%);
+      color: white;
+      padding: 3rem 2.5rem;
+      border-radius: 16px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 34, 68, 0.3);
+    }
+
+    .hero-banner h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-banner p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      max-width: 760px;
+    }
+
+    .color-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .swatch {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    }
+
+    .swatch-color {
+      height: 60px;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .swatch-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .swatch-hex {
+      font-family: monospace;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s;
+    }
+
+    .card:hover {
+      border-color: var(--lfd-teal);
+    }
+
+    .preview-box {
+      height: 220px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-color);
+      background-color: #FFFFFF;
+      position: relative;
+    }
+
+    [data-theme="dark"] .preview-box {
+      background-color: #0E1626;
+    }
+
+    .preview-box.dark-canvas {
+      background-color: #0B0F19 !important;
+    }
+
+    .preview-box img {
+      max-height: 100%;
+      max-width: 90%;
+      object-fit: contain;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(0, 163, 166, 0.1);
+      color: var(--lfd-teal);
+    }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #002244;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 100;
+    }
+
+    .copied-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header>
+    <div class="brand-header">
+      <img src="vector/svg/horizontal/lfd-logo-horizontal-color.svg" alt="LFD Cloud">
+    </div>
+    <div class="header-controls">
+      <button class="btn" onclick="toggleTheme()">🌓 Toggle Theme</button>
+      <button class="btn" onclick="toggleBg('grid')">▦ Grid</button>
+      <button class="btn" onclick="toggleBg('checker')">🏁 Checker</button>
+      <a class="btn btn-primary" href="README.md" target="_blank">📖 Brand Spec</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-banner">
+      <h1>LFD Cloud Official Logo Suite</h1>
+      <p>Studio-quality scalable vector graphics and ultra-high-definition rasters (up to 2048px). Built with pure cubic Bézier curves and high-contrast responsive brand gradients.</p>
+    </div>
+
+    <!-- Color Palette Section -->
+    <h2 class="section-title">Official Color Palette</h2>
+    <div class="color-swatches">
+      <div class="swatch" onclick="copyColor('#00A3A6', 'LFD Teal')">
+        <div class="swatch-color" style="background: #00A3A6;"></div>
+        <div class="swatch-title">LFD Vibrant Teal</div>
+        <div class="swatch-hex">#00A3A6 · Click to copy</div>
+      </div>
+      <div class="swatch" onclick="copyColor('#002244', 'LFD Corporate Navy')">
+        <div class="swatch-color" style="background: #002244;"></div>
+        <div class="swatch-title">LFD Corporate Navy</div>
+        <div class="swatch-hex">#002244 · Click to copy</div>
+      </div>
+      <div class="swatch" onclick="copyColor('#00D2D3', 'LFD Bright Cyan')">
+        <div class="swatch-color" style="background: #00D2D3;"></div>
+        <div class="swatch-title">LFD Bright Cyan</div>
+        <div class="swatch-hex">#00D2D3 · Click to copy</div>
+      </div>
+      <div class="swatch" onclick="copyColor('#0B0F19', 'LFD Dark Slate')">
+        <div class="swatch-color" style="background: #0B0F19;"></div>
+        <div class="swatch-title">LFD Dark Slate</div>
+        <div class="swatch-hex">#0B0F19 · Click to copy</div>
+      </div>
+    </div>
+
+    <!-- Section: Primary Horizontal Lockups -->
+    <h2 class="section-title">
+      Horizontal Lockups
+      <span class="badge">Recommended for Web Navbars & Headers</span>
+    </h2>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="preview-box">
+          <img src="vector/svg/horizontal/lfd-logo-horizontal-color.svg" alt="Full Color Horizontal">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Full Color (Light Canvas)</div>
+            <div class="card-meta">SVG Vector · 960 × 280 · Transparent</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/horizontal/lfd-logo-horizontal-color.svg" download>SVG</a>
+            <a class="btn" href="png/horizontal/color/lfd-logo-horizontal-color-1200.png" download>PNG 1200px</a>
+            <a class="btn" href="png/horizontal/color/lfd-logo-horizontal-color-2400.png" download>PNG 2400px</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box dark-canvas">
+          <img src="vector/svg/horizontal/lfd-logo-horizontal-darkmode.svg" alt="Dark Mode Horizontal">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Dark Mode Lockup</div>
+            <div class="card-meta">SVG Vector · 960 × 280 · White & Cyan</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/horizontal/lfd-logo-horizontal-darkmode.svg" download>SVG</a>
+            <a class="btn" href="png/horizontal/darkmode/lfd-logo-horizontal-darkmode-1200.png" download>PNG</a>
+            <a class="btn" href="webp/horizontal/lfd-logo-horizontal-darkmode-800.webp" download>WebP</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="vector/svg/horizontal/lfd-logo-horizontal-black.svg" alt="Monochrome Black Horizontal">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Monochrome Black</div>
+            <div class="card-meta">SVG Vector · Single color printing</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/horizontal/lfd-logo-horizontal-black.svg" download>SVG</a>
+            <a class="btn" href="png/horizontal/black/lfd-logo-horizontal-black-1200.png" download>PNG</a>
+            <a class="btn" href="vector/pdf/lfd-logo-horizontal-black.pdf" download>PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Brand Icon / Mark -->
+    <h2 class="section-title">
+      Brand Mark / Icon
+      <span class="badge">App Icons, Avatars, Badges & Favicons</span>
+    </h2>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="preview-box">
+          <img src="vector/svg/mark/lfd-mark-color.svg" alt="Color Mark">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Signature Gradient Mark</div>
+            <div class="card-meta">Cubic Bézier Vector · Teal to Navy</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/mark/lfd-mark-color.svg" download>SVG</a>
+            <a class="btn" href="png/mark/color/lfd-mark-color-512.png" download>PNG 512px</a>
+            <a class="btn" href="png/mark/color/lfd-mark-color-2048.png" download>PNG 2048px</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box dark-canvas">
+          <img src="vector/svg/mark/lfd-mark-darkmode.svg" alt="Darkmode Mark">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Dark Mode Gradient Mark</div>
+            <div class="card-meta">Cubic Bézier Vector · Bright Cyan & Turquoise</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/mark/lfd-mark-darkmode.svg" download>SVG</a>
+            <a class="btn" href="png/mark/darkmode/lfd-mark-darkmode-512.png" download>PNG</a>
+            <a class="btn" href="png/mark/darkmode/lfd-mark-darkmode-2048.png" download>PNG 2048px</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="vector/svg/mark/lfd-mark-black.svg" alt="Black Mark">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Monochrome Black Mark</div>
+            <div class="card-meta">SVG Vector · 256 × 256 · Transparent</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/mark/lfd-mark-black.svg" download>SVG</a>
+            <a class="btn" href="png/mark/black/lfd-mark-black-512.png" download>PNG</a>
+            <a class="btn" href="png/mark/black/lfd-mark-black-2048.png" download>PNG 2048px</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Stacked / Centered Lockups -->
+    <h2 class="section-title">
+      Centered / Stacked Lockups
+      <span class="badge">Splash Screens, Documents & Covers</span>
+    </h2>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="preview-box">
+          <img src="vector/svg/stacked/lfd-logo-stacked-color.svg" alt="Color Stacked">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Centered Lockup (Color)</div>
+            <div class="card-meta">SVG Vector · 600 × 600 · Transparent</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/stacked/lfd-logo-stacked-color.svg" download>SVG</a>
+            <a class="btn" href="png/stacked/color/lfd-logo-stacked-color-800.png" download>PNG</a>
+            <a class="btn" href="vector/pdf/lfd-logo-stacked-color.pdf" download>PDF</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box dark-canvas">
+          <img src="vector/svg/stacked/lfd-logo-stacked-darkmode.svg" alt="Darkmode Stacked">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Centered Lockup (Dark Mode)</div>
+            <div class="card-meta">SVG Vector · 600 × 600 · Transparent</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="vector/svg/stacked/lfd-logo-stacked-darkmode.svg" download>SVG</a>
+            <a class="btn" href="png/stacked/darkmode/lfd-logo-stacked-darkmode-800.png" download>PNG</a>
+            <a class="btn" href="webp/stacked/lfd-logo-stacked-color-800.webp" download>WebP</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="jpeg/white-bg/lfd-social-share-1200x630.jpg" alt="Social Card">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Social Share Card (1200 × 630)</div>
+            <div class="card-meta">JPEG · OpenGraph, LinkedIn, Twitter Preview</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="jpeg/white-bg/lfd-social-share-1200x630.jpg" download>Download Light</a>
+            <a class="btn" href="jpeg/dark-bg/lfd-social-share-dark-1200x630.jpg" download>Download Dark</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Favicons & App Icons -->
+    <h2 class="section-title">
+      Favicons & App Icons Suite
+      <span class="badge">Multi-Res Windows ICO, PWA & Safari</span>
+    </h2>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="preview-box">
+          <img src="favicon/android-chrome-192x192.png" style="width: 96px; height: 96px;" alt="PWA Icon">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Windows & Browser Favicon (.ico)</div>
+            <div class="card-meta">Multi-resolution ICO: 16, 32, 48, 64, 128, 256px in 1 file</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="favicon/favicon.ico" download>Download .ico</a>
+            <a class="btn" href="favicon/favicon.svg" download>Adaptive SVG</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="favicon/apple-touch-icon.png" style="width: 90px; height: 90px; border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" alt="Apple Touch Icon">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title">Apple Touch & Mobile Home Icon</div>
+            <div class="card-meta">180 × 180 PNG for iOS Safari Home Screen</div>
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="favicon/apple-touch-icon.png" download>Download 180px</a>
+            <a class="btn" href="favicon/site.webmanifest" download>Web Manifest</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="copied-toast">Copied to clipboard!</div>
+
+  <script>
+    function toggleTheme() {
+      const b = document.body;
+      const current = b.getAttribute('data-theme');
+      b.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    function toggleBg(mode) {
+      const b = document.body;
+      const current = b.getAttribute('data-bg');
+      b.setAttribute('data-bg', current === mode ? '' : mode);
+    }
+
+    function copyColor(hex, name) {
+      navigator.clipboard.writeText(hex).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = `Copied ${name} (${hex}) to clipboard!`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    }
+  </script>
+</body>
+</html>

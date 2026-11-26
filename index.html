@@ -5,7 +5,7 @@
     <link rel="icon" id="app-favicon" type="image/png" href="/assets/vsm-icon-black.png" />
     <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NexVSM — AI-Powered Value Stream Mapping Software</title>
+    <title>VSM 4.0 — AI-Powered Value Stream Mapping Software</title>
     <meta name="description" content="Create, analyse and improve your manufacturing Value Stream Maps with intelligent digital VSM software by Faber Infinite." />
     <meta name="keywords" content="Value Stream Mapping, VSM software, lean manufacturing, lead time, takt time, cycle time, digital VSM, process cycle efficiency" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
     <script>
       (function() {
         try {
-          var stored = localStorage.getItem('nexvsm_theme');
+          var stored = localStorage.getItem('vsm4_theme') || localStorage.getItem('nexvsm_theme');
           var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           var isDark = stored === 'dark' || (!stored && systemDark);
           var favicon = document.getElementById('app-favicon');

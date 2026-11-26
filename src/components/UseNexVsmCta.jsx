@@ -16,7 +16,7 @@ export const UseNexVsmCta = ({ onOpenTrial }) => {
             {/* Left Content */}
             <div className="max-w-xl">
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-black dark:text-white mb-2">
-                Use NexVSM for CSM, FSM, and everything in between.
+                Use VSM 4.0 for Current State Map, Future State Map, and everything in between.
               </h3>
               <p className="text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
                 Map your current state. Discover improvements. Design your future state.
@@ -29,7 +29,7 @@ export const UseNexVsmCta = ({ onOpenTrial }) => {
                 onClick={() => onOpenTrial({ mode: 'trial', plan: 'Professional' })}
                 className="px-6 py-3 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center gap-1.5 transition-all duration-150 cursor-pointer shadow-xs active:scale-98 bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
               >
-                <span>Explore NexVSM</span>
+                <span>Explore VSM 4.0</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
