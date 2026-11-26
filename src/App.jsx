@@ -5,7 +5,7 @@ import { MapAnalyzeImproveShowcase } from './components/MapAnalyzeImproveShowcas
 import { EverythingInBetweenSection } from './components/EverythingInBetweenSection';
 import { PlansPricingBanner } from './components/PlansPricingBanner';
 import { SecuritySection } from './components/SecuritySection';
-import { GetInspiredSection } from './components/GetInspiredSection';
+import { MadeForSection } from './components/MadeForSection';
 import { PricingSection } from './components/PricingSection';
 import { TryVsmBanner } from './components/TryVsmBanner';
 import { Footer } from './components/Footer';
@@ -49,8 +49,10 @@ export function App() {
   const isDesktop = useIsDesktop();
   const hash = useHash();
   const policy = hash.startsWith('#/') ? findPolicy(hash.slice(2)) : null;
-  // The About page (brand story) also lives at a hash route, like the policy pages.
-  const isAbout = hash === '#/about';
+  // The About page (brand story) lives at a hash route, like the policy pages. It is hidden
+  // for now: no links point to it and #/about shows the home page. Flip this to bring it back.
+  const ABOUT_ENABLED = false;
+  const isAbout = ABOUT_ENABLED && hash === '#/about';
 
   // Opening a policy or the About page starts at the top; returning home to an anchor
   // scrolls to it once the home sections have rendered again.
@@ -63,7 +65,18 @@ export function App() {
     if (!id) return;
     // 'instant': the page-wide smooth scrolling gets interrupted while the home
     // sections are still mounting, leaving the page stuck near the top.
-    const raf = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'instant' }));
+    // #csm / #smart-improve / #fsm are steps of the desktop scroll story (it scrolls to them
+    // itself); on phones, where that story isn't shown, they go to the product showcase.
+    const PRODUCT_STEPS = ['csm', 'smart-improve', 'fsm'];
+    const raf = requestAnimationFrame(() => {
+      if (PRODUCT_STEPS.includes(id)) {
+        if (!document.querySelector('section[aria-label="VSM 4.0 overview"]')) {
+          document.getElementById('product-showcase')?.scrollIntoView({ behavior: 'instant' });
+        }
+        return;
+      }
+      document.getElementById(id)?.scrollIntoView({ behavior: 'instant' });
+    });
     return () => cancelAnimationFrame(raf);
   }, [hash, policy, isAbout]);
   // True while the scroll story's intro statement is on screen (desktop only).
@@ -163,10 +176,8 @@ export function App() {
           onOpenTrial={handleOpenTrial} 
         />
 
-        {/* 6. Customer Stories: "Get inspired" (3 photography case cards) */}
-        <GetInspiredSection 
-          onOpenTrial={handleOpenTrial} 
-        />
+        {/* 6. Who it's for: "Made for the people who improve flow" (audiences + real screens) */}
+        <MadeForSection />
 
         {/* 7. Comprehensive Plans & Pricing Table (#pricing anchor) */}
         <div id="pricing">

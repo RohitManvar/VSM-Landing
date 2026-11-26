@@ -44,8 +44,13 @@ export const AboutMobile = ({ onOpenTrial }) => (
     <section className="px-5 py-12 border-t border-neutral-200 dark:border-neutral-800">
       <img src="/assets/faber-logo.png" alt="Faber Infinite" className="h-12 w-auto" />
       <h2 className="mt-6 text-3xl font-extrabold tracking-[-0.035em] leading-[1.1] text-black dark:text-white">
-        VSM 4.0 is built by <span className="text-[#D94438]">Faber</span>{' '}
-        <span className="text-[#374F72] dark:text-[#8EA8D6]">Infinite.</span>
+        {/* Always three lines: From the shop / floors of / Faber Infinite. */}
+        <span className="block">From the shop</span>
+        <span className="block">floors of</span>
+        <span className="block whitespace-nowrap">
+          <span className="text-[#D94438]">Faber</span>{' '}
+          <span className="text-[#374F72] dark:text-[#8EA8D6]">Infinite.</span>
+        </span>
       </h2>
       <p className="mt-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
         Lean transformation specialists in global operational excellence. VSM 4.0 puts their value stream mapping

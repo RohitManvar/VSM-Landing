@@ -51,7 +51,7 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">VSM Workflow</a></li>
                 <li><a href="#faq" className="hover:text-black dark:hover:text-white transition-colors">Lean Practitioner FAQ</a></li>
                 <li><a href="#security" className="hover:text-black dark:hover:text-white transition-colors">Security &amp; Trust</a></li>
-                <li><a href="#examples" className="hover:text-black dark:hover:text-white transition-colors">Example Use Cases</a></li>
+                <li><a href="#who-its-for" className="hover:text-black dark:hover:text-white transition-colors">Who It&apos;s For</a></li>
               </ul>
             </div>
 
@@ -61,7 +61,6 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 About VSM 4.0
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#/about" className="hover:text-black dark:hover:text-white transition-colors">About VSM 4.0</a></li>
                 <li><a href={COMPANY_URL} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">About Faber Infinite</a></li>
                 <li><button onClick={() => onOpenTrial({ mode: 'demo' })} className="hover:text-black dark:hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
                 <li><button onClick={() => onOpenTrial({ mode: 'trial' })} className="hover:text-black dark:hover:text-white transition-colors cursor-pointer">Start Free Trial</button></li>

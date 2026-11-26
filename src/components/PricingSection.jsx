@@ -29,11 +29,11 @@ export const PricingSection = ({ onOpenTrial }) => {
     },
     {
       q: 'Can I upgrade, downgrade, or cancel anytime?',
-      a: 'Yes, all paid subscriptions can be adjusted or cancelled at any time from your account settings with zero cancellation penalties. Annual billing includes a 10% discount.'
+      a: 'Yes. Switch to a higher or lower plan at any time from the Billing page. Paid plans never renew automatically, so you only pay again when you choose to renew, and there is nothing to cancel and no penalty. Annual billing includes a 10% discount.'
     },
     {
       q: 'Is my factory routing and cycle time data kept private?',
-      a: 'Absolutely. We enforce strict enterprise-grade data confidentiality. Your cycle times, routing secrets, and factory floor metrics are never used to train public machine learning models.'
+      a: 'Yes. Your maps and process data belong to your organization and are never shared with other customers. AI recommendations are optional. When they run, only the step measurements, step names and your process notes are sent, with project, client, site, supplier and customer names removed first.'
     }
   ];
 

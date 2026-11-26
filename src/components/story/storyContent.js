@@ -8,6 +8,8 @@
 export const STORIES = {
   landing: {
     intro: true, // glass-logo statement before the hero
+    map: true, // CSM / Improve / FSM show the real product screens instead of the logo
+    heroFlip: true, // visitors can drag/click the hero logo over to the Faber Infinite side
     steps: ['hero', 'csm', 'improve', 'fsm', 'explode']
   },
   about: {
@@ -109,49 +111,50 @@ export const isSecondMeaning = (story, t) => {
   return sw < 0 ? true : t >= sw + 0.5;
 };
 
-// Feature cards the logo explodes into.
+// Feature cards the logo explodes into. Every card is a feature that ships in the VSM 4.0 app
+// (checked against the app's code), not a roadmap item.
 export const STORY_FEATURES = [
   {
+    id: 'builder',
+    icon: 'Table2',
+    tag: 'Process Builder',
+    title: 'Import steps from Excel',
+    body: 'Bring in process steps with cycle time, changeover, OEE, rework, rejection and inventory, or build them by hand.'
+  },
+  {
     id: 'canvas',
-    icon: 'Compass',
-    tag: 'Digital Canvas',
-    title: 'Auto-drawn VSM canvas',
-    body: 'Enter process data once and the map draws itself with standard Lean symbols.'
+    icon: 'Workflow',
+    tag: 'Auto-drawn maps',
+    title: 'The map draws itself',
+    body: 'Enter the data once and the CSM appears with standard Lean symbols, lead time and value-add time.'
   },
   {
-    id: 'takt',
-    icon: 'Activity',
-    tag: 'Takt & Cycle Time',
-    title: 'Bottleneck analysis',
-    body: 'Every step checked against takt, with bottlenecks ranked by impact.'
+    id: 'levels',
+    icon: 'Layers',
+    tag: 'Three map levels',
+    title: 'Process, Facility, Extended',
+    body: 'Map one line, a whole plant, or the chain from supplier to customer, each with its own CSM and FSM.'
   },
   {
-    id: 'planner',
+    id: 'improve',
     icon: 'Sparkles',
-    tag: 'Future State Planner',
-    title: 'Smart improvement planning',
-    body: 'Add supermarkets, FIFO lanes and pull loops, then generate the future state.'
+    tag: 'Smart Improve',
+    title: 'Rules plus AI recommendations',
+    body: 'Every step checked against takt, balance loss and yield, and AI reads your floor notes. Client names never leave.'
   },
   {
-    id: 'compare',
-    icon: 'BarChart3',
-    tag: 'Before & After',
-    title: 'Current vs future comparison',
-    body: 'Lead time, value-add time, PCE and cost side by side.'
-  },
-  {
-    id: 'reports',
+    id: 'exports',
     icon: 'FileText',
     tag: 'Exports',
-    title: 'Professional reports',
-    body: 'PDF reports and Excel data ready for Kaizen reviews.'
+    title: 'PDF, SVG and Excel',
+    body: 'Multi-page PDF maps with print preview, SVG for slides, and an Excel summary sheet of improvements.'
   },
   {
     id: 'teams',
     icon: 'Users',
     tag: 'Collaboration',
-    title: 'Teams & organizations',
-    body: 'Admin, Editor and Viewer roles with live updates while you edit together.'
+    title: 'Roles and edit locks',
+    body: 'Admin, Editor and Viewer roles. One editor at a time per value stream, and everyone else sees changes live.'
   }
 ];
 
@@ -187,6 +190,19 @@ export const stageVisibility = (t, i) => {
   const d = Math.abs(t - (i + 0.5));
   return 1 - clamp01((d - 0.28) / 0.22);
 };
+
+// ---- Product screens (stories with `map: true`) ----
+// How much of the screen card is on screen: it takes over from the logo as the CSM step
+// arrives and hands back to the logo after FSM (just before it bursts into the feature cards).
+export const mapVisibility = (t, story) => {
+  if (!story.map) return 0;
+  const first = stepIndex(story, 'csm');
+  const last = stepIndex(story, 'fsm');
+  return smooth((t - first) / 0.4) * (1 - smooth((t - (last + 0.72)) / 0.33));
+};
+// 0 → 1 as the Improve step (AI highlights) and the FSM step (future state) arrive.
+export const improveAmount = (t, story) => smooth((t - (stepIndex(story, 'improve') + 0.05)) / 0.4);
+export const fsmAmount = (t, story) => smooth((t - (stepIndex(story, 'fsm') + 0.05)) / 0.4);
 
 // Explosion / card assembly amount (0 → logo intact, 1 → cards in place).
 // Only stories with an 'explode' step break the logo apart.

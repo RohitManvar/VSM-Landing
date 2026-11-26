@@ -7,6 +7,7 @@ import {
   MEANING_TWO,
   NODE_STEPS,
   isSecondMeaning,
+  mapVisibility,
   DESIGN_VIEW_WIDTH,
   INTRO_SENTENCE,
   introMorph,
@@ -57,13 +58,18 @@ const POSE_BY_STEP = {
   faber: { ...HERO_POSE, ry: 0.35, flip: Math.PI } // back on the right, turned over to the Faber side
 };
 
+// On pages that show the 3D value stream map, the logo shrinks into the map's spot (left)
+// and fades while the map is on screen, then comes back for the feature-card burst.
+const MAP_STEPS = ['csm', 'improve', 'fsm'];
+const MAP_POSE = pose([-1.75, 0.1], 0.45, CENTER, 0, 0);
+
 // A story's poses in order. From the 'switch' step on, everything carries one extra full
 // turn, so the logo spins once through the "second meaning" and never spins back.
 function buildPoses(story) {
   let turns = 0;
   return story.steps.map((key) => {
     if (key === 'switch') turns += 1;
-    const p = POSE_BY_STEP[key];
+    const p = story.map && MAP_STEPS.includes(key) ? MAP_POSE : POSE_BY_STEP[key];
     return { ...p, ry: p.ry + turns * TAU };
   });
 }
@@ -386,22 +392,61 @@ const FaberMark = React.forwardRef(function FaberMark(_, spinRef) {
   );
 });
 
-function Logo({ story, timeRef, dark, cardSlotsRef }) {
+function Logo({ story, timeRef, dark, cardSlotsRef, flipApiRef, onFlipChange }) {
+  // ---- Hero flip: drag (or click) the logo over to see the Faber Infinite side ----
+  const userFlip = useRef(0);
+  const userFlipTarget = useRef(0);
+  const drag = useRef(null);
+  // Only on stories that offer it, and only while the hero is on screen.
+  const canFlip = () => !!story.heroFlip && timeRef.current > -0.05 && timeRef.current < 0.6;
+  const snapFlip = (n) => {
+    userFlipTarget.current = n * Math.PI;
+  };
+  if (flipApiRef) {
+    flipApiRef.current = { flip: () => canFlip() && snapFlip(Math.round(userFlipTarget.current / Math.PI) - 1) };
+  }
+  const onPointerDown = (e) => {
+    if (!canFlip()) return;
+    e.stopPropagation();
+    e.target.setPointerCapture(e.pointerId);
+    drag.current = { x: e.clientX, start: userFlipTarget.current };
+    document.body.style.cursor = 'grabbing';
+  };
+  const onPointerMove = (e) => {
+    if (!drag.current) return;
+    userFlipTarget.current = drag.current.start + (e.clientX - drag.current.x) * 0.012;
+  };
+  const onPointerUp = (e) => {
+    if (!drag.current) return;
+    const dx = e.clientX - drag.current.x;
+    const startN = Math.round(drag.current.start / Math.PI);
+    let n = Math.round(userFlipTarget.current / Math.PI);
+    if (Math.abs(dx) < 4) n = startN - 1; // a plain click flips too
+    else if (n === startN && Math.abs(dx) > 30) n += Math.sign(dx); // a short flick is enough
+    snapFlip(n);
+    drag.current = null;
+    document.body.style.cursor = canFlip() ? 'grab' : '';
+  };
+
   const { ring, core, halo, links } = useLogoGeometry();
   const poses = useMemo(() => buildPoses(story), [story]);
 
+  // Steps where the logo's nodes are the subject (not when the value stream map takes over).
+  const isNodeStep = (key) => NODE_STEPS[key] && !(story.map && MAP_STEPS.includes(key));
   // Node highlights: for each logo node, the steps that put it in focus.
   const nodeSteps = useMemo(
     () =>
       NODE_POS.map((_, node) =>
-        story.steps.map((key, i) => (NODE_STEPS[key]?.node === node ? i : -1)).filter((i) => i >= 0)
+        story.steps.map((key, i) => (isNodeStep(key) && NODE_STEPS[key].node === node ? i : -1)).filter((i) => i >= 0)
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [story]
   );
   // Node labels show from the first node step to the last one.
   const labelWindow = useMemo(() => {
-    const idx = story.steps.map((key, i) => (NODE_STEPS[key] ? i : -1)).filter((i) => i >= 0);
+    const idx = story.steps.map((key, i) => (isNodeStep(key) ? i : -1)).filter((i) => i >= 0);
     return idx.length ? [idx[0], idx[idx.length - 1]] : null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story]);
 
   const outer = useRef();
@@ -520,15 +565,25 @@ function Logo({ story, timeRef, dark, cardSlotsRef }) {
     );
     offset.current.position.set(-p.fx, -p.fy, 0);
     const glass = 1 - m;
+    // Hidden while the 3D value stream map has the stage.
+    const shown = 1 - mapVisibility(t, story);
+    outer.current.visible = shown > 0.01;
 
-    // Turning over to the Faber side is part of the story (the About page's last step).
-    flip.current.rotation.y = p.flip;
-    const faber = Math.cos(p.flip) < 0;
+    // Turning over to the Faber side: the visitor can flip it on the hero (drag or click),
+    // and a story can also do it as one of its steps (the About page's last step).
+    if (!canFlip() && !drag.current) {
+      userFlipTarget.current = Math.round(userFlipTarget.current / TAU) * TAU; // back to VSM once scrolling
+    }
+    userFlip.current = lerp(userFlip.current, userFlipTarget.current, 1 - Math.exp(-dt * (drag.current ? 18 : 6)));
+    const flipAngle = p.flip + userFlip.current;
+    flip.current.rotation.y = flipAngle;
+    const faber = Math.cos(flipAngle) < 0;
     vsmSide.current.visible = !faber;
     faberSide.current.visible = faber;
     if (faber !== showingFaber.current) {
       showingFaber.current = faber;
       if (faber) faberSpinStart.current = idle;
+      onFlipChange?.(faber);
     }
     // Gentle settle after the flip: a small swing that eases out to face the front.
     if (faberSpin.current) {
@@ -556,7 +611,7 @@ function Logo({ story, timeRef, dark, cardSlotsRef }) {
       ? smooth((t - (labelWindow[0] - 0.25)) / 0.4) * (1 - smooth((t - (labelWindow[1] + 0.9)) / 0.3))
       : 0;
     // Pieces stay solid while flying, then dissolve as their card appears.
-    const fade = 1 - smooth((e - 0.45) / 0.3);
+    const fade = (1 - smooth((e - 0.45) / 0.3)) * shown;
 
     // Move piece i from its place in the logo to its card slot.
     const fly = (obj, i, baseScale) => {
@@ -613,6 +668,21 @@ function Logo({ story, timeRef, dark, cardSlotsRef }) {
   return (
     <group ref={outer}>
       <group ref={rot}>
+        {/* Invisible grab area for dragging the logo over to its Faber side (hero only) */}
+        {story.heroFlip && (
+          <mesh
+            position={[0, 0, 0.4]}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            onPointerOver={() => canFlip() && (document.body.style.cursor = 'grab')}
+            onPointerOut={() => !drag.current && (document.body.style.cursor = '')}
+          >
+            <circleGeometry args={[1.45, 48]} />
+            <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+          </mesh>
+        )}
         <group ref={flip}>
         <group ref={faberSide} visible={false}>
           <FaberMark ref={faberSpin} />
@@ -741,7 +811,7 @@ function IntroBackdrop({ timeRef, dark }) {
   );
 }
 
-export const LogoScene = React.memo(function LogoScene({ story, timeRef, dark, active, cardSlotsRef }) {
+export const LogoScene = React.memo(function LogoScene({ story, timeRef, dark, active, cardSlotsRef, flipApiRef, onFlipChange }) {
   return (
     <Canvas
       dpr={[1, 2]}
@@ -760,7 +830,14 @@ export const LogoScene = React.memo(function LogoScene({ story, timeRef, dark, a
       <directionalLight position={[3, 4, 5]} intensity={dark ? 1.6 : 2.2} />
       <directionalLight position={[-4, -2, 3]} intensity={0.6} />
       <pointLight position={[0, 0, 3]} intensity={dark ? 6 : 3} distance={8} />
-      <Logo story={story} timeRef={timeRef} dark={dark} cardSlotsRef={cardSlotsRef} />
+      <Logo
+        story={story}
+        timeRef={timeRef}
+        dark={dark}
+        cardSlotsRef={cardSlotsRef}
+        flipApiRef={flipApiRef}
+        onFlipChange={onFlipChange}
+      />
     </Canvas>
   );
 });
