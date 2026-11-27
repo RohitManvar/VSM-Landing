@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, ChevronDown, Rotate3d, Table2, Layers, Sparkles, Workflow, FileText, Users } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ChevronDown, Rotate3d, Table2, Layers, Sparkles, Workflow, FileText, Users } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { COMPANY_URL } from '../../config/app';
 import {
@@ -98,20 +98,26 @@ function CtaButtons({ onOpenTrial }) {
       >
         Start free trial
       </button>
-      <button
-        onClick={() => onOpenTrial({ mode: 'demo' })}
+      <a
+        href="#features"
+        onClick={(e) => {
+          // Same as the header's Features link: jump to the feature cards in the story.
+          e.preventDefault();
+          window.history.replaceState(null, '', '#features');
+          window.dispatchEvent(new CustomEvent('vsm:goto', { detail: 'features' }));
+        }}
         className="text-sm font-medium flex items-center gap-1 group py-1 text-black hover:text-neutral-700 dark:text-white dark:hover:text-neutral-300 cursor-pointer"
       >
-        <span>Book a demo</span>
-        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-      </button>
+        <span>Explore features</span>
+        <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+      </a>
     </div>
   );
 }
 
 // Where the hero logo is on screen (fractions of the stage width), kept current on resize.
 function useHeroLogoAnchor(ref) {
-  const [anchor, setAnchor] = useState({ center: 0.75, side: 0.9 });
+  const [anchor, setAnchor] = useState({ center: 0.75, side: 0.9, bottom: 0.76 });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -137,7 +143,7 @@ function LeftPanel({ style, children }) {
 
 function NodePanel({ t, step, node, index, eyebrow, showImage }) {
   return (
-    <div className="absolute inset-0 max-w-7xl mx-auto px-10 xl:px-16 flex items-center justify-end">
+    <div className="absolute inset-0 max-w-7xl mx-auto pl-10 pr-24 xl:pl-16 xl:pr-28 flex items-center justify-end">
       <div className="w-[44%] max-w-[540px]" style={panelStyle(t, step)}>
         <div className="flex items-center gap-3 mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
           <span>{eyebrow}</span>
@@ -332,7 +338,7 @@ function ScreenStage({ t, story, finding = 0 }) {
   const active = fsm > 0.5 ? 'fsm' : imp > 0.5 ? 'improve' : 'csm';
   return (
     <div
-      className="pointer-events-none absolute inset-y-0 left-0 w-[56%] flex items-center pl-8 xl:pl-14 pr-6"
+      className="pointer-events-none absolute inset-y-0 left-0 w-[51%] xl:w-[54%] flex items-center pl-6 lg:pl-8 xl:pl-14 pr-4 xl:pr-6"
       style={{ opacity: v, perspective: '1600px' }}
       aria-hidden={v < 0.5}
     >
@@ -400,18 +406,18 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
   const leadNow = VSM_EXAMPLE.leadTimeDays - (VSM_EXAMPLE.leadTimeDays - VSM_EXAMPLE.fsmLeadTimeDays) * k;
   const stats = stepKey === 'fsm' ? copy.stats.filter((st) => st.label !== 'Lead time') : copy.stats;
   return (
-    <div className="absolute inset-0 max-w-7xl mx-auto px-10 xl:px-16 flex items-center justify-end">
-      <div className="w-[42%] max-w-[520px]" style={panelStyle(t, step)}>
-        <div className="flex items-center gap-3 mb-4 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
+    <div className="absolute inset-0 max-w-7xl mx-auto pl-8 pr-28 xl:pl-14 xl:pr-28 flex items-center justify-end">
+      <div className="w-[44%] xl:w-[42%] max-w-[500px]" style={panelStyle(t, step)}>
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-3 xl:mb-4 text-[11px] xl:text-xs font-mono uppercase tracking-[0.12em] xl:tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
           <span>{VSM_EXAMPLE.context}</span>
-          <span className="h-px w-6 bg-neutral-300 dark:bg-neutral-700" />
-          <span>0{index + 1} / 03</span>
+          <span className="h-px w-5 xl:w-6 bg-neutral-300 dark:bg-neutral-700" />
+          <span className="whitespace-nowrap">0{index + 1} / 03</span>
         </div>
-        <h2 className={`text-6xl xl:text-7xl font-extrabold tracking-[-0.045em] leading-none ${copy.textClass}`}>
+        <h2 className={`text-5xl xl:text-7xl font-extrabold tracking-[-0.045em] leading-none ${copy.textClass}`}>
           {copy.word}
         </h2>
-        <p className="mt-5 text-2xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{copy.headline}</p>
-        <p className="mt-3 text-base xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{copy.body}</p>
+        <p className="mt-3 xl:mt-5 text-xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{copy.headline}</p>
+        <p className="mt-2.5 xl:mt-3 text-sm xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{copy.body}</p>
 
         {stepKey === 'fsm' && (
           <div className="mt-6 rounded-xl bg-neutral-100/80 dark:bg-neutral-900 px-4 py-3.5">
@@ -449,7 +455,7 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
 
         {stepKey === 'improve' && (
           // Smart Improve's ranked recommendations; the numbers match the bursts on the map.
-          <ol className="mt-6 space-y-2.5">
+          <ol className="mt-4 xl:mt-6 space-y-2 xl:space-y-2.5">
             {VSM_EXAMPLE.recommendations.map((r, i) => (
               // The first two findings are the two cards in the screen: hovering one zooms to it.
               <li
@@ -699,21 +705,21 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           // The logo breaks apart into the feature cards
           <div
             key={key}
-            className="absolute inset-0 max-w-6xl mx-auto px-10 flex flex-col justify-center"
+            className="absolute inset-0 max-w-6xl mx-auto pl-10 pr-24 xl:pl-14 xl:pr-28 flex flex-col justify-center"
             style={{ visibility: e < 0.01 ? 'hidden' : 'visible', pointerEvents: e > 0.9 ? 'auto' : 'none' }}
           >
             <div
-              className="text-center mb-8 xl:mb-10"
+              className="text-center mb-6 xl:mb-10"
               style={{ opacity: gridHeader, transform: `translate3d(0, ${(1 - gridHeader) * 24}px, 0)` }}
             >
-              <h2 className="text-4xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
+              <h2 className="text-3xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
                 Everything in between.
               </h2>
-              <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">
+              <p className="mt-2.5 xl:mt-3 text-base xl:text-lg text-neutral-600 dark:text-neutral-400">
                 From the first walk on the floor to the future state, in one place.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-5">
+            <div className="grid grid-cols-3 gap-4 xl:gap-5">
               {STORY_FEATURES.map((f, j) => {
                 const Icon = ICONS[f.icon];
                 // A logo piece lands in this slot first (LogoScene), then the card grows out of it.
@@ -721,7 +727,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
                 return (
                   <div key={f.id} ref={(el) => (cardSlotsRef.current[j] = el)}>
                     <div
-                      className="h-full rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-6 xl:p-7 text-left shadow-sm"
+                      className="h-full rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-5 xl:p-7 text-left shadow-sm"
                       style={{
                         opacity: c,
                         transform: `translate3d(0, ${(1 - c) * 14}px, 0) scale(${0.55 + 0.45 * c})`,
@@ -781,15 +787,16 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           {story.map && <ScreenStage t={t} story={story} finding={finding} />}
           {steps.map(renderPanel)}
 
-          {/* Flip hint beside the hero logo: subtle until hovered */}
+          {/* Flip hint centered below the hero logo so it stays clear of the right-hand progress rail */}
           {story.heroFlip && (
             <button
               type="button"
               onClick={() => flipApiRef.current?.flip()}
-              className="absolute top-1/2 flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 opacity-[0.55] hover:opacity-100 transition-opacity cursor-pointer"
+              className="absolute flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 opacity-[0.55] hover:opacity-100 transition-opacity cursor-pointer whitespace-nowrap"
               style={{
-                left: `${anchor.side * 100}%`,
-                transform: 'translate(8px, -50%)',
+                left: `${anchor.center * 100}%`,
+                top: `${anchor.bottom * 100}%`,
+                transform: 'translate(-50%, 10px)',
                 visibility: openOn < 0.05 ? 'hidden' : 'visible',
                 pointerEvents: openOn > 0.5 && t < 0.5 ? 'auto' : 'none'
               }}
@@ -805,7 +812,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           {/* Scroll cue */}
           <button
             onClick={() => jumpTo(inIntro ? 0 : 1)}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 cursor-pointer"
+            className="absolute bottom-5 lg:bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 cursor-pointer"
             style={{ opacity: 1 - smooth(t / 0.4), pointerEvents: t < 0.3 ? 'auto' : 'none' }}
           >
             <span>Scroll to explore</span>

@@ -163,10 +163,10 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
     <header className="sticky top-0 z-50 select-none bg-white/95 dark:bg-[#0D0D0D]/95 backdrop-blur-md border-b border-neutral-200/70 dark:border-neutral-800/80 transition-colors duration-200">
       
       {/* ChatGPT Standard Header Height: h-[56px] sm:h-[60px] */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 h-[56px] sm:h-[60px] relative flex items-center justify-between">
+      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-8 h-[56px] sm:h-[60px] relative flex items-center justify-between gap-2">
         
         {/* 1. LEFT: VSM 4.0 Logo and Wordmark (Auto switches Black <-> White) */}
-        <div className="flex items-center">
+        <div className="flex items-center shrink-0">
           <a 
             href="#" 
             onClick={(e) => {
@@ -175,7 +175,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
                 onNavigateHome();
               }
             }}
-            className="flex items-center gap-2.5 group cursor-pointer"
+            className="flex items-center gap-2.5 group cursor-pointer shrink-0 whitespace-nowrap"
           >
             <VsmLogo size="md" showText={true} />
           </a>
@@ -407,7 +407,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
         </nav>
 
         {/* 3. RIGHT: Login + Try VSM 4.0 (Primary Black Pill Button) + Theme Toggle */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           
           {/* Theme Mode Toggle Button */}
           <button
@@ -417,7 +417,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
             title={theme === 'dark' ? 'Switch to Light mode' : 'Switch to Dark mode'}
             style={minimalHide(minimal)}
             tabIndex={minimal ? -1 : undefined}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer shrink-0"
           >
             {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
@@ -429,7 +429,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
           {/* Login Text Link */}
           <a
             href={APP_LOGIN_URL}
-            className="hidden sm:inline-block px-3 py-1.5 text-[13px] font-medium text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors cursor-pointer"
+            className="hidden sm:inline-block px-3 py-1.5 text-[13px] font-medium text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors cursor-pointer whitespace-nowrap"
           >
             Login
           </a>
@@ -437,7 +437,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
           {/* Try VSM 4.0 (Primary Black Pill Button) */}
           <button
             onClick={() => onOpenTrial({ mode: 'trial' })}
-            className="h-[36px] px-5 rounded-full text-[13px] font-medium transition-all duration-150 cursor-pointer shadow-xs active:scale-98 flex items-center justify-center bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+            className="h-[34px] sm:h-[36px] px-3.5 sm:px-5 rounded-full text-xs sm:text-[13px] font-medium transition-all duration-150 cursor-pointer shadow-xs active:scale-98 flex items-center justify-center bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 whitespace-nowrap shrink-0"
           >
             Try VSM 4.0
           </button>
@@ -446,7 +446,9 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-1.5 rounded-md text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+            className="xl:hidden p-1.5 rounded-md text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white shrink-0"
             style={minimalHide(minimal)}
             tabIndex={minimal ? -1 : undefined}
           >
@@ -458,13 +460,25 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#121212] px-6 pt-3 pb-5 space-y-3 shadow-xl">
+        <div className="xl:hidden max-h-[calc(100dvh-56px)] overflow-y-auto border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#121212] px-5 sm:px-6 pt-3 pb-5 space-y-3 shadow-xl">
           <div className="space-y-2 text-[15px] font-sans text-neutral-800 dark:text-neutral-200">
             <a href="#csm" onClick={goToSection('csm')} className="block py-1 hover:text-black dark:hover:text-white">Current State Map</a>
             <a href="#smart-improve" onClick={goToSection('smart-improve')} className="block py-1 hover:text-black dark:hover:text-white">Smart Improve (FSPlanner)</a>
             <a href="#fsm" onClick={goToSection('fsm')} className="block py-1 hover:text-black dark:hover:text-white">Future State Map</a>
             <a href="#features" onClick={goToSection('features')} className="block py-1 hover:text-black dark:hover:text-white">Features</a>
-            <a href="#product-showcase" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-black dark:hover:text-white">Learn</a>
+            <a
+              href="#product-showcase"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                if (!document.getElementById('product-showcase')) {
+                  e.preventDefault();
+                  goToSection('csm')();
+                }
+              }}
+              className="block py-1 hover:text-black dark:hover:text-white"
+            >
+              Learn
+            </a>
             <a 
               href="#pricing" 
               onClick={() => {
@@ -480,7 +494,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
           <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-3">
             <a
               href={APP_LOGIN_URL}
-              className="px-4 h-[38px] rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-semibold flex items-center"
+              className="px-4 h-[38px] rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-semibold flex items-center whitespace-nowrap"
             >
               Login
             </a>
@@ -489,7 +503,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
                 setMobileMenuOpen(false);
                 onOpenTrial({ mode: 'trial' });
               }}
-              className="flex-1 h-[38px] rounded-full text-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 flex items-center justify-center"
+              className="flex-1 h-[38px] rounded-full text-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 flex items-center justify-center whitespace-nowrap"
             >
               Try VSM 4.0
             </button>

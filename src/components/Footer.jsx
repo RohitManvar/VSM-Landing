@@ -8,6 +8,14 @@ import { POLICIES, policyHref } from '../config/legal';
 export const Footer = ({ onOpenTrial, onOpenDemo }) => {
   const { theme } = useTheme();
 
+  const goToProductStep = (stepId) => (e) => {
+    if (!document.getElementById('product-showcase')) {
+      e.preventDefault();
+      window.history.replaceState(null, '', `#${stepId}`);
+      window.dispatchEvent(new CustomEvent('vsm:goto', { detail: stepId }));
+    }
+  };
+
   return (
     <footer className="bg-white dark:bg-[#0D0D0D] text-neutral-600 dark:text-neutral-400 text-sm transition-colors duration-200 pt-16 pb-12 select-none border-t border-neutral-100 dark:border-neutral-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +34,7 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
           </div>
 
           {/* Right: Clean Categorized Columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 text-left">
+          <div className="w-full lg:w-auto grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 text-left">
             
             {/* Column 1: Product */}
             <div className="space-y-3">
@@ -34,10 +42,10 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 Product
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Current State Map</a></li>
-                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Smart Improve (FSPlanner)</a></li>
-                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">Future State Map</a></li>
-                <li><a href="#features" className="hover:text-black dark:hover:text-white transition-colors">Features</a></li>
+                <li><a href="#product-showcase" onClick={goToProductStep('csm')} className="hover:text-black dark:hover:text-white transition-colors">Current State Map</a></li>
+                <li><a href="#product-showcase" onClick={goToProductStep('smart-improve')} className="hover:text-black dark:hover:text-white transition-colors">Smart Improve (FSPlanner)</a></li>
+                <li><a href="#product-showcase" onClick={goToProductStep('fsm')} className="hover:text-black dark:hover:text-white transition-colors">Future State Map</a></li>
+                <li><a href="#features" onClick={goToProductStep('features')} className="hover:text-black dark:hover:text-white transition-colors">Features</a></li>
                 <li><a href="#pricing" className="hover:text-black dark:hover:text-white transition-colors">Pricing</a></li>
               </ul>
             </div>
@@ -48,7 +56,7 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
                 Resources
               </span>
               <ul className="space-y-2 text-xs sm:text-[13px]">
-                <li><a href="#product-showcase" className="hover:text-black dark:hover:text-white transition-colors">VSM Workflow</a></li>
+                <li><a href="#product-showcase" onClick={goToProductStep('csm')} className="hover:text-black dark:hover:text-white transition-colors">VSM Workflow</a></li>
                 <li><a href="#faq" className="hover:text-black dark:hover:text-white transition-colors">Lean Practitioner FAQ</a></li>
                 <li><a href="#security" className="hover:text-black dark:hover:text-white transition-colors">Security &amp; Trust</a></li>
                 <li><a href="#who-its-for" className="hover:text-black dark:hover:text-white transition-colors">Who It&apos;s For</a></li>
@@ -89,14 +97,14 @@ export const Footer = ({ onOpenTrial, onOpenDemo }) => {
         <div className="pt-8 border-t border-neutral-100 dark:border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-neutral-500 dark:text-neutral-400">
           
           {/* Left: Copyright */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2.5 gap-y-1 text-center sm:text-left">
             <span>VSM 4.0 by Faber Infinite © 2026</span>
-            <span className="text-neutral-300 dark:text-neutral-700">•</span>
+            <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
             <span>All rights reserved.</span>
           </div>
 
           {/* Right: Social Icons + Language */}
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
             <div className="flex items-center gap-3.5 text-neutral-500 hover:text-black dark:hover:text-white">
               {/* X */}
               <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-black dark:hover:text-white transition-colors">

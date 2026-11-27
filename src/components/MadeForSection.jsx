@@ -100,14 +100,14 @@ function Lightbox({ item, onClose }) {
         className="relative w-full max-w-6xl rounded-2xl bg-white dark:bg-[#141414] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 py-3 border-b border-neutral-200 dark:border-neutral-800">
-          <div className="text-sm">
+        <div className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="text-xs sm:text-sm min-w-0">
             <span className="font-semibold text-black dark:text-white">{item.screen}</span>
             <span className="text-neutral-500 dark:text-neutral-400"> · Sample value stream, Transmission gear GR-24</span>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer shrink-0"
             aria-label="Close"
           >
             <X className="w-4 h-4" />
@@ -135,7 +135,7 @@ export const MadeForSection = () => {
             <div className="text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
               Who it&apos;s for
             </div>
-            <h2 className="mt-3 text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
+            <h2 className="mt-3 text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
               Made for the people who improve flow.
             </h2>
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -186,7 +186,7 @@ export const MadeForSection = () => {
                         className={`absolute inset-0 w-full h-full ${a.fit} transition-transform duration-500 group-hover:scale-[1.03]`}
                         loading="lazy"
                       />
-                      <span className="absolute right-2.5 top-2.5 w-7 h-7 rounded-full bg-white/90 dark:bg-black/70 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="absolute right-2.5 top-2.5 w-7 h-7 rounded-full bg-white/90 dark:bg-black/70 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                         <Maximize2 className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-200" />
                       </span>
                     </div>

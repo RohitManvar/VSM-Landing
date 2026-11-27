@@ -55,23 +55,24 @@ export const LeadModal = ({ isOpen, onClose, initialData = {} }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-150"
       onClick={handleClose}
     >
-      <div
-        className="relative bg-white text-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="lead-modal-title"
-      >
-        <button
-          onClick={handleClose}
-          className="absolute top-5 right-5 p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-          aria-label="Close dialog"
+      <div className="min-h-full flex items-center justify-center p-3 sm:p-4">
+        <div
+          className="relative bg-white text-slate-900 rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl border border-slate-200 my-auto"
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="lead-modal-title"
         >
-          <X className="w-5 h-5" />
-        </button>
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            aria-label="Close dialog"
+          >
+            <X className="w-5 h-5" />
+          </button>
 
         {submitted ? (
           <div className="text-center py-6">
@@ -103,7 +104,7 @@ export const LeadModal = ({ isOpen, onClose, initialData = {} }) => {
                 <Sparkles className="w-3 h-3 text-blue-600" />
                 <span>{plan ? `${plan} plan` : 'Live product demo'}</span>
               </div>
-              <h3 id="lead-modal-title" className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              <h3 id="lead-modal-title" className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                 {plan === 'Enterprise' ? 'Talk to us about Enterprise' : 'Book a guided VSM 4.0 walkthrough'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
@@ -173,6 +174,7 @@ export const LeadModal = ({ isOpen, onClose, initialData = {} }) => {
             </form>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -12,11 +12,11 @@ export const TryVsmBanner = ({ onOpenTrial }) => {
 
         <ScrollReveal direction="up" duration={600}>
           {/* Rounded "Try VSM 4.0 today" Card (Exact ChatGPT Reference) */}
-          <div className="rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 py-12 sm:py-16 px-8 sm:px-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200 text-left">
+          <div className="rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 py-10 sm:py-16 px-6 sm:px-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200 text-left">
             
             {/* Left Headline */}
             <div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-black dark:text-white">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-black dark:text-white">
                 Try VSM 4.0 today
               </h2>
             </div>

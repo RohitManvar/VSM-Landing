@@ -61,7 +61,7 @@ export const PricingSection = ({ onOpenTrial }) => {
         {/* ========================================================================= */}
         <ScrollReveal direction="up" duration={700}>
           <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
+            <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
               Simple plans. <br className="hidden sm:inline" />
               Smarter value stream transformation.
             </h2>
@@ -139,7 +139,7 @@ export const PricingSection = ({ onOpenTrial }) => {
         {/* ========================================================================= */}
         {/* 4 PRICING CARDS (Trial, Professional, Professional Plus, Enterprise)                */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch max-w-[1400px] mx-auto">
           {PRICING_CONFIG.plans.map((plan, idx) => {
             const isAnnual = billingCycle === 'annual';
             const planPricing = plan.pricing ? plan.pricing[currency] : null;
@@ -154,7 +154,7 @@ export const PricingSection = ({ onOpenTrial }) => {
                 <div
                   className={`h-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 text-left relative ${
                     plan.popular
-                      ? 'bg-white dark:bg-[#161616] border-2 border-black dark:border-white shadow-xl ring-2 ring-black/5 dark:ring-white/10 -translate-y-1'
+                      ? 'bg-white dark:bg-[#161616] border border-black dark:border-white shadow-xl ring-1 ring-black dark:ring-white'
                       : 'bg-[#F9F9FB] dark:bg-[#141414] border border-neutral-200/80 dark:border-neutral-800/80 hover:border-neutral-300 dark:hover:border-neutral-700 shadow-xs'
                   }`}
                 >
@@ -177,7 +177,7 @@ export const PricingSection = ({ onOpenTrial }) => {
                       <span className="font-mono text-xs font-semibold text-neutral-400 dark:text-neutral-500 block mb-1">
                         {plan.tierNumber || `0${idx + 1}`}
                       </span>
-                      <h3 className="text-xl sm:text-2xl lg:text-lg xl:text-2xl font-bold tracking-tight text-black dark:text-white whitespace-nowrap">
+                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-black dark:text-white whitespace-nowrap">
                         {plan.name}
                       </h3>
                     </div>
@@ -195,11 +195,11 @@ export const PricingSection = ({ onOpenTrial }) => {
                           </span>
                         </div>
                       ) : (
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white">
+                        <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                          <span className="text-3xl sm:text-4xl xl:text-3xl 2xl:text-4xl font-extrabold tracking-tight text-black dark:text-white whitespace-nowrap">
                             {symbol}{formatPrice(price, currency)}
                           </span>
-                          <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+                          <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono whitespace-nowrap">
                             / month
                           </span>
                         </div>
@@ -267,11 +267,15 @@ export const PricingSection = ({ onOpenTrial }) => {
             </p>
           </div>
 
+          <div className="sm:hidden text-right text-[11px] font-mono text-neutral-400 dark:text-neutral-500 mb-2">
+            Swipe horizontally to compare →
+          </div>
+
           <div className="overflow-x-auto rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-[#FBFBFC] dark:bg-[#141414]">
-            <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
+            <table className="w-full min-w-[680px] text-left border-collapse text-xs sm:text-[13px]">
               <thead>
                 <tr className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-100/70 dark:bg-[#1A1A1A]/70 text-black dark:text-white font-bold">
-                  <th className="py-3.5 px-4 font-mono uppercase tracking-wider text-[11px]">Capability</th>
+                  <th className="py-3.5 px-4 font-mono uppercase tracking-wider text-[11px] sticky left-0 z-10 bg-neutral-100 dark:bg-[#1A1A1A] border-r border-neutral-200/70 dark:border-neutral-800/70 md:static md:bg-transparent md:border-r-0">Capability</th>
                   <th className="py-3.5 px-3">01. Trial</th>
                   <th className="py-3.5 px-3 font-semibold text-emerald-600 dark:text-emerald-400">02. Professional (Recommended)</th>
                   <th className="py-3.5 px-3">03. Professional Plus</th>
@@ -281,7 +285,7 @@ export const PricingSection = ({ onOpenTrial }) => {
               <tbody className="divide-y divide-neutral-200/70 dark:divide-neutral-800/70 text-neutral-700 dark:text-neutral-300 font-sans">
                 {comparisonRows.map((row, rIdx) => (
                   <tr key={rIdx} className="hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-black dark:text-white">{row.name}</td>
+                    <td className="py-3 px-4 font-medium text-black dark:text-white sticky left-0 z-10 bg-[#FBFBFC] dark:bg-[#141414] border-r border-neutral-200/70 dark:border-neutral-800/70 md:static md:bg-transparent md:border-r-0">{row.name}</td>
                     <td className="py-3 px-3">{row.free}</td>
                     <td className="py-3 px-3 font-semibold text-emerald-700 dark:text-emerald-300">{row.pro}</td>
                     <td className="py-3 px-3">{row.business}</td>

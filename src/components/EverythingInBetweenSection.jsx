@@ -170,7 +170,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
         {/* ========================================================================= */}
         <ScrollReveal direction="up" duration={700}>
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
+            <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
               Use VSM 4.0 for Current State Map, Future State Map, and <br className="hidden sm:inline" />
               everything in between.
             </h2>
@@ -221,7 +221,7 @@ export const EverythingInBetweenSection = ({ onOpenTrial }) => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="w-[320px] sm:w-[360px] lg:w-[380px] shrink-0 snap-start rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-7 sm:p-8 flex flex-col justify-between h-[490px] sm:h-[510px] text-left transition-all duration-200 hover:shadow-lg dark:hover:shadow-2xl overflow-hidden group"
+              className="w-[min(85vw,320px)] sm:w-[360px] lg:w-[380px] shrink-0 snap-start rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-6 sm:p-8 flex flex-col justify-between min-h-[470px] sm:h-[510px] text-left transition-all duration-200 hover:shadow-lg dark:hover:shadow-2xl overflow-hidden group"
             >
               {/* Top Text Content */}
               <div>

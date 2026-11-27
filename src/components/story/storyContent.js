@@ -33,7 +33,7 @@ export const INTRO_SENTENCE = 'VSM 4.0 is the smarter way to map, analyze and im
 
 // 0 while the intro holds, 1 once the glass logo has become the black hero logo.
 // Stories without an intro are always fully "morphed".
-export const introMorph = (t, story) => (story && !story.intro ? 1 : smooth((t + 0.75) / 0.65));
+export const introMorph = (t, story) => (story && !story.intro ? 1 : smooth((t + 0.78) / 0.52));
 
 // First meaning: what VSM connects. node = which of the 3 logo nodes it lives on.
 export const MEANING_ONE = [
@@ -165,14 +165,17 @@ export const HERO_LOGO_X = 1.75; // hero pose x in LogoScene POSES[0]
 export const HERO_LOGO_SCALE = 0.95; // hero pose zoom in LogoScene POSES[0]
 const VIEW_HEIGHT = 2 * 6 * Math.tan((35 / 2) * (Math.PI / 180));
 
-// Where the hero logo sits on screen, as fractions of the canvas width.
+// Where the hero logo sits on screen, as fractions of the canvas width / height.
 export function heroLogoAnchor(canvasWidth, canvasHeight) {
   const vw = VIEW_HEIGHT * (canvasWidth / Math.max(1, canvasHeight));
   const k = vw / DESIGN_VIEW_WIDTH;
+  const scale = HERO_LOGO_SCALE * Math.min(1, k);
   const center = 0.5 + (HERO_LOGO_X * k) / vw;
   // Just past the logo's right edge (both the VSM and Faber sides reach ~1.07 units out).
-  const side = 0.5 + (HERO_LOGO_X * k + 1.12 * HERO_LOGO_SCALE * Math.min(1, k)) / vw;
-  return { center, side };
+  const side = 0.5 + (HERO_LOGO_X * k + 1.12 * scale) / vw;
+  // Just below the logo's bottom edge so the flip hint never meets the right-hand progress rail.
+  const bottom = 0.5 + (1.05 * scale) / VIEW_HEIGHT;
+  return { center, side, bottom };
 }
 
 // ---- timeline helpers (shared by the 3D scene and the HTML overlay) ----
@@ -185,8 +188,8 @@ export const smooth = (v) => {
 
 // How visible stage i is at timeline position t (1 = fully on screen).
 export const stageVisibility = (t, i) => {
-  // The hero fades in at the end of the intro, then holds until it scrolls on.
-  if (i === STAGES.HERO && t < 0.5) return smooth((t + 0.4) / 0.35);
+  // Wait for the intro backdrop to fade out before bringing the hero text in.
+  if (i === STAGES.HERO && t < 0.5) return smooth((t + 0.25) / 0.3);
   const d = Math.abs(t - (i + 0.5));
   return 1 - clamp01((d - 0.28) / 0.22);
 };

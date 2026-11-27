@@ -747,8 +747,8 @@ function IntroBackdrop({ timeRef, dark }) {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = Math.round(size.width * dpr);
     const H = Math.round(size.height * dpr);
-    // Sized to fit under the logo: a little smaller than the hero headline.
-    const fontPx = Math.round(Math.min(Math.max(Math.min(size.width * 0.04, size.height * 0.075), 34), 76) * dpr);
+    // Sized to fit under the logo without touching the bottom scroll cue on shorter laptops (e.g. 720p).
+    const fontPx = Math.round(Math.min(Math.max(Math.min(size.width * 0.036, size.height * 0.062), 30), 72) * dpr);
     const font = `800 ${fontPx}px Geist, Inter, system-ui, sans-serif`;
     const draw = () => {
       if (cancelled || !W || !H) return;
@@ -763,7 +763,7 @@ function IntroBackdrop({ timeRef, dark }) {
       g.textAlign = 'center';
       g.textBaseline = 'middle';
       if ('letterSpacing' in g) g.letterSpacing = `${-0.035 * fontPx}px`; // matches the hero's tracking
-      const maxW = Math.min(W * 0.74, fontPx * 13);
+      const maxW = Math.min(W * 0.78, fontPx * 15.5);
       const lines = [];
       let line = '';
       for (const word of INTRO_SENTENCE.split(' ')) {
@@ -775,8 +775,10 @@ function IntroBackdrop({ timeRef, dark }) {
       }
       if (line) lines.push(line);
       const lh = fontPx * 1.08;
-      // Text block starts just under the logo (logo occupies roughly the top half).
-      const y0 = H * 0.6 + lh / 2;
+      // Text block starts just under the logo, clamped above the bottom scroll cue.
+      const blockH = lines.length * lh;
+      const maxBottom = H - 76 * dpr;
+      const y0 = Math.min(H * 0.58 + lh / 2, maxBottom - blockH + lh / 2);
       lines.forEach((l, i) => g.fillText(l, W / 2, y0 + i * lh));
       texture.needsUpdate = true;
     };

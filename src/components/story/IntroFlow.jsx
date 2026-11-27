@@ -159,10 +159,10 @@ const OLD_WAY = [
   { el: <DragDropTool />, x: 0.2, y: 0.38, r: -3, delay: CYCLE * 0.75 }
 ];
 const VSM_WAY = [
-  { el: <ProcessCard />, x: 0.66, y: 0.08, delay: CYCLE * 0.15 },
-  { el: <AiCard />, x: 0.8, y: 0.2, delay: CYCLE * 0.4 },
-  { el: <TaktChip />, x: 0.67, y: 0.4, delay: CYCLE * 0.65 },
-  { el: <LeadTimeCard />, x: 0.82, y: 0.41, delay: CYCLE * 0.9 }
+  { el: <ProcessCard />, x: 0.65, y: 0.08, delay: CYCLE * 0.15 },
+  { el: <AiCard />, x: 0.74, y: 0.2, delay: CYCLE * 0.4 },
+  { el: <TaktChip />, x: 0.66, y: 0.4, delay: CYCLE * 0.65 },
+  { el: <LeadTimeCard />, x: 0.78, y: 0.41, delay: CYCLE * 0.9 }
 ];
 
 function useStageSize() {

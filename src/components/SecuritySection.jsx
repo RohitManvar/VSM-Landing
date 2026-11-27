@@ -48,7 +48,7 @@ export const SecuritySection = ({ onOpenTrial }) => {
         {/* ========================================================================= */}
         <ScrollReveal direction="up" duration={700}>
           <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
+            <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-[-0.035em] leading-[1.12] text-black dark:text-white">
               Designed to keep you safe
             </h2>
             <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal max-w-2xl mx-auto">
