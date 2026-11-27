@@ -1,5 +1,5 @@
 import { APP_LOGIN_URL } from '../config/app';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Sun, Moon, Check, ChevronRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { VsmLogo } from './VsmLogo';
@@ -138,6 +138,15 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownTimeoutRef = useRef(null);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mobileMenuOpen]);
+
   // Jump to a product step (Map / Analyze / Improve) in the landing page's scroll story.
   // The href updates the address; the event makes a repeat click on the same item still scroll.
   const goToSection = (id) => () => {
@@ -160,6 +169,7 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
   };
 
   return (
+    <>
     <header className="sticky top-0 z-50 select-none bg-white/95 dark:bg-[#0D0D0D]/95 backdrop-blur-md border-b border-neutral-200/70 dark:border-neutral-800/80 transition-colors duration-200">
       
       {/* ChatGPT Standard Header Height: h-[56px] sm:h-[60px] */}
@@ -448,68 +458,109 @@ export const Navbar = ({ onOpenTrial, onOpenDemo, onNavigatePricing, onNavigateH
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
-            className="xl:hidden p-1.5 rounded-md text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white shrink-0"
+            className="xl:hidden relative w-8 h-8 flex items-center justify-center rounded-md text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white shrink-0 cursor-pointer"
             style={minimalHide(minimal)}
             tabIndex={minimal ? -1 : undefined}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <Menu
+              className={`w-5 h-5 absolute transition-all duration-200 ${
+                mobileMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+              }`}
+            />
+            <X
+              className={`w-5 h-5 absolute transition-all duration-200 ${
+                mobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+              }`}
+            />
           </button>
         </div>
 
       </div>
+    </header>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="xl:hidden max-h-[calc(100dvh-56px)] overflow-y-auto border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#121212] px-5 sm:px-6 pt-3 pb-5 space-y-3 shadow-xl">
-          <div className="space-y-2 text-[15px] font-sans text-neutral-800 dark:text-neutral-200">
-            <a href="#csm" onClick={goToSection('csm')} className="block py-1 hover:text-black dark:hover:text-white">Current State Map</a>
-            <a href="#smart-improve" onClick={goToSection('smart-improve')} className="block py-1 hover:text-black dark:hover:text-white">Smart Improve (FSPlanner)</a>
-            <a href="#fsm" onClick={goToSection('fsm')} className="block py-1 hover:text-black dark:hover:text-white">Future State Map</a>
-            <a href="#features" onClick={goToSection('features')} className="block py-1 hover:text-black dark:hover:text-white">Features</a>
-            <a
-              href="#product-showcase"
-              onClick={(e) => {
+      {/* Mobile & Tablet Backdrop */}
+      <div
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
+        className={`xl:hidden fixed inset-0 top-[56px] sm:top-[60px] z-40 bg-black/30 dark:bg-black/55 backdrop-blur-xs transition-opacity duration-300 ${
+          mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
+      {/* Animated Mobile & Tablet Sidebar */}
+      <aside
+        aria-label="Mobile navigation"
+        aria-hidden={!mobileMenuOpen}
+        className={`xl:hidden fixed top-[56px] sm:top-[60px] right-0 bottom-0 z-50 w-[min(320px,85vw)] bg-white/95 dark:bg-[#121212]/95 backdrop-blur-2xl border-l border-neutral-200 dark:border-neutral-800 shadow-2xl px-6 py-6 flex flex-col justify-between overflow-y-auto transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          mobileMenuOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
+        }`}
+      >
+        <div className="space-y-1 text-[15px] font-sans text-neutral-800 dark:text-neutral-200">
+          {[
+            { href: '#csm', label: 'Current State Map', onClick: goToSection('csm') },
+            { href: '#smart-improve', label: 'Smart Improve (FSPlanner)', onClick: goToSection('smart-improve') },
+            { href: '#fsm', label: 'Future State Map', onClick: goToSection('fsm') },
+            { href: '#features', label: 'Features', onClick: goToSection('features') },
+            {
+              href: '#product-showcase',
+              label: 'Learn',
+              onClick: (e) => {
                 setMobileMenuOpen(false);
                 if (!document.getElementById('product-showcase')) {
                   e.preventDefault();
                   goToSection('csm')();
                 }
-              }}
-              className="block py-1 hover:text-black dark:hover:text-white"
-            >
-              Learn
-            </a>
-            <a 
-              href="#pricing" 
-              onClick={() => {
+              }
+            },
+            {
+              href: '#pricing',
+              label: 'Pricing',
+              onClick: () => {
                 setMobileMenuOpen(false);
                 if (onNavigatePricing) onNavigatePricing();
-              }} 
-              className="block py-1 hover:text-black dark:hover:text-white"
-            >
-              Pricing
-            </a>
-          </div>
-
-          <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-3">
+              }
+            }
+          ].map((item, idx) => (
             <a
-              href={APP_LOGIN_URL}
-              className="px-4 h-[38px] rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-semibold flex items-center whitespace-nowrap"
+              key={item.href}
+              href={item.href}
+              onClick={item.onClick}
+              tabIndex={mobileMenuOpen ? 0 : -1}
+              style={{ transitionDelay: mobileMenuOpen ? `${idx * 35}ms` : '0ms' }}
+              className={`block py-2.5 px-2 -mx-2 rounded-lg hover:bg-neutral-100/80 dark:hover:bg-neutral-800/70 hover:text-black dark:hover:text-white transition-all duration-300 ${
+                mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+              }`}
             >
-              Login
+              {item.label}
             </a>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenTrial({ mode: 'trial' });
-              }}
-              className="flex-1 h-[38px] rounded-full text-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 flex items-center justify-center whitespace-nowrap"
-            >
-              Try VSM 4.0
-            </button>
-          </div>
+          ))}
         </div>
-      )}
-    </header>
+
+        <div
+          style={{ transitionDelay: mobileMenuOpen ? '210ms' : '0ms' }}
+          className={`pt-4 mt-6 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-3 transition-all duration-300 ${
+            mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          }`}
+        >
+          <a
+            href={APP_LOGIN_URL}
+            tabIndex={mobileMenuOpen ? 0 : -1}
+            className="px-4 h-[40px] rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-semibold flex items-center whitespace-nowrap hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+          >
+            Login
+          </a>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenTrial({ mode: 'trial' });
+            }}
+            tabIndex={mobileMenuOpen ? 0 : -1}
+            className="flex-1 h-[40px] rounded-full text-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 flex items-center justify-center whitespace-nowrap cursor-pointer transition-colors"
+          >
+            Try VSM 4.0
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
