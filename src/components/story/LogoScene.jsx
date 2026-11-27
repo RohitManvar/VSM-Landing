@@ -555,9 +555,15 @@ function Logo({ story, timeRef, dark, cardSlotsRef, flipApiRef, onFlipChange }) 
     const drift = m;
 
     // Poses are laid out for a ~16:9 canvas; spread / shrink them for other shapes.
+    // On compact viewports (< 1024px), centre the logo in the upper area above the stacked copy.
+    const compact = state.size.width < 1024;
     const spread = state.viewport.width / DESIGN_VIEW_WIDTH;
-    outer.current.position.set(p.px * spread, p.py + Math.sin(idle * 0.8) * 0.04 * drift, 0);
-    outer.current.scale.setScalar(p.s * Math.min(1, spread));
+    const sideWeight = Math.min(1, Math.abs(p.px) / 1.75);
+    const px = compact ? 0 : p.px * spread;
+    const py = compact ? lerp(p.py, 0.78, sideWeight) : p.py;
+    const scaleBase = compact ? Math.max(Math.min(1, spread), 0.5) : Math.min(1, spread);
+    outer.current.position.set(px, py + Math.sin(idle * 0.8) * 0.04 * drift, 0);
+    outer.current.scale.setScalar(p.s * scaleBase);
     rot.current.rotation.set(
       p.rx + Math.sin(idle * 0.5) * 0.05 * drift,
       p.ry + Math.sin(idle * 0.4) * 0.08 * drift,
@@ -747,8 +753,9 @@ function IntroBackdrop({ timeRef, dark }) {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = Math.round(size.width * dpr);
     const H = Math.round(size.height * dpr);
-    // Sized to fit under the logo without touching the bottom scroll cue on shorter laptops (e.g. 720p).
-    const fontPx = Math.round(Math.min(Math.max(Math.min(size.width * 0.036, size.height * 0.062), 30), 72) * dpr);
+    // Sized to fit under the logo without touching the bottom scroll cue on shorter laptops (e.g. 720p) or phones.
+    const widthFactor = size.width < 1024 ? size.width * 0.055 : size.width * 0.036;
+    const fontPx = Math.round(Math.min(Math.max(Math.min(widthFactor, size.height * 0.058), 20), 72) * dpr);
     const font = `800 ${fontPx}px Geist, Inter, system-ui, sans-serif`;
     const draw = () => {
       if (cancelled || !W || !H) return;

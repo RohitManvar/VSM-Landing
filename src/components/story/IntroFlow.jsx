@@ -208,15 +208,15 @@ export function IntroFlow({ visible }) {
           key={`old-${i}`}
           className="vsm-flow-item absolute"
           style={{
-            left: `${it.x * 100}%`,
+            left: `${(w < 640 ? it.x * 0.6 : it.x) * 100}%`,
             top: `${it.y * 100}%`,
             '--r': `${it.r}deg`,
-            ...toLogo(it.x, it.y),
+            ...toLogo(w < 640 ? it.x * 0.6 : it.x, it.y),
             opacity: 0,
             animation: `vsmIntoLogo ${CYCLE}s cubic-bezier(0.55, 0, 0.75, 0.4) ${it.delay}s infinite`
           }}
         >
-          {it.el}
+          <div className="scale-[0.48] sm:scale-75 lg:scale-100 origin-top-left">{it.el}</div>
         </div>
       ))}
 
@@ -225,23 +225,23 @@ export function IntroFlow({ visible }) {
           key={`new-${i}`}
           className="vsm-flow-item absolute"
           style={{
-            left: `${it.x * 100}%`,
+            left: `${(w < 640 ? 0.62 + (it.x - 0.65) * 0.7 : it.x) * 100}%`,
             top: `${it.y * 100}%`,
-            ...toLogo(it.x, it.y),
+            ...toLogo(w < 640 ? 0.62 + (it.x - 0.65) * 0.7 : it.x, it.y),
             opacity: 0,
             animation: `vsmOutOfLogo ${CYCLE}s cubic-bezier(0.2, 0.7, 0.2, 1) ${it.delay}s infinite`
           }}
         >
-          {it.el}
+          <div className="scale-[0.48] sm:scale-75 lg:scale-100 origin-top-left">{it.el}</div>
         </div>
       ))}
 
       {/* Quiet captions under each side */}
-      <div className="absolute left-[7%] top-[52%] text-[12px] text-neutral-500 dark:text-neutral-400">
+      <div className="hidden sm:block absolute left-[7%] top-[52%] text-[12px] text-neutral-500 dark:text-neutral-400">
         <span className="font-semibold text-neutral-700 dark:text-neutral-300">The old way</span> · paper, whiteboards,
         drag-and-drop shapes
       </div>
-      <div className="absolute right-[5%] top-[52%] text-[12px] text-neutral-500 dark:text-neutral-400 text-right">
+      <div className="hidden sm:block absolute right-[5%] top-[52%] text-[12px] text-neutral-500 dark:text-neutral-400 text-right">
         <span className="font-semibold text-neutral-700 dark:text-neutral-300">VSM 4.0</span> · calculated, connected,
         AI-powered
       </div>

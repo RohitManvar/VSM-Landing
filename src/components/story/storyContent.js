@@ -166,9 +166,17 @@ export const HERO_LOGO_SCALE = 0.95; // hero pose zoom in LogoScene POSES[0]
 const VIEW_HEIGHT = 2 * 6 * Math.tan((35 / 2) * (Math.PI / 180));
 
 // Where the hero logo sits on screen, as fractions of the canvas width / height.
+// On compact viewports (< 1024px) the logo sits centred in the upper half above the hero copy.
 export function heroLogoAnchor(canvasWidth, canvasHeight) {
   const vw = VIEW_HEIGHT * (canvasWidth / Math.max(1, canvasHeight));
   const k = vw / DESIGN_VIEW_WIDTH;
+  if (canvasWidth < 1024) {
+    const scale = HERO_LOGO_SCALE * Math.max(Math.min(1, k), 0.5);
+    const center = 0.5;
+    const py = 0.78;
+    const bottom = 0.5 - py / VIEW_HEIGHT + (1.05 * scale) / VIEW_HEIGHT;
+    return { center, side: center + (1.12 * scale) / vw, bottom };
+  }
   const scale = HERO_LOGO_SCALE * Math.min(1, k);
   const center = 0.5 + (HERO_LOGO_X * k) / vw;
   // Just past the logo's right edge (both the VSM and Faber sides reach ~1.07 units out).

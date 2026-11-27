@@ -7,8 +7,6 @@ import { PricingSection } from './components/PricingSection';
 import { TryVsmBanner } from './components/TryVsmBanner';
 import { Footer } from './components/Footer';
 import { ScrollStory } from './components/story/ScrollStory';
-import { MobileStory } from './components/story/MobileStory';
-import { AboutMobile } from './components/story/AboutMobile';
 import { STORIES } from './components/story/storyContent';
 import { LeadModal } from './components/LeadModal';
 import { LegalPage } from './components/LegalPage';
@@ -27,24 +25,7 @@ function useHash() {
   return hash;
 }
 
-// The 3D scroll story is desktop-only for now; smaller screens keep the classic hero.
-const DESKTOP_QUERY = '(min-width: 1024px)';
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_QUERY);
-    const onChange = (e) => setIsDesktop(e.matches);
-    setIsDesktop(mq.matches); // catch a resize that happened before this effect ran
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  return isDesktop;
-}
-
 export function App() {
-  const isDesktop = useIsDesktop();
   const hash = useHash();
   const policy = hash.startsWith('#/') ? findPolicy(hash.slice(2)) : null;
   // The About page (brand story) lives at a hash route, like the policy pages. It is hidden
@@ -133,7 +114,7 @@ export function App() {
         onOpenDemo={handleOpenDemo}
         onNavigatePricing={scrollToPricing}
         onNavigateHome={scrollToHome}
-        minimal={!policy && !isAbout && isDesktop && introActive}
+        minimal={!policy && !isAbout && introActive}
       />
 
       <main className="flex-1">
@@ -141,20 +122,11 @@ export function App() {
           <LegalPage policy={policy} />
         ) : isAbout ? (
           /* About: the brand story — what the logo means, and who builds VSM 4.0 */
-          isDesktop ? (
-            <ScrollStory key="about" story={STORIES.about} onOpenTrial={handleOpenTrial} />
-          ) : (
-            <AboutMobile onOpenTrial={handleOpenTrial} />
-          )
+          <ScrollStory key="about" story={STORIES.about} onOpenTrial={handleOpenTrial} />
         ) : (
         <>
-        {isDesktop ? (
-          /* 2. 3D scroll story: glass intro → hero → CSM / Improve / FSM → feature cards */
-          <ScrollStory key="landing" story={STORIES.landing} onOpenTrial={handleOpenTrial} onIntroChange={setIntroActive} />
-        ) : (
-          /* 2. Mobile & tablet story: matches desktop hero, Faber flip, GR-24 showcase, and 6 feature cards */
-          <MobileStory onOpenTrial={handleOpenTrial} />
-        )}
+        {/* 2. 3D scroll story: glass intro → hero → CSM / Improve / FSM → feature cards */}
+        <ScrollStory key="landing" story={STORIES.landing} onOpenTrial={handleOpenTrial} onIntroChange={setIntroActive} />
 
         {/* 4. Rounded Banner Card: "Plans and pricing" (with "Learn more >" linking to #pricing) */}
         <PlansPricingBanner 

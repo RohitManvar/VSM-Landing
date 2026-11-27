@@ -91,10 +91,10 @@ function panelStyle(t, step, { drift = 70, last = false } = {}) {
 
 function CtaButtons({ onOpenTrial }) {
   return (
-    <div className="mt-9 flex items-center gap-6">
+    <div className="mt-5 sm:mt-7 lg:mt-9 flex flex-wrap items-center gap-4 sm:gap-6">
       <button
         onClick={() => onOpenTrial({ mode: 'trial' })}
-        className="px-7 py-3 rounded-full font-semibold text-sm shadow-md active:scale-98 cursor-pointer bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors"
+        className="px-5 py-2.5 sm:px-7 sm:py-3 rounded-full font-semibold text-xs sm:text-sm shadow-md active:scale-98 cursor-pointer bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors"
       >
         Start free trial
       </button>
@@ -106,7 +106,7 @@ function CtaButtons({ onOpenTrial }) {
           window.history.replaceState(null, '', '#features');
           window.dispatchEvent(new CustomEvent('vsm:goto', { detail: 'features' }));
         }}
-        className="text-sm font-medium flex items-center gap-1 group py-1 text-black hover:text-neutral-700 dark:text-white dark:hover:text-neutral-300 cursor-pointer"
+        className="text-xs sm:text-sm font-medium flex items-center gap-1 group py-1 text-black hover:text-neutral-700 dark:text-white dark:hover:text-neutral-300 cursor-pointer"
       >
         <span>Explore features</span>
         <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
@@ -130,11 +130,11 @@ function useHeroLogoAnchor(ref) {
   return anchor;
 }
 
-// Text on the left half (the logo sits on the right).
+// Text on the left half on desktop; stacked below the centred logo on mobile/tablet.
 function LeftPanel({ style, children }) {
   return (
-    <div className="absolute inset-0 max-w-7xl mx-auto px-10 xl:px-16 flex items-center">
-      <div className="w-1/2 max-w-[600px]" style={style}>
+    <div className="absolute inset-0 max-w-7xl mx-auto px-5 pr-10 sm:px-10 sm:pr-16 lg:px-10 xl:px-16 flex items-end pb-16 sm:pb-20 lg:pb-0 lg:items-center">
+      <div className="w-full lg:w-1/2 max-w-[540px] mx-auto lg:mx-0 lg:max-w-[600px]" style={style}>
         {children}
       </div>
     </div>
@@ -143,22 +143,22 @@ function LeftPanel({ style, children }) {
 
 function NodePanel({ t, step, node, index, eyebrow, showImage }) {
   return (
-    <div className="absolute inset-0 max-w-7xl mx-auto pl-10 pr-24 xl:pl-16 xl:pr-28 flex items-center justify-end">
-      <div className="w-[44%] max-w-[540px]" style={panelStyle(t, step)}>
-        <div className="flex items-center gap-3 mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+    <div className="absolute inset-0 max-w-7xl mx-auto pl-5 pr-10 sm:pl-10 sm:pr-16 lg:pr-24 xl:pl-16 xl:pr-28 flex items-end pb-12 lg:pb-0 lg:items-center lg:justify-end">
+      <div className="w-full lg:w-[44%] max-w-[540px] mx-auto lg:mx-0" style={panelStyle(t, step)}>
+        <div className="flex items-center gap-3 mb-3 sm:mb-5 text-[11px] sm:text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
           <span>{eyebrow}</span>
           <span className="h-px w-8 bg-neutral-300 dark:bg-neutral-700" />
           <span>0{index + 1} / 03</span>
         </div>
         <h2
           className={`${
-            showImage ? 'text-6xl xl:text-7xl' : 'text-7xl xl:text-8xl'
+            showImage ? 'text-4xl sm:text-5xl lg:text-6xl xl:text-7xl' : 'text-4xl sm:text-6xl lg:text-7xl xl:text-8xl'
           } font-extrabold tracking-[-0.045em] leading-none ${node.textClass}`}
         >
           {node.word}
         </h2>
-        <p className="mt-5 text-2xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{node.headline}</p>
-        <p className="mt-4 text-base xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{node.body}</p>
+        <p className="mt-3 sm:mt-5 text-xl sm:text-2xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{node.headline}</p>
+        <p className="mt-2 sm:mt-4 text-sm sm:text-base xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{node.body}</p>
         {showImage && node.image && (
           // The real screen from the app, so each step shows the product itself.
           <div className="mt-6 rounded-2xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)] bg-neutral-100 dark:bg-[#181818]">
@@ -268,7 +268,11 @@ function ZoomedScreen({ screen, focus, amount: scrollAmount, weight, active }) {
             }}
           />
         )}
-        {focus.pins.map((pin) => (
+        {focus.pins.map((pin) => {
+          // Avoid clipping a left-pointing label off the left edge of the zoomed frame.
+          const nearLeftEdge = (pin.x - (fx - 0.5 / z)) * z < 0.34;
+          const side = pin.side === 'left' && nearLeftEdge ? 'right' : pin.side;
+          return (
           <div
             key={pin.label}
             className="absolute"
@@ -279,15 +283,16 @@ function ZoomedScreen({ screen, focus, amount: scrollAmount, weight, active }) {
               <span className={`absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full ${PIN_TONES[pin.tone]} ring-4 ring-white/80`} />
               <span className={`absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full ${PIN_TONES[pin.tone]} animate-ping opacity-60`} />
               <span
-                className={`absolute top-0 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold text-white shadow-lg ${PIN_TONES[pin.tone]} ${
-                  pin.side === 'left' ? 'right-3' : 'left-3'
+                className={`absolute top-0 -translate-y-1/2 whitespace-nowrap rounded-full px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[9px] sm:text-[11px] font-semibold text-white shadow-lg ${PIN_TONES[pin.tone]} ${
+                  side === 'left' ? 'right-3' : 'left-3'
                 }`}
               >
                 {pin.label}
               </span>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
       {hasClip && (
         // The recording, over the still screen; it fades out when it ends, revealing the zoom.
@@ -319,9 +324,9 @@ function TypedHint({ text, tone }) {
   }, [text]);
   const typing = shown < text.length;
   return (
-    <div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-neutral-700 dark:text-neutral-300" aria-live="polite">
-      <span className={`w-1.5 h-1.5 rounded-full ${tone}`} />
-      <span>
+    <div className="mb-1.5 sm:mb-3 flex items-center gap-2 text-[11px] sm:text-[13px] font-medium text-neutral-700 dark:text-neutral-300" aria-live="polite">
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tone}`} />
+      <span className="truncate">
         {text.slice(0, shown)}
         <span className={`inline-block w-[2px] h-[1em] -mb-[2px] ml-0.5 bg-current ${typing ? '' : 'animate-pulse'}`} />
       </span>
@@ -338,32 +343,32 @@ function ScreenStage({ t, story, finding = 0 }) {
   const active = fsm > 0.5 ? 'fsm' : imp > 0.5 ? 'improve' : 'csm';
   return (
     <div
-      className="pointer-events-none absolute inset-y-0 left-0 w-[51%] xl:w-[54%] flex items-center pl-6 lg:pl-8 xl:pl-14 pr-4 xl:pr-6"
+      className="pointer-events-none absolute inset-x-0 top-5 sm:top-[10%] lg:top-0 lg:inset-y-0 lg:right-auto lg:w-[51%] xl:w-[54%] flex items-start lg:items-center px-4 pr-10 sm:px-8 sm:pr-14 lg:pl-8 xl:pl-14 lg:pr-4 xl:pr-6"
       style={{ opacity: v, perspective: '1600px' }}
       aria-hidden={v < 0.5}
     >
-      <div className="w-full">
+      <div className="w-full max-w-[540px] mx-auto lg:max-w-none lg:mx-0">
       <TypedHint text={MAP_STEP_SCREENS[active].hint} tone={MAP_STEP_SCREENS[active].dot} />
       <div
-        className="w-full rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] overflow-hidden"
+        className="w-full rounded-xl sm:rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] overflow-hidden"
         style={{
           transform: `rotateY(${7 - 3 * v}deg) rotateX(2deg) scale(${0.92 + 0.08 * v}) translateY(${(1 - v) * 24}px)`,
           transformOrigin: '30% 50%'
         }}
       >
         {/* App-style top bar with the VSM 4.0 step tracker, in each step's colour */}
-        <div className="h-10 px-4 flex items-center gap-3 border-b border-neutral-200/80 dark:border-neutral-800 bg-neutral-50 dark:bg-[#1A1A1A]">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+        <div className="h-8 sm:h-10 px-2.5 sm:px-4 flex items-center gap-1.5 sm:gap-3 border-b border-neutral-200/80 dark:border-neutral-800 bg-neutral-50 dark:bg-[#1A1A1A]">
+          <div className="flex gap-1 sm:gap-1.5 shrink-0">
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FF5F56]" />
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD2E]" />
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#27C93F]" />
           </div>
-          <div className="flex-1 flex items-center justify-center gap-2 text-[11px] font-medium">
+          <div className="flex-1 flex items-center justify-center gap-0.5 sm:gap-2 text-[9px] sm:text-[11px] font-medium min-w-0">
             {Object.entries(MAP_STEP_SCREENS).map(([key, s], i) => (
               <React.Fragment key={key}>
-                {i > 0 && <span className="w-5 h-px bg-neutral-300 dark:bg-neutral-700" />}
+                {i > 0 && <span className="w-1.5 sm:w-5 h-px bg-neutral-300 dark:bg-neutral-700 shrink-0" />}
                 <span
-                  className={`px-2.5 py-0.5 rounded-full transition-colors duration-300 ${
+                  className={`px-1.5 sm:px-2.5 py-0.5 rounded-full transition-colors duration-300 whitespace-nowrap ${
                     key === active ? s.tone : 'text-neutral-500 dark:text-neutral-400'
                   }`}
                 >
@@ -372,7 +377,7 @@ function ScreenStage({ t, story, finding = 0 }) {
               </React.Fragment>
             ))}
           </div>
-          <span className="w-12" />
+          <span className="hidden sm:block sm:w-12" />
         </div>
         {/* The three screens, stacked and crossfading */}
         <div className="relative overflow-hidden bg-[#F8F9FB]" style={{ aspectRatio: `${SCREEN_ASPECT}` }}>
@@ -406,32 +411,32 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
   const leadNow = VSM_EXAMPLE.leadTimeDays - (VSM_EXAMPLE.leadTimeDays - VSM_EXAMPLE.fsmLeadTimeDays) * k;
   const stats = stepKey === 'fsm' ? copy.stats.filter((st) => st.label !== 'Lead time') : copy.stats;
   return (
-    <div className="absolute inset-0 max-w-7xl mx-auto pl-8 pr-28 xl:pl-14 xl:pr-28 flex items-center justify-end">
-      <div className="w-[44%] xl:w-[42%] max-w-[500px]" style={panelStyle(t, step)}>
-        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-3 xl:mb-4 text-[11px] xl:text-xs font-mono uppercase tracking-[0.12em] xl:tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+    <div className="absolute inset-0 max-w-7xl mx-auto px-4 pr-10 sm:px-8 sm:pr-16 lg:pl-8 lg:pr-28 xl:pl-14 xl:pr-28 flex items-end pb-10 sm:pb-[12%] lg:pb-0 lg:items-center lg:justify-end">
+      <div className="w-full lg:w-[44%] xl:w-[42%] max-w-[540px] mx-auto lg:mx-0 lg:max-w-[500px]" style={panelStyle(t, step)}>
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-1.5 sm:mb-3 xl:mb-4 text-[10px] sm:text-[11px] xl:text-xs font-mono uppercase tracking-[0.12em] xl:tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
           <span>{VSM_EXAMPLE.context}</span>
           <span className="h-px w-5 xl:w-6 bg-neutral-300 dark:bg-neutral-700" />
           <span className="whitespace-nowrap">0{index + 1} / 03</span>
         </div>
-        <h2 className={`text-5xl xl:text-7xl font-extrabold tracking-[-0.045em] leading-none ${copy.textClass}`}>
+        <h2 className={`text-3xl sm:text-4xl lg:text-5xl xl:text-7xl font-extrabold tracking-[-0.045em] leading-none ${copy.textClass}`}>
           {copy.word}
         </h2>
-        <p className="mt-3 xl:mt-5 text-xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{copy.headline}</p>
-        <p className="mt-2.5 xl:mt-3 text-sm xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{copy.body}</p>
+        <p className="mt-1.5 sm:mt-3 xl:mt-5 text-lg sm:text-xl xl:text-3xl font-bold tracking-tight text-black dark:text-white">{copy.headline}</p>
+        <p className="mt-1 sm:mt-2.5 xl:mt-3 text-xs sm:text-sm xl:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{copy.body}</p>
 
         {stepKey === 'fsm' && (
-          <div className="mt-6 rounded-xl bg-neutral-100/80 dark:bg-neutral-900 px-4 py-3.5">
+          <div className="mt-3 sm:mt-4 lg:mt-6 rounded-xl bg-neutral-100/80 dark:bg-neutral-900 px-3 py-2.5 sm:px-4 sm:py-3.5">
             <div className="flex items-baseline justify-between">
               <span className="text-[11px] text-neutral-500 dark:text-neutral-400">Lead time</span>
               <span className="text-[11px] text-neutral-400 dark:text-neutral-500">
                 was {VSM_EXAMPLE.leadTimeDays} days
               </span>
             </div>
-            <div className="mt-1 text-2xl font-bold tracking-tight text-black dark:text-white tabular-nums">
+            <div className="mt-0.5 sm:mt-1 text-lg sm:text-2xl font-bold tracking-tight text-black dark:text-white tabular-nums">
               {leadNow.toFixed(1)} days
             </div>
             {/* Grey = the current state's lead time, green = the future state's */}
-            <div className="mt-2.5 h-2 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
+            <div className="mt-2 sm:mt-2.5 h-2 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
               <div
                 className="h-full rounded-full bg-emerald-500"
                 style={{ width: `${(leadNow / VSM_EXAMPLE.leadTimeDays) * 100}%` }}
@@ -441,11 +446,11 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
         )}
 
         {stats && (
-          <div className={`${stepKey === 'fsm' ? 'mt-3' : 'mt-6'} grid ${stats.length === 2 ? 'grid-cols-2' : 'grid-cols-3'} gap-3`}>
+          <div className={`${stepKey === 'fsm' ? 'mt-2 sm:mt-3' : 'mt-3 sm:mt-4 lg:mt-6'} grid ${stats.length === 2 ? 'grid-cols-2' : 'grid-cols-3'} gap-2 sm:gap-3`}>
             {stats.map((s) => (
-              <div key={s.label} className="rounded-xl bg-neutral-100/80 dark:bg-neutral-900 px-3.5 py-3">
-                <div className="text-[11px] text-neutral-500 dark:text-neutral-400">{s.label}</div>
-                <div className="mt-0.5 text-[15px] font-bold tracking-tight text-black dark:text-white whitespace-nowrap">
+              <div key={s.label} className="rounded-xl bg-neutral-100/80 dark:bg-neutral-900 px-2.5 py-2 sm:px-3.5 sm:py-3">
+                <div className="text-[10px] sm:text-[11px] text-neutral-500 dark:text-neutral-400 truncate">{s.label}</div>
+                <div className="mt-0.5 text-[13px] sm:text-[15px] font-bold tracking-tight text-black dark:text-white whitespace-nowrap">
                   {s.label === 'Reduction' ? `−${Math.round(LEAD_TIME_REDUCTION * k)}%` : s.value}
                 </div>
               </div>
@@ -455,25 +460,25 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
 
         {stepKey === 'improve' && (
           // Smart Improve's ranked recommendations; the numbers match the bursts on the map.
-          <ol className="mt-4 xl:mt-6 space-y-2 xl:space-y-2.5">
+          <ol className="mt-2.5 sm:mt-4 xl:mt-6 space-y-1.5 sm:space-y-2 xl:space-y-2.5">
             {VSM_EXAMPLE.recommendations.map((r, i) => (
               // The first two findings are the two cards in the screen: hovering one zooms to it.
               <li
                 key={r.title}
-                className={`flex gap-3 items-start rounded-xl -mx-2 px-2 py-1 transition-colors ${
+                className={`flex gap-2.5 sm:gap-3 items-start rounded-xl -mx-2 px-2 py-0.5 sm:py-1 transition-colors ${
                   i < 2 ? 'cursor-default hover:bg-neutral-100 dark:hover:bg-neutral-900' : ''
                 } ${i === finding ? 'bg-neutral-100/70 dark:bg-neutral-900/70' : ''}`}
                 onMouseEnter={() => i < 2 && onFinding?.(i)}
                 onMouseLeave={() => onFinding?.(0)}
               >
-                <span className="mt-0.5 w-6 h-6 shrink-0 rounded-full bg-amber-400 text-amber-950 text-xs font-bold flex items-center justify-center">
+                <span className="mt-0.5 w-5 h-5 sm:w-6 sm:h-6 shrink-0 rounded-full bg-amber-400 text-amber-950 text-[11px] sm:text-xs font-bold flex items-center justify-center">
                   {i + 1}
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-[15px] font-semibold text-black dark:text-white">{r.title}</span>
+                    <span className="text-[13px] sm:text-[15px] font-semibold text-black dark:text-white">{r.title}</span>
                     <span
-                      className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                      className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                         r.impact === 'High'
                           ? 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300'
                           : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
@@ -482,11 +487,11 @@ function MapPanel({ t, step, stepKey, index, finding = 0, onFinding }) {
                       {r.impact}
                     </span>
                   </div>
-                  <p className="text-sm leading-snug text-neutral-600 dark:text-neutral-400">{r.detail}</p>
+                  <p className="text-xs sm:text-sm leading-snug text-neutral-600 dark:text-neutral-400">{r.detail}</p>
                 </div>
               </li>
             ))}
-            <li className="pl-9 text-xs text-neutral-500 dark:text-neutral-400">
+            <li className="pl-7 sm:pl-9 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
               + 2 more findings, ranked by impact
             </li>
           </ol>
@@ -599,19 +604,19 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           <LeftPanel key={key} style={panelStyle(t, i, { drift: 90 })}>
             <div className="grid">
               <div style={swap(!flipped)} aria-hidden={flipped}>
-                <h1 className="text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
                   Now you can{' '}
                   <span className="bg-gradient-to-r from-emerald-500 via-amber-500 to-violet-500 bg-clip-text text-transparent">
                     Map, Analyze, Improve
                   </span>{' '}
                   all in one place.
                 </h1>
-                <p className="mt-6 text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+                <p className="mt-3 sm:mt-4 lg:mt-6 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
                   From Current State to Future State. Smarter Value Stream Mapping with VSM 4.0.
                 </p>
               </div>
               <div style={swap(flipped)} aria-hidden={!flipped}>
-                <h2 className="text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
                   {/* Always three lines: From the shop / floors of / Faber Infinite. */}
                   <span className="block">From the shop</span>
                   <span className="block">floors of</span>
@@ -620,7 +625,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
                     <span className="text-[#374F72] dark:text-[#8EA8D6]">Infinite.</span>
                   </span>
                 </h2>
-                <p className="mt-6 text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+                <p className="mt-3 sm:mt-4 lg:mt-6 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
                   Lean transformation specialists in global operational excellence. VSM 4.0 puts their value stream
                   mapping practice into one digital platform for your team.
                 </p>
@@ -629,7 +634,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={flipped ? 0 : -1}
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black dark:text-white hover:underline group"
+                  className="mt-3 sm:mt-4 inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-black dark:text-white hover:underline group"
                 >
                   <span>About Faber Infinite</span>
                   <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -643,13 +648,13 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
       case 'aboutHero':
         return (
           <LeftPanel key={key} style={panelStyle(t, i, { drift: 90 })}>
-            <div className="mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+            <div className="mb-3 sm:mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
               About VSM 4.0
             </div>
-            <h1 className="text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
               Three nodes. One value stream.
             </h1>
-            <p className="mt-6 text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+            <p className="mt-3 sm:mt-4 lg:mt-6 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
               Our logo is three connected nodes. They stand for what every value stream is made of, and for how
               VSM 4.0 helps you improve it. Scroll to see both.
             </p>
@@ -657,12 +662,12 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
         );
       case 'switch':
         return (
-          <div key={key} className="absolute inset-x-0 bottom-[9%] flex justify-center px-10">
+          <div key={key} className="absolute inset-x-0 bottom-[9%] flex justify-center px-6 sm:px-10">
             <div className="text-center max-w-2xl" style={panelStyle(t, i)}>
-              <h2 className="text-4xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
+              <h2 className="text-3xl sm:text-4xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
                 Same three nodes. A second meaning.
               </h2>
-              <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 People, process and data are what a value stream is made of. CSM, Improve and FSM are how VSM 4.0
                 moves it forward.
               </p>
@@ -672,10 +677,10 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
       case 'faber':
         return (
           <LeftPanel key={key} style={panelStyle(t, i, { last: i === lastStep })}>
-            <div className="mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+            <div className="mb-3 sm:mb-5 text-xs font-mono uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
               Who builds it
             </div>
-            <h2 className="text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4.25rem] font-extrabold tracking-[-0.035em] leading-[1.06] text-black dark:text-white">
               {/* Always three lines: From the shop / floors of / Faber Infinite. */}
               <span className="block">From the shop</span>
               <span className="block">floors of</span>
@@ -684,7 +689,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
                 <span className="text-[#374F72] dark:text-[#8EA8D6]">Infinite.</span>
               </span>
             </h2>
-            <p className="mt-6 text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+            <p className="mt-3 sm:mt-4 lg:mt-6 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
               Lean transformation specialists in global operational excellence. VSM 4.0 puts their value stream
               mapping practice into one digital platform for your team.
             </p>
@@ -692,7 +697,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
               href={COMPANY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black dark:text-white hover:underline group"
+              className="mt-3 sm:mt-4 inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-black dark:text-white hover:underline group"
             >
               <span>Visit faberinfinite.com</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -705,21 +710,21 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           // The logo breaks apart into the feature cards
           <div
             key={key}
-            className="absolute inset-0 max-w-6xl mx-auto pl-10 pr-24 xl:pl-14 xl:pr-28 flex flex-col justify-center"
+            className="absolute inset-0 max-w-6xl mx-auto pl-4 pr-9 sm:pl-10 sm:pr-16 lg:pl-10 lg:pr-24 xl:pl-14 xl:pr-28 flex flex-col justify-center"
             style={{ visibility: e < 0.01 ? 'hidden' : 'visible', pointerEvents: e > 0.9 ? 'auto' : 'none' }}
           >
             <div
-              className="text-center mb-6 xl:mb-10"
+              className="text-center mb-3 sm:mb-6 xl:mb-10"
               style={{ opacity: gridHeader, transform: `translate3d(0, ${(1 - gridHeader) * 24}px, 0)` }}
             >
-              <h2 className="text-3xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
+              <h2 className="text-2xl sm:text-3xl xl:text-5xl font-extrabold tracking-[-0.035em] text-black dark:text-white">
                 Everything in between.
               </h2>
-              <p className="mt-2.5 xl:mt-3 text-base xl:text-lg text-neutral-600 dark:text-neutral-400">
+              <p className="mt-1.5 sm:mt-2.5 xl:mt-3 text-xs sm:text-base xl:text-lg text-neutral-600 dark:text-neutral-400">
                 From the first walk on the floor to the future state, in one place.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-4 xl:gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 xl:gap-5">
               {STORY_FEATURES.map((f, j) => {
                 const Icon = ICONS[f.icon];
                 // A logo piece lands in this slot first (LogoScene), then the card grows out of it.
@@ -727,23 +732,23 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
                 return (
                   <div key={f.id} ref={(el) => (cardSlotsRef.current[j] = el)}>
                     <div
-                      className="h-full rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-5 xl:p-7 text-left shadow-sm"
+                      className="h-full rounded-2xl sm:rounded-3xl bg-[#F9F9FB] dark:bg-[#151515] border border-neutral-200/80 dark:border-neutral-800/80 p-3 sm:p-5 xl:p-7 text-left shadow-sm"
                       style={{
                         opacity: c,
                         transform: `translate3d(0, ${(1 - c) * 14}px, 0) scale(${0.55 + 0.45 * c})`,
                         filter: c < 1 ? `blur(${(1 - c) * 6}px)` : undefined
                       }}
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="w-10 h-10 rounded-xl bg-white dark:bg-[#1F1F1F] border border-neutral-200 dark:border-neutral-800 flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-black dark:text-white" />
+                      <div className="flex items-center justify-between mb-2 sm:mb-4">
+                        <span className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white dark:bg-[#1F1F1F] border border-neutral-200 dark:border-neutral-800 flex items-center justify-center">
+                          <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-black dark:text-white" />
                         </span>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                        <span className="text-[8px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 text-right">
                           {f.tag}
                         </span>
                       </div>
-                      <h3 className="text-lg xl:text-xl font-bold tracking-tight text-black dark:text-white">{f.title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{f.body}</p>
+                      <h3 className="text-sm sm:text-lg xl:text-xl font-bold tracking-tight text-black dark:text-white leading-snug">{f.title}</h3>
+                      <p className="mt-1 sm:mt-1.5 text-[11px] sm:text-sm leading-snug sm:leading-relaxed text-neutral-600 dark:text-neutral-400">{f.body}</p>
                     </div>
                   </div>
                 );
@@ -812,7 +817,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
           {/* Scroll cue */}
           <button
             onClick={() => jumpTo(inIntro ? 0 : 1)}
-            className="absolute bottom-5 lg:bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 cursor-pointer"
+            className="absolute bottom-3 lg:bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 cursor-pointer"
             style={{ opacity: 1 - smooth(t / 0.4), pointerEvents: t < 0.3 ? 'auto' : 'none' }}
           >
             <span>Scroll to explore</span>
@@ -822,7 +827,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
 
         {/* Progress rail */}
         <nav
-          className="absolute right-6 xl:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3"
+          className="absolute right-2.5 sm:right-6 xl:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3"
           aria-label="Story progress"
           style={{
             opacity: (t < 0.5 ? openOn : 1) * (1 - e * 0.85),
@@ -843,7 +848,7 @@ export const ScrollStory = ({ story = STORIES.landing, onOpenTrial, onIntroChang
               >
                 {/* Label floats left of the dot; hidden on the opening step so it never sits on the logo */}
                 <span
-                  className={`pointer-events-none absolute right-full mr-2 whitespace-nowrap text-[11px] font-medium transition-opacity duration-200 ${
+                  className={`hidden sm:block pointer-events-none absolute right-full mr-2 whitespace-nowrap text-[11px] font-medium transition-opacity duration-200 ${
                     on && t > 0.6
                       ? 'opacity-100 text-black dark:text-white'
                       : 'opacity-0 group-hover:opacity-100 text-neutral-500'
