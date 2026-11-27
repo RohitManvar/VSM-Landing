@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { MapAnalyzeImproveShowcase } from './components/MapAnalyzeImproveShowcase';
-import { EverythingInBetweenSection } from './components/EverythingInBetweenSection';
 import { PlansPricingBanner } from './components/PlansPricingBanner';
 import { SecuritySection } from './components/SecuritySection';
 import { MadeForSection } from './components/MadeForSection';
@@ -10,6 +7,7 @@ import { PricingSection } from './components/PricingSection';
 import { TryVsmBanner } from './components/TryVsmBanner';
 import { Footer } from './components/Footer';
 import { ScrollStory } from './components/story/ScrollStory';
+import { MobileStory } from './components/story/MobileStory';
 import { AboutMobile } from './components/story/AboutMobile';
 import { STORIES } from './components/story/storyContent';
 import { LeadModal } from './components/LeadModal';
@@ -154,16 +152,8 @@ export function App() {
           /* 2. 3D scroll story: glass intro → hero → CSM / Improve / FSM → feature cards */
           <ScrollStory key="landing" story={STORIES.landing} onOpenTrial={handleOpenTrial} onIntroChange={setIntroActive} />
         ) : (
-          <>
-            {/* 2. Hero: "Now you can / Map, Analyze, Improve / all in one place." */}
-            <Hero onOpenTrial={handleOpenTrial} />
-
-            {/* 2.5. Showcase: Current State Map / Improve Intelligence / Future State Map */}
-            <MapAnalyzeImproveShowcase onOpenTrial={handleOpenTrial} />
-
-            {/* 3. Carousel: "Use VSM 4.0 for Current State Map, Future State Map, and everything in between." */}
-            <EverythingInBetweenSection onOpenTrial={handleOpenTrial} />
-          </>
+          /* 2. Mobile & tablet story: matches desktop hero, Faber flip, GR-24 showcase, and 6 feature cards */
+          <MobileStory onOpenTrial={handleOpenTrial} />
         )}
 
         {/* 4. Rounded Banner Card: "Plans and pricing" (with "Learn more >" linking to #pricing) */}
